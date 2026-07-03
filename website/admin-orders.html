@@ -13,7 +13,7 @@
   <header class="ops-topbar">
     <div class="ops-brand">
       <img src="assets/lai-brand-logo.svg" alt="LAI家便當">
-      <div><strong>查單系統</strong><span>加盟門市訂單查詢與補印</span></div>
+      <div><strong>查單系統</strong><span>手機、訂單號、姓名、品項快速查詢</span></div>
     </div>
     <nav class="ops-nav" aria-label="加盟後台功能">
       <a href="admin.html">接單工作台</a>
@@ -28,9 +28,9 @@
   </header>
 
   <main class="ops-console">
-    <section class="ops-toolbar" aria-label="訂單查詢">
+    <section class="ops-toolbar order-search-toolbar" aria-label="訂單查詢">
       <div class="search-box">
-        <input id="pageSearch" type="search" placeholder="搜尋訂單編號、姓名、電話、公司、品項">
+        <input id="pageSearch" type="search" inputmode="search" autocomplete="off" placeholder="輸入手機末幾碼、訂單號、姓名、公司、品項">
         <select id="pageStatus">
           <option value="all">全部狀態</option>
           <option value="pending">新單待接</option>
@@ -42,20 +42,29 @@
         </select>
         <input id="pageDate" type="date">
       </div>
+      <div class="search-hints" id="searchHints"></div>
+    </section>
+
+    <section class="ops-stats order-search-stats">
+      <article><span>符合筆數</span><strong id="pageCount">0</strong></article>
+      <article><span>查詢金額</span><strong id="pageRevenue">$0</strong></article>
+      <article><span>查詢份數</span><strong id="pageItems">0</strong></article>
+      <article><span>最近訂單</span><strong id="pageLatest">--</strong></article>
     </section>
 
     <section class="ops-panel">
       <div class="column-head">
         <h2>訂單列表</h2>
-        <span id="pageCount">0</span>
+        <span>點擊查看</span>
       </div>
       <div class="admin-table-wrap">
-        <table class="admin-data-table">
+        <table class="admin-data-table orders-data-table">
           <thead>
             <tr>
-              <th>時間</th>
-              <th>訂單</th>
+              <th>取餐時間</th>
+              <th>訂單編號</th>
               <th>客戶</th>
+              <th>手機</th>
               <th>品項</th>
               <th>金額</th>
               <th>狀態</th>
@@ -67,6 +76,21 @@
       </div>
     </section>
   </main>
+
+  <div id="orderDetailModal" class="admin-detail-modal" aria-hidden="true">
+    <div class="admin-detail-backdrop" data-close-order-detail></div>
+    <article class="admin-detail-panel" role="dialog" aria-modal="true" aria-labelledby="detailOrderTitle">
+      <button class="dish-modal-close" type="button" data-close-order-detail aria-label="關閉">×</button>
+      <header>
+        <div>
+          <p class="eyebrow">ORDER DETAIL</p>
+          <h2 id="detailOrderTitle">訂單明細</h2>
+        </div>
+        <span id="detailStatus" class="table-status">--</span>
+      </header>
+      <div id="detailBody" class="admin-detail-body"></div>
+    </article>
+  </div>
 
   <script src="admin-pages.js"></script>
 </body>

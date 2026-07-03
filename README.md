@@ -2,6 +2,12 @@
 
 This repository contains the public LAI Bento website, online ordering page, franchise order dashboard, order search, revenue statistics, and print settings pages.
 
+## Customer Records
+
+The backend stores each online order with customer name, phone number, company, items, total amount, and status timeline. When PostgreSQL is enabled, it also maintains a `customers` table keyed by normalized phone number for repeat-customer lookup.
+
+The order search page supports keyword search by phone digits, order number, name, company, and item name. Clicking an order opens the full order detail, customer data, and same-phone order history.
+
 ## Local Development
 
 ```bash

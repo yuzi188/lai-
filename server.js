@@ -205,7 +205,68 @@ async function initDatabase() {
       updated_at timestamptz not null default now()
     );
   `);
+  await pool.query(`
+    create table if not exists customers (
+      phone text primary key,
+      name text not null,
+      company text,
+      order_count integer not null default 0,
+      total_spent numeric not null default 0,
+      last_order_id text,
+      last_order_at timestamptz,
+      updated_at timestamptz not null default now()
+    );
+  `);
+  await backfillCustomers();
   databaseReady = true;
+}
+
+async function backfillCustomers() {
+  const countResult = await pool.query("select count(*)::int as count from customers");
+  if (Number(countResult.rows[0]?.count || 0) > 0) return;
+
+  const ordersResult = await pool.query("select payload from orders order by created_at asc");
+  const customers = new Map();
+  for (const row of ordersResult.rows) {
+    const order = row.payload || {};
+    const phone = normalizePhone(order.customerPhone);
+    if (!phone) continue;
+    const current = customers.get(phone) || {
+      phone,
+      name: "",
+      company: "",
+      orderCount: 0,
+      totalSpent: 0,
+      lastOrderId: "",
+      lastOrderAt: ""
+    };
+    current.name = order.customerName || current.name;
+    current.company = order.companyName || current.company;
+    current.orderCount += 1;
+    current.totalSpent += Number(order.total || 0);
+    current.lastOrderId = order.orderId;
+    current.lastOrderAt = order.createdAt || nowIso();
+    customers.set(phone, current);
+  }
+
+  for (const customer of customers.values()) {
+    await pool.query(
+      `
+        insert into customers (phone, name, company, order_count, total_spent, last_order_id, last_order_at, updated_at)
+        values ($1, $2, $3, $4, $5, $6, $7, now())
+        on conflict (phone) do nothing
+      `,
+      [
+        customer.phone,
+        customer.name,
+        customer.company,
+        customer.orderCount,
+        customer.totalSpent,
+        customer.lastOrderId,
+        customer.lastOrderAt
+      ]
+    );
+  }
 }
 
 async function readOrders() {
@@ -215,7 +276,42 @@ async function readOrders() {
   return result.rows.map(row => row.payload);
 }
 
-async function writeOrder(order) {
+function normalizePhone(phone) {
+  return String(phone || "").replace(/\D/g, "");
+}
+
+async function upsertCustomerFromOrder(order, isNewOrder = false) {
+  if (!DATABASE_URL) return;
+  const phone = normalizePhone(order.customerPhone);
+  if (!phone) return;
+  await initDatabase();
+  await pool.query(
+    `
+      insert into customers (phone, name, company, order_count, total_spent, last_order_id, last_order_at, updated_at)
+      values ($1, $2, $3, $4, $5, $6, $7, now())
+      on conflict (phone)
+      do update set
+        name = excluded.name,
+        company = excluded.company,
+        order_count = customers.order_count + $4,
+        total_spent = customers.total_spent + $5,
+        last_order_id = excluded.last_order_id,
+        last_order_at = excluded.last_order_at,
+        updated_at = now()
+    `,
+    [
+      phone,
+      order.customerName || "",
+      order.companyName || "",
+      isNewOrder ? 1 : 0,
+      isNewOrder ? Number(order.total || 0) : 0,
+      order.orderId,
+      order.createdAt || nowIso()
+    ]
+  );
+}
+
+async function writeOrder(order, options = {}) {
   if (!DATABASE_URL) {
     const orders = readLocalOrders();
     const index = orders.findIndex(item => item.orderId === order.orderId);
@@ -235,12 +331,49 @@ async function writeOrder(order) {
     `,
     [order.orderId, JSON.stringify(order), order.status, Number(order.total || 0), order.createdAt || nowIso()]
   );
+  await upsertCustomerFromOrder(order, Boolean(options.isNew));
   return order;
 }
 
 async function findOrder(orderId) {
   const orders = await readOrders();
   return orders.find(order => order.orderId === orderId);
+}
+
+async function findCustomerOrders(phone) {
+  const normalized = normalizePhone(phone);
+  if (!normalized) return { customer: null, orders: [] };
+  const orders = (await readOrders()).filter(order => normalizePhone(order.customerPhone) === normalized);
+
+  if (!DATABASE_URL) {
+    return {
+      customer: orders[0] ? {
+        phone: normalized,
+        name: orders[0].customerName || "",
+        company: orders[0].companyName || "",
+        orderCount: orders.length,
+        totalSpent: orders.reduce((sum, order) => sum + Number(order.total || 0), 0),
+        lastOrderAt: orders[0].createdAt || ""
+      } : null,
+      orders
+    };
+  }
+
+  await initDatabase();
+  const result = await pool.query("select * from customers where phone = $1", [normalized]);
+  const row = result.rows[0];
+  return {
+    customer: row ? {
+      phone: row.phone,
+      name: row.name,
+      company: row.company || "",
+      orderCount: Number(row.order_count || 0),
+      totalSpent: Number(row.total_spent || 0),
+      lastOrderId: row.last_order_id,
+      lastOrderAt: row.last_order_at
+    } : null,
+    orders
+  };
 }
 
 function buildKitchenTicket(order) {
@@ -309,6 +442,12 @@ async function handleApi(req, res, pathname) {
     return;
   }
 
+  const customerMatch = pathname.match(/^\/api\/customers\/([^/]+)\/orders$/);
+  if (req.method === "GET" && customerMatch) {
+    sendJson(res, 200, await findCustomerOrders(decodeURIComponent(customerMatch[1])));
+    return;
+  }
+
   if (req.method === "POST" && pathname === "/api/orders") {
     const payload = await parseJsonBody(req);
     const error = validateOrder(payload);
@@ -327,7 +466,7 @@ async function handleApi(req, res, pathname) {
     };
     addTimeline(order, "pending", "網站送出訂單");
     await syncOrderToPos(order, "order.created");
-    await writeOrder(order);
+    await writeOrder(order, { isNew: true });
     sendJson(res, 201, { order });
     return;
   }

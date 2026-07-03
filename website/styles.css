@@ -2644,6 +2644,205 @@ section {
   font-weight: 900;
 }
 
+.order-search-toolbar {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 13px;
+}
+
+.search-hints {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.search-hints button {
+  border: 1px solid rgba(90, 62, 30, 0.15);
+  border-radius: 999px;
+  background: #fffdf7;
+  color: #5a3e1e;
+  padding: 8px 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.search-hints button:hover,
+.orders-data-table .clickable-row:hover {
+  background: rgba(255, 184, 28, 0.12);
+}
+
+.orders-data-table .clickable-row {
+  cursor: pointer;
+}
+
+.orders-data-table td:last-child {
+  white-space: nowrap;
+}
+
+.admin-detail-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.admin-detail-modal.open {
+  display: flex;
+}
+
+.admin-detail-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(34, 22, 10, 0.56);
+  backdrop-filter: blur(6px);
+}
+
+.admin-detail-panel {
+  position: relative;
+  width: min(980px, 100%);
+  max-height: min(86vh, 860px);
+  overflow: auto;
+  border: 1px solid rgba(90, 62, 30, 0.16);
+  border-radius: 8px;
+  background: #fffdf7;
+  box-shadow: 0 26px 70px rgba(34, 22, 10, 0.24);
+}
+
+.admin-detail-panel > header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(90, 62, 30, 0.12);
+  background: rgba(255, 253, 247, 0.96);
+}
+
+.admin-detail-panel h2,
+.admin-detail-panel h3 {
+  margin: 0;
+  color: #3f2a13;
+}
+
+.admin-detail-panel h2 {
+  font-size: clamp(1.35rem, 3vw, 2rem);
+}
+
+.admin-detail-panel h3 {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.admin-detail-body {
+  display: grid;
+  gap: 14px;
+  padding: 18px 22px 24px;
+}
+
+.admin-detail-body section,
+.detail-grid article {
+  border: 1px solid rgba(90, 62, 30, 0.12);
+  border-radius: 8px;
+  background: rgba(250, 247, 238, 0.68);
+  padding: 14px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.detail-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.detail-list div {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 10px;
+}
+
+.detail-list dt {
+  color: var(--muted);
+  font-weight: 900;
+}
+
+.detail-list dd {
+  margin: 0;
+  color: #3f2a13;
+  font-weight: 900;
+  word-break: break-word;
+}
+
+.detail-items-table {
+  min-width: 680px;
+}
+
+.detail-total {
+  margin: 12px 0 0;
+  text-align: right;
+  color: #8b5f17;
+  font-size: 1.25rem;
+  font-weight: 900;
+}
+
+.order-note {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.history-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.history-pills span {
+  border-radius: 999px;
+  background: rgba(255, 184, 28, 0.15);
+  color: #5a3e1e;
+  padding: 7px 10px;
+  font-weight: 900;
+}
+
+.detail-timeline {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.detail-timeline li {
+  display: grid;
+  grid-template-columns: 120px 170px 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(90, 62, 30, 0.1);
+}
+
+.detail-timeline span,
+.detail-timeline p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .status-bars {
   display: grid;
   gap: 12px;
@@ -3461,5 +3660,49 @@ section {
 
   .admin-actions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .order-search-toolbar {
+    padding: 10px;
+  }
+
+  .order-search-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-data-table {
+    min-width: 760px;
+  }
+
+  .admin-detail-modal {
+    align-items: stretch;
+    padding: 8px;
+  }
+
+  .admin-detail-panel {
+    max-height: calc(100vh - 16px);
+  }
+
+  .admin-detail-panel > header {
+    align-items: flex-start;
+    padding: 16px;
+  }
+
+  .admin-detail-body {
+    padding: 14px;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-list div,
+  .detail-timeline li {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .history-pills {
+    display: grid;
   }
 }
