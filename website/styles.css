@@ -3013,7 +3013,7 @@ section {
 .member-progress-grid,
 .member-next-reward {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
   gap: 10px;
 }
 
@@ -3036,8 +3036,57 @@ section {
   color: var(--muted);
 }
 
+.member-gift-card {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.4fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: end;
+  border: 1px solid rgba(90, 62, 30, 0.12);
+  border-radius: 8px;
+  background: linear-gradient(135deg, #fffaf0, #eef8e6);
+  padding: 16px;
+}
+
+.member-gift-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.member-gift-card h3 {
+  margin: 4px 0 6px;
+  color: #3f2a13;
+}
+
+.member-gift-card p {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 800;
+  line-height: 1.6;
+}
+
+.member-gift-form {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) 96px minmax(160px, 1fr) auto;
+  gap: 8px;
+}
+
+.member-gift-form input {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid rgba(90, 62, 30, 0.16);
+  border-radius: 999px;
+  background: #fffdf7;
+  color: #3f2a13;
+  padding: 0 13px;
+  font: inherit;
+  font-weight: 800;
+}
+
 .member-invite-card button,
-.member-reward-actions button {
+.member-reward-actions button,
+.member-gift-form button {
   border: 0;
   border-radius: 999px;
   background: var(--sun);
@@ -3207,6 +3256,7 @@ section {
 .member-island-body .member-next-reward div,
 .member-island-body .ops-panel,
 .member-island-body .ops-toolbar,
+.member-island-body .member-gift-card,
 .member-island-body .member-split article {
   border: 2px solid rgba(166, 111, 62, 0.18);
   border-radius: 8px;
@@ -3280,11 +3330,19 @@ section {
 }
 
 .member-island-body .member-invite-card button,
-.member-island-body .member-reward-actions button {
+.member-island-body .member-reward-actions button,
+.member-island-body .member-gift-form button {
   border: 2px solid rgba(120, 77, 39, 0.16);
   background: #f4d071;
   color: var(--island-ink);
   box-shadow: inset 0 -3px 0 rgba(120, 77, 39, 0.16);
+}
+
+.member-island-body .member-gift-card {
+  border-style: dashed;
+  background:
+    radial-gradient(circle at 6% 20%, rgba(244, 208, 113, 0.22) 0 36px, transparent 37px),
+    linear-gradient(135deg, #fff8db, #eef8e6);
 }
 
 .member-island-body .member-reward-actions button:nth-child(2) {
@@ -4165,6 +4223,7 @@ section {
 
   .member-hero-panel,
   .member-layout,
+  .member-gift-card,
   .member-split {
     grid-template-columns: 1fr;
   }
@@ -4187,8 +4246,13 @@ section {
   }
 
   .member-reward-actions button,
-  .member-invite-card button {
+  .member-invite-card button,
+  .member-gift-form button {
     width: 100%;
     white-space: normal;
+  }
+
+  .member-gift-form {
+    grid-template-columns: 1fr;
   }
 }

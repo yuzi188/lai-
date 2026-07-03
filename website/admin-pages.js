@@ -413,6 +413,8 @@ function renderMemberDetail(member) {
       <article><span>完成消費</span><strong>${money(member.completedSpent)}</strong></article>
       <article><span>累計訂單</span><strong>${Number(member.orderCount || 0)}</strong></article>
       <article><span>已兌換點數</span><strong>${Number(member.redeemedPoints || 0)}</strong></article>
+      <article><span>送出禮券</span><strong>${Number(member.giftSent || 0)} 點</strong></article>
+      <article><span>收到禮券</span><strong>${Number(member.giftReceived || 0)} 點</strong></article>
     </section>
 
     <section class="member-invite-card">
@@ -422,6 +424,20 @@ function renderMemberDetail(member) {
         <p>好友下單填入推薦碼後，未來可設定雙方各得 5 點。</p>
       </div>
       <button type="button" data-copy-referral="${escapeHtml(member.referralCode || "")}">複製推薦碼</button>
+    </section>
+
+    <section class="member-gift-card">
+      <div>
+        <span>好友禮券</span>
+        <h3>把點數送給朋友</h3>
+        <p>輸入朋友手機與點數，送出後雙方都會留下點數紀錄。</p>
+      </div>
+      <form class="member-gift-form" data-member-gift="${escapeHtml(member.phone)}">
+        <input name="toPhone" inputmode="tel" autocomplete="off" placeholder="朋友手機號碼" required>
+        <input name="points" type="number" min="1" max="${Math.max(Number(member.loyaltyPoints || 0), 1)}" placeholder="點數" required>
+        <input name="note" autocomplete="off" placeholder="祝福訊息，例如：請你吃小菜">
+        <button type="submit">送出禮券</button>
+      </form>
     </section>
 
     <section class="member-reward-actions">
@@ -473,6 +489,22 @@ async function adjustMemberPoints(phone, points, label) {
   await loadMembers();
 }
 
+async function sendMemberGift(form) {
+  const phone = form.dataset.memberGift;
+  const formData = new FormData(form);
+  const payload = {
+    toPhone: formData.get("toPhone"),
+    points: Number(formData.get("points")),
+    note: formData.get("note") || "好友禮券"
+  };
+  await api(`/api/members/${encodeURIComponent(phone)}/gift`, {
+    method: "POST",
+    body: JSON.stringify(payload)
+  });
+  form.reset();
+  await loadMembers();
+}
+
 function renderPage() {
   const page = document.body.dataset.adminPage;
   if (page === "orders") renderOrdersPage();
@@ -497,6 +529,12 @@ document.querySelector("#statsDate")?.addEventListener("change", renderPage);
 document.querySelector("#statsRange")?.addEventListener("change", renderPage);
 document.querySelector("#memberSearch")?.addEventListener("input", renderPage);
 document.querySelector("#memberSort")?.addEventListener("change", renderPage);
+document.addEventListener("submit", event => {
+  const giftForm = event.target.closest("[data-member-gift]");
+  if (!giftForm) return;
+  event.preventDefault();
+  sendMemberGift(giftForm).catch(error => alert(error.message));
+});
 document.addEventListener("click", event => {
   const printButton = event.target.closest("[data-print-id]");
   if (printButton) {

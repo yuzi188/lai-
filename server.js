@@ -336,6 +336,14 @@ function normalizeMemberLedgerEntry(entry) {
   };
 }
 
+function applyLedgerTotals(member, entry) {
+  member.ledger.push(entry);
+  member.loyaltyPoints += entry.points;
+  if (entry.points < 0 && entry.type !== "gift_out") member.redeemedPoints += Math.abs(entry.points);
+  if (entry.type === "gift_out") member.giftSent = Number(member.giftSent || 0) + Math.abs(entry.points);
+  if (entry.type === "gift_in") member.giftReceived = Number(member.giftReceived || 0) + Number(entry.points || 0);
+}
+
 async function addMemberLedger(entry) {
   const normalized = normalizeMemberLedgerEntry(entry);
   if (!normalized.phone || !normalized.points) return normalized;
@@ -480,6 +488,8 @@ function buildLocalMembers(orders, ledger) {
       completedSpent: 0,
       loyaltyPoints: 0,
       redeemedPoints: 0,
+      giftSent: 0,
+      giftReceived: 0,
       referralCode: memberReferralCode(phone),
       referredBy: "",
       lastOrderId: "",
@@ -508,6 +518,8 @@ function buildLocalMembers(orders, ledger) {
       completedSpent: 0,
       loyaltyPoints: 0,
       redeemedPoints: 0,
+      giftSent: 0,
+      giftReceived: 0,
       referralCode: memberReferralCode(entry.phone),
       referredBy: "",
       lastOrderId: "",
@@ -515,9 +527,7 @@ function buildLocalMembers(orders, ledger) {
       orders: [],
       ledger: []
     };
-    member.ledger.push(entry);
-    member.loyaltyPoints += entry.points;
-    if (entry.points < 0) member.redeemedPoints += Math.abs(entry.points);
+    applyLedgerTotals(member, entry);
     members.set(entry.phone, member);
   }
 
@@ -550,6 +560,8 @@ async function readMembers() {
       .filter(order => statusKeyForServer(order) === "completed")
       .reduce((sum, order) => sum + Number(order.total || 0), 0);
     const ledger = ledgerByPhone.get(phone) || [];
+    const giftSent = ledger.filter(entry => entry.type === "gift_out").reduce((sum, entry) => sum + Math.abs(Number(entry.points || 0)), 0);
+    const giftReceived = ledger.filter(entry => entry.type === "gift_in").reduce((sum, entry) => sum + Number(entry.points || 0), 0);
     return {
       phone,
       name: row.name || "",
@@ -559,6 +571,8 @@ async function readMembers() {
       completedSpent,
       loyaltyPoints: Number(row.loyalty_points || 0),
       redeemedPoints: Number(row.redeemed_points || 0),
+      giftSent,
+      giftReceived,
       referralCode: row.referral_code || memberReferralCode(phone),
       referredBy: row.referred_by || "",
       lastOrderId: row.last_order_id || "",
@@ -652,6 +666,66 @@ async function applyMemberPoints(phone, payload) {
   return { member: await findMember(normalized), entry };
 }
 
+async function sendMemberGift(fromPhone, payload) {
+  const from = normalizePhone(fromPhone);
+  const to = normalizePhone(payload.toPhone);
+  const points = Number(payload.points || 0);
+  if (!from || !to) throw new Error("Sender and receiver phone are required");
+  if (from === to) throw new Error("不能送禮給自己");
+  if (!Number.isInteger(points) || points <= 0) throw new Error("Gift points must be a positive integer");
+
+  const sender = await findMember(from);
+  if (!sender) throw new Error("找不到送禮會員");
+  if (Number(sender.loyaltyPoints || 0) < points) throw new Error("會員點數不足，無法送禮");
+
+  const note = payload.note || "好友點數禮券";
+  const receiverName = payload.toName || "";
+
+  if (DATABASE_URL) {
+    await initDatabase();
+    const client = await pool.connect();
+    try {
+      await client.query("begin");
+      await client.query(
+        `
+          insert into customers (phone, name, referral_code, updated_at)
+          values ($1, $2, $3, now())
+          on conflict (phone)
+          do update set
+            name = case when customers.name = '' then excluded.name else customers.name end,
+            referral_code = coalesce(customers.referral_code, excluded.referral_code),
+            updated_at = now()
+        `,
+        [to, receiverName, memberReferralCode(to)]
+      );
+      await client.query("update customers set loyalty_points = loyalty_points - $2, updated_at = now() where phone = $1", [from, points]);
+      await client.query("update customers set loyalty_points = loyalty_points + $2, updated_at = now() where phone = $1", [to, points]);
+      await client.query(
+        "insert into member_ledger (phone, type, points, label, note, created_at) values ($1, 'gift_out', $2, $3, $4, now())",
+        [from, -points, "送出好友禮券", `${note}｜收禮手機 ${to}`]
+      );
+      await client.query(
+        "insert into member_ledger (phone, type, points, label, note, created_at) values ($1, 'gift_in', $2, $3, $4, now())",
+        [to, points, "收到好友禮券", `${note}｜送禮手機 ${from}`]
+      );
+      await client.query("commit");
+    } catch (error) {
+      await client.query("rollback");
+      throw error;
+    } finally {
+      client.release();
+    }
+  } else {
+    await addMemberLedger({ phone: from, type: "gift_out", points: -points, label: "送出好友禮券", note: `${note}｜收禮手機 ${to}` });
+    await addMemberLedger({ phone: to, type: "gift_in", points, label: "收到好友禮券", note: `${note}｜送禮手機 ${from}` });
+  }
+
+  return {
+    sender: await findMember(from),
+    receiver: await findMember(to)
+  };
+}
+
 function buildKitchenTicket(order) {
   const lines = [];
   lines.push("LAI家便當");
@@ -738,6 +812,13 @@ async function handleApi(req, res, pathname) {
   if (req.method === "POST" && memberRewardMatch) {
     const payload = await parseJsonBody(req);
     sendJson(res, 200, await applyMemberPoints(decodeURIComponent(memberRewardMatch[1]), payload));
+    return;
+  }
+
+  const memberGiftMatch = pathname.match(/^\/api\/members\/([^/]+)\/gift$/);
+  if (req.method === "POST" && memberGiftMatch) {
+    const payload = await parseJsonBody(req);
+    sendJson(res, 200, await sendMemberGift(decodeURIComponent(memberGiftMatch[1]), payload));
     return;
   }
 
