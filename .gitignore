@@ -6,3 +6,4 @@ npm-debug.log*
 data/orders.json
 data/print-jobs/*.txt
 *.zip
+.tools/

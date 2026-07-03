@@ -12,6 +12,9 @@ const PORT = Number(process.env.PORT || 4180);
 const DATABASE_URL = process.env.DATABASE_URL || "";
 const PRINTER_HOST = process.env.PRINTER_HOST || "";
 const PRINTER_PORT = Number(process.env.PRINTER_PORT || 9100);
+const POS_WEBHOOK_URL = process.env.POS_WEBHOOK_URL || "";
+const POS_API_KEY = process.env.POS_API_KEY || "";
+const POS_TIMEOUT_MS = Number(process.env.POS_TIMEOUT_MS || 8000);
 
 const MIME = {
   ".html": "text/html; charset=utf-8",
@@ -105,6 +108,68 @@ function applyStatus(order, status, extra = {}) {
   if (status === "rejected") order.rejectedAt = nowIso();
   if (status === "cancelled") order.cancelledAt = nowIso();
   addTimeline(order, status, extra.note || "");
+  return order;
+}
+
+function buildPosPayload(order, event) {
+  return {
+    event,
+    source: "lai-bento-web",
+    orderId: order.orderId,
+    status: order.status,
+    createdAt: order.createdAt,
+    customer: {
+      name: order.customerName,
+      phone: order.customerPhone,
+      company: order.companyName || ""
+    },
+    pickup: {
+      type: order.pickupType,
+      time: order.pickupTime
+    },
+    items: (order.items || []).map(item => ({
+      series: item.seriesName || item.series || "",
+      name: item.name,
+      quantity: Number(item.quantity || 0),
+      price: Number(item.price || 0),
+      subtotal: Number(item.quantity || 0) * Number(item.price || 0)
+    })),
+    total: Number(order.total || 0),
+    note: order.orderNote || ""
+  };
+}
+
+async function syncOrderToPos(order, event) {
+  if (!POS_WEBHOOK_URL) return order;
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), POS_TIMEOUT_MS);
+  try {
+    const headers = { "Content-Type": "application/json" };
+    if (POS_API_KEY) headers.Authorization = `Bearer ${POS_API_KEY}`;
+    const response = await fetch(POS_WEBHOOK_URL, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(buildPosPayload(order, event)),
+      signal: controller.signal
+    });
+    const text = await response.text();
+    if (!response.ok) throw new Error(`POS HTTP ${response.status}: ${text.slice(0, 160)}`);
+
+    order.posSyncStatus = "synced";
+    order.posSyncedAt = nowIso();
+    order.posLastEvent = event;
+    order.posResponse = text.slice(0, 500);
+    addTimeline(order, "pos-sync", `${event} synced`);
+  } catch (error) {
+    order.posSyncStatus = "failed";
+    order.posLastTriedAt = nowIso();
+    order.posLastEvent = event;
+    order.posSyncError = error.message;
+    addTimeline(order, "pos-error", `${event}: ${error.message}`);
+  } finally {
+    clearTimeout(timeout);
+  }
   return order;
 }
 
@@ -231,7 +296,11 @@ function sendToNetworkPrinter(text) {
 
 async function handleApi(req, res, pathname) {
   if (req.method === "GET" && pathname === "/api/health") {
-    sendJson(res, 200, { ok: true, storage: DATABASE_URL ? "postgres" : "local-json" });
+    sendJson(res, 200, {
+      ok: true,
+      storage: DATABASE_URL ? "postgres" : "local-json",
+      pos: POS_WEBHOOK_URL ? "webhook-enabled" : "not-configured"
+    });
     return;
   }
 
@@ -257,6 +326,7 @@ async function handleApi(req, res, pathname) {
       total
     };
     addTimeline(order, "pending", "網站送出訂單");
+    await syncOrderToPos(order, "order.created");
     await writeOrder(order);
     sendJson(res, 201, { order });
     return;
@@ -270,6 +340,7 @@ async function handleApi(req, res, pathname) {
       return;
     }
     applyStatus(order, "preparing", { prepMinutes: 20, note: "後台接單" });
+    await syncOrderToPos(order, "order.preparing");
     await writeOrder(order);
     sendJson(res, 200, { order });
     return;
@@ -289,6 +360,7 @@ async function handleApi(req, res, pathname) {
       sendJson(res, 400, { error: error.message });
       return;
     }
+    await syncOrderToPos(order, `order.${payload.status}`);
     await writeOrder(order);
     sendJson(res, 200, { order });
     return;
@@ -302,7 +374,10 @@ async function handleApi(req, res, pathname) {
       return;
     }
 
-    if (order.status === "pending") applyStatus(order, "preparing", { prepMinutes: 20, note: "列印時自動接單" });
+    if (order.status === "pending") {
+      applyStatus(order, "preparing", { prepMinutes: 20, note: "列印時自動接單" });
+      await syncOrderToPos(order, "order.preparing");
+    }
 
     const ticket = buildKitchenTicket(order);
     let printResult = "file";
@@ -322,6 +397,19 @@ async function handleApi(req, res, pathname) {
     addTimeline(order, "print", printResult);
     await writeOrder(order);
     sendJson(res, 200, { order, printResult });
+    return;
+  }
+
+  const posSyncMatch = pathname.match(/^\/api\/orders\/([^/]+)\/pos-sync$/);
+  if (req.method === "POST" && posSyncMatch) {
+    const order = await findOrder(decodeURIComponent(posSyncMatch[1]));
+    if (!order) {
+      sendJson(res, 404, { error: "Order not found" });
+      return;
+    }
+    await syncOrderToPos(order, "order.manual-sync");
+    await writeOrder(order);
+    sendJson(res, 200, { order });
     return;
   }
 
@@ -369,4 +457,5 @@ http.createServer(async (req, res) => {
   console.log(`LAI order server running at http://0.0.0.0:${PORT}/`);
   console.log(`Storage: ${DATABASE_URL ? "PostgreSQL" : "local JSON"}`);
   if (PRINTER_HOST) console.log(`Network printer configured: ${PRINTER_HOST}:${PRINTER_PORT}`);
+  if (POS_WEBHOOK_URL) console.log("POS webhook configured");
 });
