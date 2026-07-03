@@ -43,7 +43,15 @@
       <div class="life-sky" aria-hidden="true">
         <i></i><i></i><i></i>
       </div>
-      <div class="life-plaza" aria-hidden="true">
+      <div class="life-plaza" aria-label="LAI便當小鎮互動場景">
+        <button class="life-hotspot hotspot-shop" type="button" data-life-walk="orders" data-x="50" data-y="30" aria-label="進入 LAI 便當店"></button>
+        <button class="life-hotspot hotspot-stall" type="button" data-life-walk="menu" data-x="76" data-y="48" aria-label="查看今日推薦餐車"></button>
+        <button class="life-hotspot hotspot-task" type="button" data-life-walk="tasks" data-x="28" data-y="48" aria-label="查看任務板"></button>
+        <button class="life-hotspot hotspot-friend" type="button" data-life-walk="friends" data-x="67" data-y="64" aria-label="拜訪好友廣場"></button>
+        <button class="life-hotspot hotspot-table" type="button" data-life-walk="table" data-x="42" data-y="72" aria-label="前往我的餐桌"></button>
+        <button class="life-hotspot hotspot-bag" type="button" data-life-walk="bag" data-x="84" data-y="70" aria-label="打開背包"></button>
+        <button class="life-hotspot hotspot-outfit" type="button" data-life-walk="outfit" data-x="58" data-y="70" aria-label="更換裝扮"></button>
+
         <div class="life-shop">
           <img src="assets/lai-brand-logo.svg" alt="">
           <span>Life</span>
@@ -57,13 +65,13 @@
           <span class="villager-two"></span>
           <span class="villager-three"></span>
         </div>
-        <div class="life-mascot" aria-hidden="true">
+        <div class="life-player" id="lifePlayer" aria-hidden="true">
           <span></span>
           <strong>LAI</strong>
         </div>
         <div class="life-bubble bubble-left">新便當上架！</div>
         <div class="life-bubble bubble-right">午餐時間到囉</div>
-        <button class="life-camera-sign" type="button" data-life-action="checkin">打卡<br><small>+10 點數</small></button>
+        <button class="life-camera-sign" type="button" data-life-walk="checkin" data-x="72" data-y="70">打卡<br><small>+10 點數</small></button>
       </div>
 
       <aside class="life-left-stack">

@@ -48,6 +48,24 @@
     document.querySelector("[data-life-value='hearts']").textContent = `${data.wallet.hearts}/${data.wallet.maxHearts}`;
   }
 
+  function walkTo(target) {
+    const player = document.querySelector("#lifePlayer");
+    if (!player) return;
+    const x = Number(target.dataset.x || 50);
+    const y = Number(target.dataset.y || 66);
+    const destination = target.dataset.lifeWalk;
+    player.classList.add("walking");
+    player.style.left = `${x}%`;
+    player.style.top = `${y}%`;
+    player.style.bottom = "auto";
+    toast(`前往 ${target.getAttribute("aria-label") || "小鎮地點"}`);
+    window.setTimeout(() => {
+      player.classList.remove("walking");
+      if (destination === "checkin") actions.checkin();
+      else openModal(destination);
+    }, 720);
+  }
+
   const rankingNames = {
     bento: "便當王排行",
     gift: "送禮王排行",
@@ -311,6 +329,12 @@
     if (openTarget) {
       event.preventDefault();
       openModal(openTarget.dataset.lifeOpen);
+      return;
+    }
+    const walkTarget = event.target.closest("[data-life-walk]");
+    if (walkTarget) {
+      event.preventDefault();
+      walkTo(walkTarget);
       return;
     }
     const actionTarget = event.target.closest("[data-life-action]");

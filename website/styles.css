@@ -3702,16 +3702,22 @@ section {
   object-fit: cover;
 }
 
-.life-mascot {
+.life-player {
   position: absolute;
   left: 50%;
-  bottom: 22%;
+  top: 66%;
   display: grid;
   justify-items: center;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
+  transition: left 0.68s ease, top 0.68s ease;
+  z-index: 3;
 }
 
-.life-mascot span {
+.life-player.walking {
+  animation: lifeWalkBob 0.34s ease-in-out infinite alternate;
+}
+
+.life-player span {
   width: 116px;
   height: 116px;
   border: 6px solid #fff7db;
@@ -3725,12 +3731,48 @@ section {
   box-shadow: 0 -28px 0 #de7a38 inset, 0 18px 28px rgba(67, 95, 60, 0.2);
 }
 
-.life-mascot strong {
+.life-player strong {
   margin-top: -8px;
   border-radius: 999px;
   background: #3f2a13;
   color: #fff8da;
   padding: 5px 14px;
+}
+
+@keyframes lifeWalkBob {
+  from { transform: translate(-50%, -50%) translateY(0); }
+  to { transform: translate(-50%, -50%) translateY(-7px); }
+}
+
+.life-hotspot {
+  position: absolute;
+  z-index: 4;
+  width: 76px;
+  height: 58px;
+  border: 2px dashed rgba(255, 248, 218, 0.75);
+  border-radius: 50%;
+  background: rgba(255, 200, 79, 0.18);
+  cursor: pointer;
+  animation: lifeHotspotPulse 1.8s ease-in-out infinite;
+}
+
+.life-hotspot:hover,
+.life-hotspot:focus-visible {
+  background: rgba(255, 200, 79, 0.34);
+  outline: 3px solid rgba(255, 248, 218, 0.9);
+}
+
+.hotspot-shop { left: 45%; top: 25%; }
+.hotspot-stall { right: 8%; top: 40%; }
+.hotspot-task { left: 21%; top: 43%; }
+.hotspot-friend { right: 27%; bottom: 30%; }
+.hotspot-table { left: 35%; bottom: 19%; }
+.hotspot-bag { right: 10%; bottom: 18%; }
+.hotspot-outfit { left: 54%; bottom: 20%; }
+
+@keyframes lifeHotspotPulse {
+  0%, 100% { transform: scale(1); opacity: 0.58; }
+  50% { transform: scale(1.08); opacity: 0.86; }
 }
 
 .life-villagers span {
@@ -4432,7 +4474,7 @@ section {
     width: 120px;
   }
 
-  .life-mascot span {
+  .life-player span {
     width: 96px;
     height: 96px;
   }
