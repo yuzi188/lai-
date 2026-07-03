@@ -3,19 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>LAI便當 Life｜我的餐桌</title>
+  <title>LAI便當 Life｜互動小鎮會員生活圈</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="life-app-body">
-  <main class="life-shell" aria-label="LAI便當 Life 會員首頁">
+  <main class="life-shell" aria-label="LAI便當 Life 會員生活圈">
     <header class="life-topbar">
       <section class="life-profile-card" aria-label="會員資料">
-        <div class="life-avatar" aria-hidden="true">
-          <span></span>
-        </div>
+        <div class="life-avatar" aria-hidden="true"><span></span></div>
         <div>
           <p>早安，Yu Zi</p>
           <h1>Lv.27 便當王</h1>
@@ -24,12 +22,12 @@
       </section>
 
       <section class="life-currencies" aria-label="會員資源">
-        <article><i class="life-coin-icon"></i><span>點數</span><strong data-life-value="coins">12,680</strong><button type="button" data-life-open="resources" aria-label="增加點數">+</button></article>
+        <article><i class="life-coin-icon"></i><span>金幣</span><strong data-life-value="coins">12,680</strong><button type="button" data-life-open="resources" aria-label="補充金幣">+</button></article>
         <article><i class="life-ticket-icon"></i><span>禮券</span><strong data-life-value="tickets">38</strong><button type="button" data-life-open="coupons" aria-label="查看禮券">+</button></article>
-        <article><i class="life-heart-icon"></i><span>愛心</span><strong data-life-value="hearts">5/5</strong><button type="button" data-life-open="resources" aria-label="查看愛心">+</button></article>
+        <article><i class="life-heart-icon"></i><span>愛心</span><strong data-life-value="hearts">5/5</strong><button type="button" data-life-open="resources" aria-label="補充愛心">+</button></article>
       </section>
 
-      <nav class="life-menu" aria-label="生活圈功能">
+      <nav class="life-menu" aria-label="主要功能">
         <a href="#" data-life-open="orders"><i class="life-ui-icon icon-order"></i><span>訂單</span></a>
         <a href="#" data-life-open="notifications"><i class="life-ui-icon icon-chat"></i><em></em><span>消息</span></a>
         <a href="#" data-life-open="events"><i class="life-ui-icon icon-gift"></i><em></em><span>活動</span></a>
@@ -40,39 +38,20 @@
     </header>
 
     <section class="life-town">
-      <div class="life-sky" aria-hidden="true">
-        <i></i><i></i><i></i>
-      </div>
-      <div class="life-plaza" aria-label="LAI便當小鎮互動場景">
-        <button class="life-hotspot hotspot-shop" type="button" data-life-walk="orders" data-x="50" data-y="30" aria-label="進入 LAI 便當店"></button>
-        <button class="life-hotspot hotspot-stall" type="button" data-life-walk="menu" data-x="76" data-y="48" aria-label="查看今日推薦餐車"></button>
-        <button class="life-hotspot hotspot-task" type="button" data-life-walk="tasks" data-x="28" data-y="48" aria-label="查看任務板"></button>
-        <button class="life-hotspot hotspot-friend" type="button" data-life-walk="friends" data-x="67" data-y="64" aria-label="拜訪好友廣場"></button>
-        <button class="life-hotspot hotspot-table" type="button" data-life-walk="table" data-x="42" data-y="72" aria-label="前往我的餐桌"></button>
-        <button class="life-hotspot hotspot-bag" type="button" data-life-walk="bag" data-x="84" data-y="70" aria-label="打開背包"></button>
-        <button class="life-hotspot hotspot-outfit" type="button" data-life-walk="outfit" data-x="58" data-y="70" aria-label="更換裝扮"></button>
+      <div class="life-sky" aria-hidden="true"><i></i><i></i><i></i></div>
 
-        <div class="life-shop">
-          <img src="assets/lai-brand-logo.svg" alt="">
-          <span>Life</span>
+      <section class="life-game-panel" aria-label="LAI便當小鎮場景">
+        <canvas id="lifeGame" width="960" height="620" aria-label="可移動角色的小鎮場景"></canvas>
+        <div class="life-game-help">WASD / 方向鍵移動，點 NPC 對話</div>
+        <div class="life-interaction-hint" id="lifeInteractionHint" hidden>
+          <strong id="lifeInteractionTitle">互動地點</strong>
+          <span id="lifeInteractionText">靠近地點後可以互動</span>
+          <button id="lifeInteractButton" type="button">互動</button>
         </div>
-        <div class="life-stall">
-          <b>今日推薦</b>
-          <img src="assets/lai-bento-hero.png" alt="">
+        <div class="life-joystick" id="lifeJoystick" aria-label="手機虛擬搖桿">
+          <span id="lifeJoystickKnob"></span>
         </div>
-        <div class="life-villagers" aria-hidden="true">
-          <span class="villager-one"></span>
-          <span class="villager-two"></span>
-          <span class="villager-three"></span>
-        </div>
-        <div class="life-player" id="lifePlayer" aria-hidden="true">
-          <span></span>
-          <strong>LAI</strong>
-        </div>
-        <div class="life-bubble bubble-left">新便當上架！</div>
-        <div class="life-bubble bubble-right">午餐時間到囉</div>
-        <button class="life-camera-sign" type="button" data-life-walk="checkin" data-x="72" data-y="70">打卡<br><small>+10 點數</small></button>
-      </div>
+      </section>
 
       <aside class="life-left-stack">
         <section class="life-invite-card">
@@ -93,7 +72,7 @@
           <label><input type="checkbox" data-life-task="share"> 分享便當照片 <b>0/1</b></label>
           <label><input type="checkbox" data-life-task="gift"> 送禮給好友 <b>0/1</b></label>
           <label><input type="checkbox" data-life-task="invite"> 邀請好友 <b>0/1</b></label>
-          <div class="life-task-reward"><span>完成全部任務可獲得</span><strong>30 點 · 20 愛心 · 5 禮券</strong></div>
+          <div class="life-task-reward"><span>完成全部任務可獲得</span><strong>30 金幣、20 愛心、5 禮券</strong></div>
           <button type="button" class="life-claim-button" data-life-action="claimTasks">領取任務獎勵</button>
         </section>
 
@@ -103,7 +82,7 @@
             <p>連續 15 天</p>
           </div>
           <button type="button" class="checked" data-life-action="checkin">簽到</button>
-          <small>+20 點數</small>
+          <small>+20 金幣</small>
         </section>
       </aside>
 
@@ -120,7 +99,7 @@
         <section id="rank" class="life-ranking-card">
           <div class="life-card-head">
             <h2>便當王排行</h2>
-            <button type="button" data-life-open="rankings" aria-label="排行榜說明">i</button>
+            <button type="button" data-life-open="rankings" aria-label="查看完整排行">i</button>
           </div>
           <ol>
             <li><span>1</span><strong>Kevin</strong><b>1280 份</b></li>
@@ -134,8 +113,8 @@
       </aside>
 
       <section id="gift" class="life-gift-toast">
-        <strong>朋友送你禮物</strong>
-        <p>王小明送你 50 點與雞腿升級券</p>
+        <strong>你收到禮物</strong>
+        <p>王小明送你 50 金幣，記得回禮。</p>
         <button type="button" data-life-action="receiveGift">領取</button>
       </section>
 
@@ -145,7 +124,7 @@
       </a>
     </section>
 
-    <nav class="life-bottom-nav" aria-label="會員生活圈底部導覽">
+    <nav class="life-bottom-nav" aria-label="底部功能">
       <a href="#" data-life-open="chat"><i class="life-bottom-icon bottom-chat"></i><span>聊天</span><em>3</em></a>
       <a href="#" data-life-open="friends"><i class="life-bottom-icon bottom-friend"></i><span>好友</span></a>
       <a href="#" data-life-open="community"><i class="life-bottom-icon bottom-guild"></i><span>社群</span></a>
@@ -161,7 +140,7 @@
         <button class="life-modal-close" type="button" data-life-close aria-label="關閉">×</button>
         <header>
           <p id="lifeModalKicker">LAI LIFE</p>
-          <h2 id="lifeModalTitle">會員生活圈</h2>
+          <h2 id="lifeModalTitle">會員功能</h2>
         </header>
         <div id="lifeModalBody" class="life-modal-body"></div>
       </article>
