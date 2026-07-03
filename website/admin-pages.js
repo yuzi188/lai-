@@ -1,4 +1,6 @@
 let pageOrders = [];
+let pageMembers = [];
+let selectedMemberPhone = "";
 
 async function api(path, options = {}) {
   const response = await fetch(path, {
@@ -75,6 +77,13 @@ function updateClock() {
 async function loadOrders() {
   const { orders } = await api("/api/orders");
   pageOrders = orders || [];
+  renderPage();
+}
+
+async function loadMembers() {
+  const { members } = await api("/api/members");
+  pageMembers = members || [];
+  if (!selectedMemberPhone && pageMembers[0]) selectedMemberPhone = pageMembers[0].phone;
   renderPage();
 }
 
@@ -217,6 +226,8 @@ async function openOrderDetail(orderId) {
         <dl class="detail-list">
           <div><dt>累計訂單</dt><dd>${orderCount}</dd></div>
           <div><dt>累計消費</dt><dd>${money(totalSpent)}</dd></div>
+          <div><dt>目前點數</dt><dd>${Number(customer?.loyaltyPoints || 0)} 點</dd></div>
+          <div><dt>推薦碼</dt><dd>${escapeHtml(customer?.referralCode || "--")}</dd></div>
           <div><dt>最近下單</dt><dd>${escapeHtml(formatDateTime(customer?.lastOrderAt || historyOrders[0]?.createdAt))}</dd></div>
           <div><dt>POS狀態</dt><dd>${escapeHtml(order.posSyncStatus || "尚未同步")}</dd></div>
         </dl>
@@ -316,11 +327,158 @@ function renderPrintPage() {
   `).join("") || "<p class=\"empty-state\">目前沒有列印紀錄</p>";
 }
 
+function memberSearchText(member) {
+  return [
+    member.phone,
+    normalizeDigits(member.phone),
+    member.name,
+    member.company,
+    member.referralCode,
+    member.referredBy
+  ].join(" ").toLowerCase();
+}
+
+function filteredMembers() {
+  const rawKeyword = document.querySelector("#memberSearch")?.value.trim() || "";
+  const keyword = rawKeyword.toLowerCase();
+  const digits = normalizeDigits(rawKeyword);
+  const sort = document.querySelector("#memberSort")?.value || "recent";
+  const members = pageMembers.filter(member => {
+    const searchable = memberSearchText(member);
+    return !keyword || searchable.includes(keyword) || (digits && normalizeDigits(member.phone).includes(digits));
+  });
+
+  return members.sort((a, b) => {
+    if (sort === "points") return Number(b.loyaltyPoints || 0) - Number(a.loyaltyPoints || 0);
+    if (sort === "spent") return Number(b.totalSpent || 0) - Number(a.totalSpent || 0);
+    if (sort === "orders") return Number(b.orderCount || 0) - Number(a.orderCount || 0);
+    return String(b.lastOrderAt || "").localeCompare(String(a.lastOrderAt || ""));
+  });
+}
+
+function renderMembersPage() {
+  const members = filteredMembers();
+  const totalPoints = pageMembers.reduce((sum, member) => sum + Number(member.loyaltyPoints || 0), 0);
+  const redeemed = pageMembers.reduce((sum, member) => sum + Number(member.redeemedPoints || 0), 0);
+  const repeat = pageMembers.filter(member => Number(member.orderCount || 0) >= 2).length;
+
+  document.querySelector("#memberCount").textContent = pageMembers.length;
+  document.querySelector("#memberPoints").textContent = totalPoints;
+  document.querySelector("#memberRedeemed").textContent = redeemed;
+  document.querySelector("#memberRepeat").textContent = repeat;
+  document.querySelector("#memberListCount").textContent = members.length;
+
+  if (!members.some(member => member.phone === selectedMemberPhone)) selectedMemberPhone = members[0]?.phone || "";
+
+  document.querySelector("#memberList").innerHTML = members.map(member => `
+    <button class="member-row ${member.phone === selectedMemberPhone ? "active" : ""}" type="button" data-member-phone="${escapeHtml(member.phone)}">
+      <span>
+        <strong>${escapeHtml(member.name || "未留姓名")}</strong>
+        <small>${escapeHtml(member.phone)} · ${escapeHtml(member.company || "一般會員")}</small>
+      </span>
+      <b>${Number(member.loyaltyPoints || 0)} 點</b>
+    </button>
+  `).join("") || "<p class=\"empty-state\">沒有符合條件的會員</p>";
+
+  renderMemberDetail(pageMembers.find(member => member.phone === selectedMemberPhone));
+}
+
+function renderMemberDetail(member) {
+  const detail = document.querySelector("#memberDetail");
+  if (!detail) return;
+  if (!member) {
+    detail.className = "member-empty";
+    detail.innerHTML = "<h2>選擇一位會員</h2><p>點選左側會員後，這裡會顯示消費紀錄、點數流水、推薦碼與兌換操作。</p>";
+    return;
+  }
+
+  const orders = (member.orders || []).slice(0, 8);
+  const ledger = (member.ledger || []).slice(0, 10);
+  const nextSideDish = Math.max(10 - Number(member.loyaltyPoints || 0), 0);
+  const nextBento = Math.max(50 - Number(member.loyaltyPoints || 0), 0);
+
+  detail.className = "member-detail-content";
+  detail.innerHTML = `
+    <section class="member-profile-card">
+      <div>
+        <p class="eyebrow">MEMBER PROFILE</p>
+        <h2>${escapeHtml(member.name || "未留姓名")}</h2>
+        <p>${escapeHtml(member.phone)} · ${escapeHtml(member.company || "一般會員")}</p>
+      </div>
+      <strong>${Number(member.loyaltyPoints || 0)} 點</strong>
+    </section>
+
+    <section class="member-progress-grid">
+      <article><span>累計消費</span><strong>${money(member.totalSpent)}</strong></article>
+      <article><span>完成消費</span><strong>${money(member.completedSpent)}</strong></article>
+      <article><span>累計訂單</span><strong>${Number(member.orderCount || 0)}</strong></article>
+      <article><span>已兌換點數</span><strong>${Number(member.redeemedPoints || 0)}</strong></article>
+    </section>
+
+    <section class="member-invite-card">
+      <div>
+        <span>好友邀請碼</span>
+        <strong>${escapeHtml(member.referralCode || "--")}</strong>
+        <p>好友下單填入推薦碼後，未來可設定雙方各得 5 點。</p>
+      </div>
+      <button type="button" data-copy-referral="${escapeHtml(member.referralCode || "")}">複製推薦碼</button>
+    </section>
+
+    <section class="member-reward-actions">
+      <button type="button" data-member-adjust="${escapeHtml(member.phone)}" data-points="-10" data-label="兌換小菜">兌換小菜 10 點</button>
+      <button type="button" data-member-adjust="${escapeHtml(member.phone)}" data-points="-50" data-label="兌換免費便當">兌換免費便當 50 點</button>
+      <button type="button" data-member-adjust="${escapeHtml(member.phone)}" data-points="5" data-label="好友邀請加點">好友邀請 +5 點</button>
+      <button type="button" data-member-adjust="${escapeHtml(member.phone)}" data-points="1" data-label="手動補點">手動補 1 點</button>
+    </section>
+
+    <section class="member-next-reward">
+      <div><span>距離小菜兌換</span><strong>${nextSideDish ? `還差 ${nextSideDish} 點` : "可兌換"}</strong></div>
+      <div><span>距離免費便當</span><strong>${nextBento ? `還差 ${nextBento} 點` : "可兌換"}</strong></div>
+    </section>
+
+    <section class="member-split">
+      <article>
+        <h3>消費紀錄</h3>
+        <div class="member-timeline">
+          ${orders.length ? orders.map(order => `
+            <div>
+              <strong>${escapeHtml(order.orderId)}</strong>
+              <span>${escapeHtml(formatDateTime(order.createdAt).slice(0, 16))} · ${money(order.total)} · ${statusLabel(statusKey(order))}</span>
+            </div>
+          `).join("") : "<p>目前沒有消費紀錄</p>"}
+        </div>
+      </article>
+      <article>
+        <h3>點數流水</h3>
+        <div class="member-timeline">
+          ${ledger.length ? ledger.map(entry => `
+            <div>
+              <strong class="${Number(entry.points) > 0 ? "point-plus" : "point-minus"}">${Number(entry.points) > 0 ? "+" : ""}${Number(entry.points)} 點</strong>
+              <span>${escapeHtml(entry.label)} · ${escapeHtml(formatDateTime(entry.createdAt).slice(0, 16))}</span>
+            </div>
+          `).join("") : "<p>目前沒有點數紀錄</p>"}
+        </div>
+      </article>
+    </section>
+  `;
+}
+
+async function adjustMemberPoints(phone, points, label) {
+  const note = window.prompt(`確認「${label}」？可輸入備註`, label);
+  if (note === null) return;
+  await api(`/api/members/${encodeURIComponent(phone)}/points`, {
+    method: "POST",
+    body: JSON.stringify({ points: Number(points), label, note })
+  });
+  await loadMembers();
+}
+
 function renderPage() {
   const page = document.body.dataset.adminPage;
   if (page === "orders") renderOrdersPage();
   if (page === "stats") renderStatsPage();
   if (page === "print") renderPrintPage();
+  if (page === "members") renderMembersPage();
 }
 
 async function printOrder(orderId) {
@@ -328,12 +486,17 @@ async function printOrder(orderId) {
   await loadOrders();
 }
 
-document.querySelector(".admin-refresh")?.addEventListener("click", loadOrders);
+document.querySelector(".admin-refresh")?.addEventListener("click", () => {
+  if (document.body.dataset.adminPage === "members") loadMembers().catch(error => alert(error.message));
+  else loadOrders().catch(error => alert(error.message));
+});
 document.querySelector("#pageSearch")?.addEventListener("input", renderPage);
 document.querySelector("#pageStatus")?.addEventListener("change", renderPage);
 document.querySelector("#pageDate")?.addEventListener("change", renderPage);
 document.querySelector("#statsDate")?.addEventListener("change", renderPage);
 document.querySelector("#statsRange")?.addEventListener("change", renderPage);
+document.querySelector("#memberSearch")?.addEventListener("input", renderPage);
+document.querySelector("#memberSort")?.addEventListener("change", renderPage);
 document.addEventListener("click", event => {
   const printButton = event.target.closest("[data-print-id]");
   if (printButton) {
@@ -346,6 +509,23 @@ document.addEventListener("click", event => {
     openOrderDetail(detailButton.dataset.openOrder).catch(error => alert(error.message));
     return;
   }
+  const memberButton = event.target.closest("[data-member-phone]");
+  if (memberButton) {
+    selectedMemberPhone = memberButton.dataset.memberPhone;
+    renderMembersPage();
+    return;
+  }
+  const adjustButton = event.target.closest("[data-member-adjust]");
+  if (adjustButton) {
+    adjustMemberPoints(adjustButton.dataset.memberAdjust, adjustButton.dataset.points, adjustButton.dataset.label).catch(error => alert(error.message));
+    return;
+  }
+  const referralButton = event.target.closest("[data-copy-referral]");
+  if (referralButton) {
+    navigator.clipboard?.writeText(referralButton.dataset.copyReferral || "");
+    referralButton.textContent = "已複製";
+    return;
+  }
   if (event.target.closest("[data-close-order-detail]")) closeOrderDetail();
 });
 document.addEventListener("keydown", event => {
@@ -356,4 +536,8 @@ const statsDate = document.querySelector("#statsDate");
 if (statsDate) statsDate.value = todayKey();
 updateClock();
 setInterval(updateClock, 1000);
-loadOrders().catch(error => alert(error.message));
+if (document.body.dataset.adminPage === "members") {
+  loadMembers().catch(error => alert(error.message));
+} else {
+  loadOrders().catch(error => alert(error.message));
+}

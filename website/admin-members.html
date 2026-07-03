@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>會員中心｜LAI家便當</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin-app-body" data-admin-page="members">
+  <header class="ops-topbar">
+    <div class="ops-brand">
+      <img src="assets/lai-brand-logo.svg" alt="LAI家便當">
+      <div><strong>會員中心</strong><span>消費紀錄、點數累計、好友邀請與兌換管理</span></div>
+    </div>
+    <nav class="ops-nav" aria-label="加盟後台功能">
+      <a href="admin.html">接單工作台</a>
+      <a href="admin-orders.html">查單系統</a>
+      <a class="active" href="admin-members.html">會員中心</a>
+      <a href="admin-stats.html">營業統計</a>
+      <a href="admin-print.html">列印設定</a>
+    </nav>
+    <div class="ops-top-actions">
+      <time id="adminClock">--:--</time>
+      <button class="admin-refresh" type="button">重新整理</button>
+    </div>
+  </header>
+
+  <main class="ops-console">
+    <section class="member-hero-panel">
+      <div>
+        <p class="eyebrow">LOYALTY SYSTEM</p>
+        <h1>會員集點與回訪管理</h1>
+        <p>用手機號碼自動建立會員，追蹤消費紀錄、點數累計、兌換小菜或免費便當，後續也能接好友邀請活動。</p>
+      </div>
+      <div class="member-rule-cards" aria-label="集點規則">
+        <article><span>消費集點</span><strong>$100 = 1 點</strong></article>
+        <article><span>兌換小菜</span><strong>10 點</strong></article>
+        <article><span>免費便當</span><strong>50 點</strong></article>
+        <article><span>邀請好友</span><strong>各得 5 點</strong></article>
+      </div>
+    </section>
+
+    <section class="ops-stats member-stats">
+      <article><span>會員總數</span><strong id="memberCount">0</strong></article>
+      <article><span>可用點數</span><strong id="memberPoints">0</strong></article>
+      <article><span>累計兌換</span><strong id="memberRedeemed">0</strong></article>
+      <article><span>回訪會員</span><strong id="memberRepeat">0</strong></article>
+    </section>
+
+    <section class="ops-toolbar order-search-toolbar" aria-label="會員查詢">
+      <div class="search-box">
+        <input id="memberSearch" type="search" inputmode="search" autocomplete="off" placeholder="輸入手機末碼、姓名、公司、推薦碼">
+        <select id="memberSort">
+          <option value="recent">最近下單</option>
+          <option value="points">點數最高</option>
+          <option value="spent">消費最高</option>
+          <option value="orders">訂單最多</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="member-layout">
+      <article class="ops-panel member-list-panel">
+        <div class="column-head"><h2>會員列表</h2><span id="memberListCount">0</span></div>
+        <div id="memberList" class="member-list"></div>
+      </article>
+
+      <article class="ops-panel member-detail-panel">
+        <div id="memberDetail" class="member-empty">
+          <h2>選擇一位會員</h2>
+          <p>點選左側會員後，這裡會顯示消費紀錄、點數流水、推薦碼與兌換操作。</p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="admin-pages.js"></script>
+</body>
+</html>

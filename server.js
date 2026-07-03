@@ -7,6 +7,7 @@ const ROOT = __dirname;
 const WEB_ROOT = path.join(ROOT, "website");
 const DATA_DIR = path.join(ROOT, "data");
 const ORDERS_FILE = path.join(DATA_DIR, "orders.json");
+const MEMBER_LEDGER_FILE = path.join(DATA_DIR, "member-ledger.json");
 const PRINT_DIR = path.join(DATA_DIR, "print-jobs");
 const PORT = Number(process.env.PORT || 4180);
 const DATABASE_URL = process.env.DATABASE_URL || "";
@@ -36,6 +37,7 @@ function ensureDataFiles() {
   fs.mkdirSync(DATA_DIR, { recursive: true });
   fs.mkdirSync(PRINT_DIR, { recursive: true });
   if (!fs.existsSync(ORDERS_FILE)) fs.writeFileSync(ORDERS_FILE, "[]", "utf8");
+  if (!fs.existsSync(MEMBER_LEDGER_FILE)) fs.writeFileSync(MEMBER_LEDGER_FILE, "[]", "utf8");
 }
 
 function nowIso() {
@@ -188,6 +190,20 @@ function writeLocalOrders(orders) {
   fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2), "utf8");
 }
 
+function readLocalMemberLedger() {
+  ensureDataFiles();
+  try {
+    return JSON.parse(fs.readFileSync(MEMBER_LEDGER_FILE, "utf8"));
+  } catch {
+    return [];
+  }
+}
+
+function writeLocalMemberLedger(entries) {
+  ensureDataFiles();
+  fs.writeFileSync(MEMBER_LEDGER_FILE, JSON.stringify(entries, null, 2), "utf8");
+}
+
 async function initDatabase() {
   if (!DATABASE_URL || databaseReady) return;
   const { Pool } = require("pg");
@@ -217,6 +233,23 @@ async function initDatabase() {
       updated_at timestamptz not null default now()
     );
   `);
+  await pool.query("alter table customers add column if not exists loyalty_points integer not null default 0");
+  await pool.query("alter table customers add column if not exists redeemed_points integer not null default 0");
+  await pool.query("alter table customers add column if not exists referral_code text");
+  await pool.query("alter table customers add column if not exists referred_by text");
+  await pool.query(`
+    create table if not exists member_ledger (
+      id bigserial primary key,
+      phone text not null,
+      type text not null,
+      points integer not null,
+      label text not null,
+      order_id text,
+      note text,
+      created_at timestamptz not null default now()
+    );
+  `);
+  await pool.query("create index if not exists member_ledger_phone_idx on member_ledger (phone, created_at desc)");
   await backfillCustomers();
   databaseReady = true;
 }
@@ -252,8 +285,8 @@ async function backfillCustomers() {
   for (const customer of customers.values()) {
     await pool.query(
       `
-        insert into customers (phone, name, company, order_count, total_spent, last_order_id, last_order_at, updated_at)
-        values ($1, $2, $3, $4, $5, $6, $7, now())
+        insert into customers (phone, name, company, order_count, total_spent, last_order_id, last_order_at, referral_code, updated_at)
+        values ($1, $2, $3, $4, $5, $6, $7, $8, now())
         on conflict (phone) do nothing
       `,
       [
@@ -263,7 +296,8 @@ async function backfillCustomers() {
         customer.orderCount,
         customer.totalSpent,
         customer.lastOrderId,
-        customer.lastOrderAt
+        customer.lastOrderAt,
+        memberReferralCode(customer.phone)
       ]
     );
   }
@@ -280,6 +314,51 @@ function normalizePhone(phone) {
   return String(phone || "").replace(/\D/g, "");
 }
 
+function memberReferralCode(phone) {
+  const digits = normalizePhone(phone);
+  return digits ? `LAI${digits.slice(-6)}` : "";
+}
+
+function loyaltyPointsForOrder(order) {
+  return Math.floor(Number(order.total || 0) / 100);
+}
+
+function normalizeMemberLedgerEntry(entry) {
+  return {
+    id: entry.id || `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+    phone: normalizePhone(entry.phone),
+    type: entry.type || "adjust",
+    points: Number(entry.points || 0),
+    label: entry.label || "點數調整",
+    orderId: entry.orderId || entry.order_id || "",
+    note: entry.note || "",
+    createdAt: entry.createdAt || entry.created_at || nowIso()
+  };
+}
+
+async function addMemberLedger(entry) {
+  const normalized = normalizeMemberLedgerEntry(entry);
+  if (!normalized.phone || !normalized.points) return normalized;
+
+  if (!DATABASE_URL) {
+    const ledger = readLocalMemberLedger();
+    ledger.unshift(normalized);
+    writeLocalMemberLedger(ledger);
+    return normalized;
+  }
+
+  await initDatabase();
+  const result = await pool.query(
+    `
+      insert into member_ledger (phone, type, points, label, order_id, note, created_at)
+      values ($1, $2, $3, $4, $5, $6, $7)
+      returning *
+    `,
+    [normalized.phone, normalized.type, normalized.points, normalized.label, normalized.orderId || null, normalized.note, normalized.createdAt]
+  );
+  return normalizeMemberLedgerEntry(result.rows[0]);
+}
+
 async function upsertCustomerFromOrder(order, isNewOrder = false) {
   if (!DATABASE_URL) return;
   const phone = normalizePhone(order.customerPhone);
@@ -287,8 +366,8 @@ async function upsertCustomerFromOrder(order, isNewOrder = false) {
   await initDatabase();
   await pool.query(
     `
-      insert into customers (phone, name, company, order_count, total_spent, last_order_id, last_order_at, updated_at)
-      values ($1, $2, $3, $4, $5, $6, $7, now())
+      insert into customers (phone, name, company, order_count, total_spent, last_order_id, last_order_at, referral_code, updated_at)
+      values ($1, $2, $3, $4, $5, $6, $7, $8, now())
       on conflict (phone)
       do update set
         name = excluded.name,
@@ -297,6 +376,7 @@ async function upsertCustomerFromOrder(order, isNewOrder = false) {
         total_spent = customers.total_spent + $5,
         last_order_id = excluded.last_order_id,
         last_order_at = excluded.last_order_at,
+        referral_code = coalesce(customers.referral_code, excluded.referral_code),
         updated_at = now()
     `,
     [
@@ -306,7 +386,8 @@ async function upsertCustomerFromOrder(order, isNewOrder = false) {
       isNewOrder ? 1 : 0,
       isNewOrder ? Number(order.total || 0) : 0,
       order.orderId,
-      order.createdAt || nowIso()
+      order.createdAt || nowIso(),
+      memberReferralCode(phone)
     ]
   );
 }
@@ -346,6 +427,8 @@ async function findCustomerOrders(phone) {
   const orders = (await readOrders()).filter(order => normalizePhone(order.customerPhone) === normalized);
 
   if (!DATABASE_URL) {
+    const ledger = readLocalMemberLedger().map(normalizeMemberLedgerEntry).filter(entry => entry.phone === normalized);
+    const loyaltyPoints = ledger.reduce((sum, entry) => sum + Number(entry.points || 0), 0);
     return {
       customer: orders[0] ? {
         phone: normalized,
@@ -353,6 +436,9 @@ async function findCustomerOrders(phone) {
         company: orders[0].companyName || "",
         orderCount: orders.length,
         totalSpent: orders.reduce((sum, order) => sum + Number(order.total || 0), 0),
+        loyaltyPoints,
+        redeemedPoints: ledger.filter(entry => entry.points < 0).reduce((sum, entry) => sum + Math.abs(entry.points), 0),
+        referralCode: memberReferralCode(normalized),
         lastOrderAt: orders[0].createdAt || ""
       } : null,
       orders
@@ -369,11 +455,201 @@ async function findCustomerOrders(phone) {
       company: row.company || "",
       orderCount: Number(row.order_count || 0),
       totalSpent: Number(row.total_spent || 0),
+      loyaltyPoints: Number(row.loyalty_points || 0),
+      redeemedPoints: Number(row.redeemed_points || 0),
+      referralCode: row.referral_code || memberReferralCode(normalized),
+      referredBy: row.referred_by || "",
       lastOrderId: row.last_order_id,
       lastOrderAt: row.last_order_at
     } : null,
     orders
   };
+}
+
+function buildLocalMembers(orders, ledger) {
+  const members = new Map();
+  for (const order of orders) {
+    const phone = normalizePhone(order.customerPhone);
+    if (!phone) continue;
+    const member = members.get(phone) || {
+      phone,
+      name: "",
+      company: "",
+      orderCount: 0,
+      totalSpent: 0,
+      completedSpent: 0,
+      loyaltyPoints: 0,
+      redeemedPoints: 0,
+      referralCode: memberReferralCode(phone),
+      referredBy: "",
+      lastOrderId: "",
+      lastOrderAt: "",
+      orders: [],
+      ledger: []
+    };
+    member.name = order.customerName || member.name;
+    member.company = order.companyName || member.company;
+    member.orderCount += 1;
+    member.totalSpent += Number(order.total || 0);
+    if (statusKeyForServer(order) === "completed") member.completedSpent += Number(order.total || 0);
+    member.lastOrderId = order.orderId || member.lastOrderId;
+    member.lastOrderAt = order.createdAt || member.lastOrderAt;
+    member.orders.push(order);
+    members.set(phone, member);
+  }
+
+  for (const entry of ledger.map(normalizeMemberLedgerEntry)) {
+    const member = members.get(entry.phone) || {
+      phone: entry.phone,
+      name: "",
+      company: "",
+      orderCount: 0,
+      totalSpent: 0,
+      completedSpent: 0,
+      loyaltyPoints: 0,
+      redeemedPoints: 0,
+      referralCode: memberReferralCode(entry.phone),
+      referredBy: "",
+      lastOrderId: "",
+      lastOrderAt: "",
+      orders: [],
+      ledger: []
+    };
+    member.ledger.push(entry);
+    member.loyaltyPoints += entry.points;
+    if (entry.points < 0) member.redeemedPoints += Math.abs(entry.points);
+    members.set(entry.phone, member);
+  }
+
+  return [...members.values()].sort((a, b) => String(b.lastOrderAt).localeCompare(String(a.lastOrderAt)));
+}
+
+function statusKeyForServer(order) {
+  return order.status === "accepted" ? "preparing" : order.status;
+}
+
+async function readMembers() {
+  const orders = await readOrders();
+  if (!DATABASE_URL) return buildLocalMembers(orders, readLocalMemberLedger());
+
+  await initDatabase();
+  const customersResult = await pool.query("select * from customers order by updated_at desc");
+  const ledgerResult = await pool.query("select * from member_ledger order by created_at desc");
+  const ledgerByPhone = new Map();
+  for (const row of ledgerResult.rows) {
+    const entry = normalizeMemberLedgerEntry(row);
+    const list = ledgerByPhone.get(entry.phone) || [];
+    list.push(entry);
+    ledgerByPhone.set(entry.phone, list);
+  }
+
+  return customersResult.rows.map(row => {
+    const phone = normalizePhone(row.phone);
+    const memberOrders = orders.filter(order => normalizePhone(order.customerPhone) === phone);
+    const completedSpent = memberOrders
+      .filter(order => statusKeyForServer(order) === "completed")
+      .reduce((sum, order) => sum + Number(order.total || 0), 0);
+    const ledger = ledgerByPhone.get(phone) || [];
+    return {
+      phone,
+      name: row.name || "",
+      company: row.company || "",
+      orderCount: Number(row.order_count || memberOrders.length || 0),
+      totalSpent: Number(row.total_spent || 0),
+      completedSpent,
+      loyaltyPoints: Number(row.loyalty_points || 0),
+      redeemedPoints: Number(row.redeemed_points || 0),
+      referralCode: row.referral_code || memberReferralCode(phone),
+      referredBy: row.referred_by || "",
+      lastOrderId: row.last_order_id || "",
+      lastOrderAt: row.last_order_at || memberOrders[0]?.createdAt || "",
+      orders: memberOrders,
+      ledger
+    };
+  });
+}
+
+async function findMember(phone) {
+  const normalized = normalizePhone(phone);
+  const members = await readMembers();
+  return members.find(member => member.phone === normalized) || null;
+}
+
+async function awardLoyaltyForCompletedOrder(order) {
+  const phone = normalizePhone(order.customerPhone);
+  if (!phone || order.loyaltyAwardedAt) return;
+  const points = loyaltyPointsForOrder(order);
+  if (points <= 0) return;
+
+  if (DATABASE_URL) {
+    await initDatabase();
+    await pool.query(
+      `
+        update customers
+        set loyalty_points = loyalty_points + $2,
+            referral_code = coalesce(referral_code, $3),
+            updated_at = now()
+        where phone = $1
+      `,
+      [phone, points, memberReferralCode(phone)]
+    );
+  }
+
+  await addMemberLedger({
+    phone,
+    type: "earn",
+    points,
+    label: "完成訂單集點",
+    orderId: order.orderId,
+    note: `消費 ${formatMoney(order.total)}`
+  });
+  order.loyaltyPointsAwarded = points;
+  order.loyaltyAwardedAt = nowIso();
+}
+
+async function applyMemberPoints(phone, payload) {
+  const normalized = normalizePhone(phone);
+  if (!normalized) throw new Error("Phone is required");
+  const points = Number(payload.points || 0);
+  if (!points) throw new Error("Points are required");
+
+  const member = await findMember(normalized);
+  const currentPoints = Number(member?.loyaltyPoints || 0);
+  if (points < 0 && currentPoints + points < 0) throw new Error("會員點數不足");
+
+  const label = payload.label || (points > 0 ? "手動加點" : "點數兌換");
+  const type = payload.type || (points > 0 ? "adjust" : "redeem");
+
+  if (DATABASE_URL) {
+    await initDatabase();
+    await pool.query(
+      `
+        insert into customers (phone, name, referral_code, updated_at)
+        values ($1, $2, $3, now())
+        on conflict (phone) do nothing
+      `,
+      [normalized, payload.name || member?.name || "", memberReferralCode(normalized)]
+    );
+    await pool.query(
+      `
+        update customers
+        set loyalty_points = loyalty_points + $2,
+            redeemed_points = redeemed_points + $3,
+            updated_at = now()
+        where phone = $1
+      `,
+      [normalized, points, points < 0 ? Math.abs(points) : 0]
+    );
+  }
+
+  const entry = await addMemberLedger({
+    phone: normalized,
+    type,
+    points,
+    label,
+    note: payload.note || ""
+  });
+  return { member: await findMember(normalized), entry };
 }
 
 function buildKitchenTicket(order) {
@@ -442,6 +718,29 @@ async function handleApi(req, res, pathname) {
     return;
   }
 
+  if (req.method === "GET" && pathname === "/api/members") {
+    sendJson(res, 200, { members: await readMembers() });
+    return;
+  }
+
+  const memberMatch = pathname.match(/^\/api\/members\/([^/]+)$/);
+  if (req.method === "GET" && memberMatch) {
+    const member = await findMember(decodeURIComponent(memberMatch[1]));
+    if (!member) {
+      sendJson(res, 404, { error: "Member not found" });
+      return;
+    }
+    sendJson(res, 200, { member });
+    return;
+  }
+
+  const memberRewardMatch = pathname.match(/^\/api\/members\/([^/]+)\/points$/);
+  if (req.method === "POST" && memberRewardMatch) {
+    const payload = await parseJsonBody(req);
+    sendJson(res, 200, await applyMemberPoints(decodeURIComponent(memberRewardMatch[1]), payload));
+    return;
+  }
+
   const customerMatch = pathname.match(/^\/api\/customers\/([^/]+)\/orders$/);
   if (req.method === "GET" && customerMatch) {
     sendJson(res, 200, await findCustomerOrders(decodeURIComponent(customerMatch[1])));
@@ -495,6 +794,7 @@ async function handleApi(req, res, pathname) {
     }
     try {
       applyStatus(order, payload.status, payload);
+      if (payload.status === "completed") await awardLoyaltyForCompletedOrder(order);
     } catch (error) {
       sendJson(res, 400, { error: error.message });
       return;

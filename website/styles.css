@@ -2843,6 +2843,266 @@ section {
   font-size: 0.9rem;
 }
 
+.member-hero-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.78fr);
+  gap: 16px;
+  align-items: stretch;
+  margin-bottom: 12px;
+  border: 1px solid rgba(90, 62, 30, 0.15);
+  border-radius: 8px;
+  background: linear-gradient(135deg, #fff8e6, #fffdf7);
+  box-shadow: 0 14px 28px rgba(90, 62, 30, 0.08);
+  padding: 18px;
+}
+
+.member-hero-panel h1 {
+  margin: 3px 0 8px;
+  color: #3f2a13;
+  font-size: clamp(1.65rem, 3vw, 2.55rem);
+}
+
+.member-hero-panel p {
+  max-width: 760px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.75;
+  font-weight: 700;
+}
+
+.member-rule-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.member-rule-cards article,
+.member-progress-grid article,
+.member-next-reward div {
+  border: 1px solid rgba(90, 62, 30, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 253, 247, 0.82);
+  padding: 13px;
+}
+
+.member-rule-cards span,
+.member-progress-grid span,
+.member-next-reward span,
+.member-invite-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.member-rule-cards strong,
+.member-progress-grid strong,
+.member-next-reward strong {
+  display: block;
+  margin-top: 5px;
+  color: #3f2a13;
+  font-family: "Nunito", sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.1;
+}
+
+.member-layout {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.38fr) minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.member-list {
+  display: grid;
+  gap: 8px;
+  max-height: 68vh;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.member-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  border: 1px solid rgba(90, 62, 30, 0.12);
+  border-radius: 8px;
+  background: #fffdf7;
+  color: #3f2a13;
+  padding: 12px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.member-row.active,
+.member-row:hover {
+  border-color: rgba(255, 184, 28, 0.7);
+  background: rgba(255, 184, 28, 0.13);
+}
+
+.member-row strong,
+.member-row small {
+  display: block;
+}
+
+.member-row small {
+  margin-top: 3px;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.member-row b {
+  color: #8b5f17;
+  font-family: "Nunito", sans-serif;
+  font-size: 1.12rem;
+}
+
+.member-empty {
+  display: grid;
+  min-height: 360px;
+  align-content: center;
+  justify-items: center;
+  gap: 8px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.member-empty h2 {
+  margin: 0;
+  color: #3f2a13;
+}
+
+.member-detail-content {
+  display: grid;
+  gap: 12px;
+}
+
+.member-profile-card,
+.member-invite-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #4d3518, #6d4a15);
+  color: #fffdf7;
+  padding: 18px;
+}
+
+.member-profile-card h2 {
+  margin: 2px 0 4px;
+  font-size: clamp(1.45rem, 3vw, 2.1rem);
+}
+
+.member-profile-card p,
+.member-invite-card p {
+  margin: 0;
+  color: rgba(255, 253, 247, 0.74);
+  font-weight: 800;
+}
+
+.member-profile-card > strong {
+  color: var(--sun);
+  font-family: "Nunito", sans-serif;
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  white-space: nowrap;
+}
+
+.member-progress-grid,
+.member-next-reward {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.member-invite-card {
+  background: linear-gradient(135deg, #fff4d4, #fffdf7);
+  color: #3f2a13;
+  border: 1px solid rgba(255, 184, 28, 0.34);
+}
+
+.member-invite-card strong {
+  display: block;
+  margin: 4px 0;
+  color: #8b5f17;
+  font-family: "Nunito", sans-serif;
+  font-size: 2rem;
+  letter-spacing: 0.08em;
+}
+
+.member-invite-card p {
+  color: var(--muted);
+}
+
+.member-invite-card button,
+.member-reward-actions button {
+  border: 0;
+  border-radius: 999px;
+  background: var(--sun);
+  color: #3f2a13;
+  padding: 10px 15px;
+  font-weight: 900;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.member-reward-actions {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.member-reward-actions button:nth-child(2) {
+  background: #5f7f3d;
+  color: #fffdf7;
+}
+
+.member-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.member-split article {
+  border: 1px solid rgba(90, 62, 30, 0.12);
+  border-radius: 8px;
+  background: rgba(250, 247, 238, 0.68);
+  padding: 14px;
+}
+
+.member-split h3 {
+  margin: 0 0 10px;
+  color: #3f2a13;
+}
+
+.member-timeline {
+  display: grid;
+  gap: 8px;
+}
+
+.member-timeline div {
+  display: grid;
+  gap: 3px;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(90, 62, 30, 0.1);
+}
+
+.member-timeline span {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.point-plus {
+  color: #5f7f3d;
+}
+
+.point-minus {
+  color: #9c4b2f;
+}
+
 .status-bars {
   display: grid;
   gap: 12px;
@@ -3704,5 +3964,34 @@ section {
 
   .history-pills {
     display: grid;
+  }
+
+  .member-hero-panel,
+  .member-layout,
+  .member-split {
+    grid-template-columns: 1fr;
+  }
+
+  .member-rule-cards,
+  .member-progress-grid,
+  .member-next-reward,
+  .member-reward-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .member-list {
+    max-height: none;
+  }
+
+  .member-profile-card,
+  .member-invite-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .member-reward-actions button,
+  .member-invite-card button {
+    width: 100%;
+    white-space: normal;
   }
 }

@@ -8,6 +8,10 @@ The backend stores each online order with customer name, phone number, company, 
 
 The order search page supports keyword search by phone digits, order number, name, company, and item name. Clicking an order opens the full order detail, customer data, and same-phone order history.
 
+## Membership and Points
+
+The member center uses the customer's phone number as the membership key. Completed orders can earn points at `$100 = 1 point`; staff can also redeem or adjust points from the admin member page. The member page shows consumption history, point ledger, available points, redeemed points, referral code, and reward actions such as side-dish or free-bento redemption.
+
 ## Local Development
 
 ```bash
@@ -20,6 +24,7 @@ Local URLs:
 - Public site: `http://127.0.0.1:4180/`
 - Order page: `http://127.0.0.1:4180/order.html`
 - Admin dashboard: `http://127.0.0.1:4180/admin.html`
+- Member center: `http://127.0.0.1:4180/admin-members.html`
 
 ## Railway Deployment
 
