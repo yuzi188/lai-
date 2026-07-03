@@ -24,18 +24,18 @@
       </section>
 
       <section class="life-currencies" aria-label="會員資源">
-        <article><span>點數</span><strong>12,680</strong><button type="button" aria-label="增加點數">+</button></article>
-        <article><span>禮券</span><strong>38</strong><button type="button" aria-label="查看禮券">+</button></article>
-        <article><span>愛心</span><strong>5/5</strong><button type="button" aria-label="查看愛心">+</button></article>
+        <article><i class="life-coin-icon"></i><span>點數</span><strong>12,680</strong><button type="button" aria-label="增加點數">+</button></article>
+        <article><i class="life-ticket-icon"></i><span>禮券</span><strong>38</strong><button type="button" aria-label="查看禮券">+</button></article>
+        <article><i class="life-heart-icon"></i><span>愛心</span><strong>5/5</strong><button type="button" aria-label="查看愛心">+</button></article>
       </section>
 
       <nav class="life-menu" aria-label="生活圈功能">
-        <a href="order.html">訂單</a>
-        <a href="#messages">消息</a>
-        <a href="#event">活動</a>
-        <a href="#tasks">任務</a>
-        <a href="#map">地圖</a>
-        <a href="index.html">選單</a>
+        <a href="order.html"><i class="life-ui-icon icon-order"></i><span>訂單</span></a>
+        <a href="#messages"><i class="life-ui-icon icon-chat"></i><em></em><span>消息</span></a>
+        <a href="#event"><i class="life-ui-icon icon-gift"></i><em></em><span>活動</span></a>
+        <a href="#tasks"><i class="life-ui-icon icon-task"></i><em></em><span>任務</span></a>
+        <a href="#map"><i class="life-ui-icon icon-map"></i><span>地圖</span></a>
+        <a href="index.html"><i class="life-ui-icon icon-menu"></i><span>選單</span></a>
       </nav>
     </header>
 
@@ -52,12 +52,18 @@
           <b>今日推薦</b>
           <img src="assets/lai-bento-hero.png" alt="">
         </div>
+        <div class="life-villagers" aria-hidden="true">
+          <span class="villager-one"></span>
+          <span class="villager-two"></span>
+          <span class="villager-three"></span>
+        </div>
         <div class="life-mascot" aria-hidden="true">
           <span></span>
           <strong>LAI</strong>
         </div>
         <div class="life-bubble bubble-left">新便當上架！</div>
         <div class="life-bubble bubble-right">午餐時間到囉</div>
+        <button class="life-camera-sign" type="button">打卡<br><small>+10 點數</small></button>
       </div>
 
       <aside class="life-left-stack">
@@ -93,11 +99,12 @@
 
       <aside class="life-right-stack">
         <section class="life-actions-card">
-          <a href="#game">遊戲屋</a>
-          <a href="#rank">排行榜</a>
-          <a href="#gift">禮物</a>
-          <a href="#collection">收藏冊</a>
-          <a href="#shop">商城</a>
+          <a href="#game"><i class="life-action-icon icon-game"></i><em></em><span>遊戲屋</span></a>
+          <a href="#rank"><i class="life-action-icon icon-trophy"></i><em></em><span>排行榜</span></a>
+          <a href="#gift"><i class="life-action-icon icon-present"></i><em></em><span>禮物</span></a>
+          <a href="#collection"><i class="life-action-icon icon-book"></i><span>收藏冊</span></a>
+          <a href="#shop"><i class="life-action-icon icon-shop"></i><span>商城</span></a>
+          <a href="#pass"><i class="life-action-icon icon-pass"></i><span>通行證</span></a>
         </section>
 
         <section id="rank" class="life-ranking-card">
@@ -129,13 +136,13 @@
     </section>
 
     <nav class="life-bottom-nav" aria-label="會員生活圈底部導覽">
-      <a href="#chat">聊天</a>
-      <a href="#friends">好友</a>
-      <a href="#guild">社群</a>
+      <a href="#chat"><i class="life-bottom-icon bottom-chat"></i><span>聊天</span><em>3</em></a>
+      <a href="#friends"><i class="life-bottom-icon bottom-friend"></i><span>好友</span></a>
+      <a href="#guild"><i class="life-bottom-icon bottom-guild"></i><span>社群</span></a>
       <a class="active" href="order.html">去訂便當</a>
-      <a href="#table">我的餐桌</a>
-      <a href="#bag">背包</a>
-      <a href="#style">裝扮</a>
+      <a href="#table"><i class="life-bottom-icon bottom-table"></i><span>我的餐桌</span></a>
+      <a href="#bag"><i class="life-bottom-icon bottom-bag"></i><span>背包</span></a>
+      <a href="#style"><i class="life-bottom-icon bottom-style"></i><span>裝扮</span></a>
     </nav>
   </main>
 </body>

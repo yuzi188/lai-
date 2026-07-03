@@ -3477,7 +3477,8 @@ section {
 
 .life-currencies article {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 30px auto 1fr auto;
+  gap: 8px;
   align-items: center;
   min-height: 52px;
   padding: 8px 10px;
@@ -3492,6 +3493,30 @@ section {
 .life-currencies strong {
   font-family: "Nunito", sans-serif;
   font-size: 1.35rem;
+}
+
+.life-coin-icon,
+.life-ticket-icon,
+.life-heart-icon {
+  display: block;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff7b0 0 18%, #ffc84f 19% 62%, #cc8d24 63%);
+  box-shadow: inset 0 -3px 0 rgba(112, 76, 37, 0.18);
+}
+
+.life-ticket-icon {
+  border-radius: 7px;
+  background: linear-gradient(135deg, #ffd55c, #e09f30);
+  transform: rotate(-12deg);
+}
+
+.life-heart-icon {
+  border-radius: 50% 50% 44% 44%;
+  background: radial-gradient(circle at 34% 35%, #ff8ea0 0 25%, transparent 26%),
+    radial-gradient(circle at 66% 35%, #ff8ea0 0 25%, transparent 26%),
+    linear-gradient(135deg, #ff718a, #d94862);
 }
 
 .life-currencies button,
@@ -3516,18 +3541,81 @@ section {
 .life-menu a,
 .life-actions-card a,
 .life-bottom-nav a {
+  position: relative;
   display: grid;
+  gap: 3px;
   place-items: center;
   min-height: 48px;
   border-radius: 8px;
   color: #47341d;
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   font-weight: 900;
 }
 
 .life-menu a {
   background: rgba(255, 255, 255, 0.42);
 }
+
+.life-ui-icon,
+.life-action-icon,
+.life-bottom-icon {
+  display: block;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #fff8da;
+  box-shadow: inset 0 -3px 0 rgba(112, 76, 37, 0.12);
+}
+
+.life-action-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 2px solid rgba(112, 76, 37, 0.12);
+}
+
+.life-bottom-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.life-menu em,
+.life-actions-card em,
+.life-bottom-nav em {
+  position: absolute;
+  top: -5px;
+  right: 8px;
+  display: grid;
+  min-width: 18px;
+  height: 18px;
+  place-items: center;
+  border: 2px solid #fff8da;
+  border-radius: 999px;
+  background: #ef493f;
+  color: #fff;
+  font-size: 0.68rem;
+  font-style: normal;
+}
+
+.icon-order { background: linear-gradient(#fff8da, #f4d071); }
+.icon-chat { background: radial-gradient(circle at 50% 46%, #fff8da 0 35%, transparent 36%), #a7d9d0; }
+.icon-gift,
+.icon-present { background: linear-gradient(90deg, transparent 42%, #e94d42 43% 57%, transparent 58%), linear-gradient(#ffc84f, #ff9f4f); }
+.icon-task { background: linear-gradient(#fff8da 0 20%, #7fb86f 21% 35%, #fff8da 36%); }
+.icon-map { background: radial-gradient(circle at 62% 38%, #ef493f 0 5px, transparent 6px), linear-gradient(135deg, #a7d9d0, #7fb86f); }
+.icon-menu { background: repeating-linear-gradient(180deg, #8b6f3c 0 4px, transparent 5px 10px), #fff8da; }
+.icon-game { background: radial-gradient(circle at 35% 42%, #fff 0 5px, transparent 6px), radial-gradient(circle at 65% 42%, #fff 0 5px, transparent 6px), #7fb86f; }
+.icon-trophy { background: radial-gradient(circle at 50% 35%, #ffd866 0 16px, transparent 17px), #fff8da; }
+.icon-book { background: linear-gradient(90deg, #7fb86f 0 48%, #fff8da 49% 52%, #f4d071 53%); }
+.icon-shop { background: linear-gradient(180deg, #ef493f 0 26%, #fff8da 27% 100%); }
+.icon-pass { background: linear-gradient(135deg, #fff8da, #f4d071); }
+.bottom-chat { background: radial-gradient(circle at 50% 42%, #fff8da 0 36%, transparent 37%), #a7d9d0; }
+.bottom-friend { background: radial-gradient(circle at 35% 35%, #f3a65d 0 10px, transparent 11px), radial-gradient(circle at 65% 35%, #f0c16d 0 10px, transparent 11px), #fff8da; }
+.bottom-guild { background: linear-gradient(135deg, #b87945, #f4d071); }
+.bottom-table { background: radial-gradient(ellipse at 50% 55%, #ffc84f 0 45%, transparent 46%), #fff8da; }
+.bottom-bag { background: linear-gradient(180deg, #54a4df 0 70%, #3477b5 71%); }
+.bottom-style { background: linear-gradient(180deg, #fff8da 0 35%, #a7d9d0 36%); }
 
 .life-town {
   position: relative;
@@ -3553,6 +3641,8 @@ section {
   inset: 8% 18% 8% 22%;
   border-radius: 46% 46% 38% 38%;
   background:
+    radial-gradient(circle at 16% 58%, rgba(255, 255, 255, 0.85) 0 42px, transparent 43px),
+    radial-gradient(circle at 78% 54%, rgba(255, 255, 255, 0.7) 0 38px, transparent 39px),
     radial-gradient(ellipse at 50% 86%, rgba(231, 195, 143, 0.72) 0 33%, transparent 34%),
     radial-gradient(circle at 50% 48%, #e9cf9d 0 18%, #e7bd7e 19% 23%, transparent 24%),
     radial-gradient(ellipse at 50% 58%, rgba(255, 247, 218, 0.86) 0 34%, transparent 35%);
@@ -3641,6 +3731,44 @@ section {
   background: #3f2a13;
   color: #fff8da;
   padding: 5px 14px;
+}
+
+.life-villagers span {
+  position: absolute;
+  width: 58px;
+  height: 58px;
+  border: 4px solid #fff8da;
+  border-radius: 50% 50% 44% 44%;
+  background:
+    radial-gradient(circle at 35% 42%, #3f2a13 0 4px, transparent 5px),
+    radial-gradient(circle at 65% 42%, #3f2a13 0 4px, transparent 5px),
+    radial-gradient(circle at 50% 64%, #b45d3f 0 5px, transparent 6px),
+    #f0c16d;
+  box-shadow: 0 12px 18px rgba(67, 95, 60, 0.15);
+}
+
+.villager-one { left: 26%; bottom: 32%; background-color: #b9c7d8 !important; }
+.villager-two { right: 25%; bottom: 31%; background-color: #ef9fb3 !important; }
+.villager-three { right: 10%; bottom: 24%; background-color: #b1c45e !important; }
+
+.life-camera-sign {
+  position: absolute;
+  right: 23%;
+  bottom: 21%;
+  width: 62px;
+  min-height: 78px;
+  border: 3px solid rgba(112, 76, 37, 0.18);
+  border-radius: 8px;
+  background: #b87945;
+  color: #fff8da;
+  font-weight: 900;
+  box-shadow: 0 10px 16px rgba(67, 95, 60, 0.16);
+}
+
+.life-camera-sign small {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.68rem;
 }
 
 .life-bubble {
@@ -3790,10 +3918,16 @@ section {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
   padding: 10px;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
 }
 
 .life-actions-card a {
-  background: rgba(255, 255, 255, 0.48);
+  min-height: 72px;
+  background: rgba(255, 248, 218, 0.92);
+  border: 2px solid rgba(112, 76, 37, 0.14);
+  box-shadow: 0 9px 16px rgba(67, 95, 60, 0.14);
 }
 
 .life-ranking-card ol {
