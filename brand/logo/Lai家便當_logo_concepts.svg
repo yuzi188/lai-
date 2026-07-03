@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <style>
+      .bg { fill: #fff8ea; }
+      .ink { fill: #25312d; }
+      .green { fill: #2f8f6b; }
+      .orange { fill: #e86f2a; }
+      .brown { fill: #8a5a3b; }
+      .line { fill: none; stroke: #25312d; stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; }
+      .thin { fill: none; stroke: #25312d; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+      .label { font-family: "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif; fill: #25312d; font-weight: 700; }
+      .sub { font-family: "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif; fill: #8a5a3b; font-weight: 500; letter-spacing: 2px; }
+      .small { font-family: Inter, Arial, sans-serif; fill: #8a5a3b; font-weight: 700; letter-spacing: 2px; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1600" height="1000"/>
+  <text class="label" x="80" y="95" font-size="44">Lai家便當 Logo 初稿方向</text>
+  <text class="sub" x="80" y="140" font-size="22">乾淨安心 / 台語諧音「來甲」/ 可延伸到餐盒、網站、傳單與團訂</text>
+
+  <!-- Concept A -->
+  <g transform="translate(80 210)">
+    <rect x="0" y="0" width="440" height="610" rx="34" fill="#ffffff" stroke="#e8dcc7" stroke-width="3"/>
+    <text class="small" x="38" y="58" font-size="18">CONCEPT A</text>
+    <text class="label" x="38" y="105" font-size="30">便當盒印章</text>
+    <g transform="translate(86 150)">
+      <rect x="18" y="78" width="232" height="160" rx="38" fill="#fff8ea" stroke="#25312d" stroke-width="10"/>
+      <path class="green" d="M55 75c21-38 61-55 103-47 45 8 76 38 86 81-36-29-68-38-99-31-31 7-58 26-90-3z"/>
+      <circle class="orange" cx="213" cy="99" r="22"/>
+      <path class="thin" d="M73 152h122M73 194h156"/>
+      <path class="line" d="M6 42l125 88M239 42l-126 88"/>
+    </g>
+    <text class="label" x="62" y="460" font-size="52">Lai家便當</text>
+    <text class="sub" x="116" y="506" font-size="24">來甲便當</text>
+    <text class="sub" x="54" y="560" font-size="18">適合：招牌、餐盒封條、外送平台頭像</text>
+  </g>
+
+  <!-- Concept B -->
+  <g transform="translate(580 210)">
+    <rect x="0" y="0" width="440" height="610" rx="34" fill="#ffffff" stroke="#e8dcc7" stroke-width="3"/>
+    <text class="small" x="38" y="58" font-size="18">CONCEPT B</text>
+    <text class="label" x="38" y="105" font-size="30">LJ 字母飯盒</text>
+    <g transform="translate(98 148)">
+      <rect x="0" y="58" width="244" height="188" rx="42" fill="#2f8f6b"/>
+      <rect x="28" y="96" width="188" height="112" rx="28" fill="#fff8ea"/>
+      <path d="M73 86v100h76" fill="none" stroke="#25312d" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M163 86v78c0 32-18 49-48 49" fill="none" stroke="#e86f2a" stroke-width="17" stroke-linecap="round"/>
+      <path d="M52 36h142" fill="none" stroke="#25312d" stroke-width="11" stroke-linecap="round"/>
+      <path d="M92 18h102" fill="none" stroke="#8a5a3b" stroke-width="8" stroke-linecap="round"/>
+    </g>
+    <text class="label" x="65" y="460" font-size="52">Lai家便當</text>
+    <text class="sub" x="118" y="506" font-size="24">來甲便當</text>
+    <text class="sub" x="56" y="560" font-size="18">適合：連鎖感、官網、會員與企業訂餐</text>
+  </g>
+
+  <!-- Concept C -->
+  <g transform="translate(1080 210)">
+    <rect x="0" y="0" width="440" height="610" rx="34" fill="#ffffff" stroke="#e8dcc7" stroke-width="3"/>
+    <text class="small" x="38" y="58" font-size="18">CONCEPT C</text>
+    <text class="label" x="38" y="105" font-size="30">來甲親切字標</text>
+    <g transform="translate(70 148)">
+      <rect x="0" y="0" width="300" height="190" rx="42" fill="#25312d"/>
+      <circle cx="58" cy="64" r="25" fill="#e86f2a"/>
+      <path d="M96 67c26-31 81-36 116 0 24 25 30 64 18 99H77c-12-35-5-74 19-99z" fill="#fff8ea"/>
+      <path d="M113 113h86M101 148h112" fill="none" stroke="#2f8f6b" stroke-width="10" stroke-linecap="round"/>
+      <path d="M205 36l54 42M258 36l-54 42" fill="none" stroke="#fff8ea" stroke-width="9" stroke-linecap="round"/>
+    </g>
+    <text class="label" x="58" y="450" font-size="58">Lai家便當</text>
+    <text class="sub" x="105" y="500" font-size="28">來甲便當</text>
+    <text class="sub" x="54" y="560" font-size="18">適合：開店初期、傳單、社群與地方記憶</text>
+  </g>
+
+  <g transform="translate(80 885)">
+    <circle cx="18" cy="0" r="18" fill="#2f8f6b"/>
+    <text class="sub" x="50" y="8" font-size="20">信任綠 #2F8F6B</text>
+    <circle cx="310" cy="0" r="18" fill="#e86f2a"/>
+    <text class="sub" x="342" y="8" font-size="20">食慾橘 #E86F2A</text>
+    <circle cx="600" cy="0" r="18" fill="#25312d"/>
+    <text class="sub" x="632" y="8" font-size="20">深墨色 #25312D</text>
+    <circle cx="890" cy="0" r="18" fill="#8a5a3b"/>
+    <text class="sub" x="922" y="8" font-size="20">醬油棕 #8A5A3B</text>
+  </g>
+</svg>
+

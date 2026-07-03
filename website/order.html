@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>訂購專區｜LAI家便當</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="LAI家便當首頁">
+      <img src="assets/lai-brand-logo.svg" alt="LAI家便當">
+    </a>
+    <nav class="nav" aria-label="網站導覽">
+      <a href="menu.html">健康輕食</a>
+      <a href="classic.html">經典台味</a>
+      <a href="group.html">團訂</a>
+      <a href="story.html">品牌</a>
+      <a class="active" href="order.html">訂購專區</a>
+    </nav>
+    <a class="header-action" href="order.html">出單</a>
+  </header>
+
+  <main class="order-page">
+    <section class="order-workspace">
+      <div class="order-heading">
+        <p class="eyebrow">ORDER DESK</p>
+        <h1>訂購專區</h1>
+        <p>填寫訂購資料並送出訂單，後台接單工作台會即時收到新單。</p>
+      </div>
+
+      <form class="order-form" id="orderForm">
+        <div class="form-panel">
+          <h2>顧客資料</h2>
+          <label>訂購姓名
+            <input id="customerName" name="customerName" type="text" placeholder="例如：王小姐" required>
+          </label>
+          <label>聯絡電話
+            <input id="customerPhone" name="customerPhone" type="tel" placeholder="例如：0912-345-678" required>
+          </label>
+          <label>公司 / 單位
+            <input id="companyName" name="companyName" type="text" placeholder="可不填">
+          </label>
+          <label>取餐方式
+            <select id="pickupType" name="pickupType">
+              <option value="自取">自取</option>
+              <option value="外送">外送</option>
+              <option value="團體訂購">團體訂購</option>
+            </select>
+          </label>
+          <label>取餐 / 外送時間
+            <input id="pickupTime" name="pickupTime" type="datetime-local" required>
+          </label>
+          <label>備註
+            <textarea id="orderNote" name="orderNote" rows="3" placeholder="例如：不要辣、飯少、餐具需求"></textarea>
+          </label>
+        </div>
+
+        <div class="form-panel">
+          <h2>加入品項</h2>
+          <label>餐點系列
+            <select id="seriesSelect">
+              <option value="healthy">健康輕食系列</option>
+              <option value="classic">經典台味系列</option>
+            </select>
+          </label>
+          <label>品項
+            <select id="itemSelect"></select>
+          </label>
+          <div class="form-row">
+            <label>數量
+              <input id="quantityInput" type="number" min="1" value="1">
+            </label>
+            <label>單價
+              <input id="priceInput" type="number" min="0" step="1">
+            </label>
+          </div>
+          <button class="order-button" type="button" id="addItemButton">加入訂單</button>
+        </div>
+      </form>
+
+      <div class="order-summary">
+        <div class="summary-head">
+          <div>
+            <p class="eyebrow">CURRENT ORDER</p>
+            <h2>訂單明細</h2>
+          </div>
+          <strong id="orderTotal">$0</strong>
+        </div>
+        <div class="summary-table-wrap">
+          <table class="summary-table">
+            <thead>
+              <tr>
+                <th>系列</th>
+                <th>品項</th>
+                <th>數量</th>
+                <th>單價</th>
+                <th>小計</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="orderItemsBody">
+              <tr><td colspan="6">尚未加入品項</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="order-actions customer-order-actions">
+          <button type="button" class="secondary-print" id="clearButton">清空</button>
+          <button type="button" class="primary-print" id="saveButton">送出訂單</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="order.js"></script>
+</body>
+</html>

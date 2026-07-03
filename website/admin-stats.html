@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>營業統計｜LAI家便當</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin-app-body" data-admin-page="stats">
+  <header class="ops-topbar">
+    <div class="ops-brand">
+      <img src="assets/lai-brand-logo.svg" alt="LAI家便當">
+      <div><strong>營業統計</strong><span>每日營業額、品項排行、訂單狀態</span></div>
+    </div>
+    <nav class="ops-nav" aria-label="加盟後台功能">
+      <a href="admin.html">接單工作台</a>
+      <a href="admin-orders.html">查單系統</a>
+      <a class="active" href="admin-stats.html">營業統計</a>
+      <a href="admin-print.html">列印設定</a>
+    </nav>
+    <div class="ops-top-actions">
+      <time id="adminClock">--:--</time>
+      <button class="admin-refresh" type="button">重新整理</button>
+    </div>
+  </header>
+
+  <main class="ops-console">
+    <section class="ops-toolbar" aria-label="統計日期">
+      <div class="search-box">
+        <input id="statsDate" type="date">
+        <select id="statsRange">
+          <option value="day">單日</option>
+          <option value="all">全部資料</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="ops-stats">
+      <article class="primary-stat"><span>營業額</span><strong id="statsRevenue">$0</strong></article>
+      <article><span>訂單數</span><strong id="statsOrders">0</strong></article>
+      <article><span>售出份數</span><strong id="statsItems">0</strong></article>
+      <article><span>客單價</span><strong id="statsAvg">$0</strong></article>
+      <article><span>完成單</span><strong id="statsDone">0</strong></article>
+    </section>
+
+    <section class="ops-bottom-grid">
+      <article class="ops-panel">
+        <div class="column-head"><h2>熱賣品項</h2><span>TOP</span></div>
+        <div id="statsProducts" class="item-stats"></div>
+      </article>
+      <article class="ops-panel">
+        <div class="column-head"><h2>狀態分布</h2><span>即時</span></div>
+        <div id="statsStatus" class="status-bars"></div>
+      </article>
+    </section>
+  </main>
+
+  <script src="admin-pages.js"></script>
+</body>
+</html>

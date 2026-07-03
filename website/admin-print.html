@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>列印設定｜LAI家便當</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin-app-body" data-admin-page="print">
+  <header class="ops-topbar">
+    <div class="ops-brand">
+      <img src="assets/lai-brand-logo.svg" alt="LAI家便當">
+      <div><strong>列印設定</strong><span>80mm 小票、網路印表機、補印流程</span></div>
+    </div>
+    <nav class="ops-nav" aria-label="加盟後台功能">
+      <a href="admin.html">接單工作台</a>
+      <a href="admin-orders.html">查單系統</a>
+      <a href="admin-stats.html">營業統計</a>
+      <a class="active" href="admin-print.html">列印設定</a>
+    </nav>
+    <div class="ops-top-actions">
+      <time id="adminClock">--:--</time>
+      <button class="admin-refresh" type="button">重新整理</button>
+    </div>
+  </header>
+
+  <main class="ops-console">
+    <section class="print-config-grid">
+      <article class="ops-panel">
+        <div class="column-head"><h2>目前列印模式</h2><span id="printMode">偵測中</span></div>
+        <p class="setting-copy">系統會優先把小票送到網路印表機。沒有設定印表機 IP 時，會在伺服器的 data/print-jobs 產生備用文字小票，方便人工補印。</p>
+        <div class="setting-list">
+          <div><span>紙張</span><strong>80 x 80mm 熱感小票</strong></div>
+          <div><span>連線</span><strong>USB + 網口機型建議固定 IP</strong></div>
+          <div><span>後端連接埠</span><strong>9100 ESC/POS</strong></div>
+        </div>
+      </article>
+
+      <article class="ops-panel">
+        <div class="column-head"><h2>加盟店配置方式</h2><span>建議</span></div>
+        <ol class="ops-tips">
+          <li>印表機接到店內路由器，設定固定 IP，例如 192.168.1.88。</li>
+          <li>後端啟動時設定 PRINTER_HOST=印表機IP，PRINTER_PORT 預設 9100。</li>
+          <li>每張新單可在接單工作台直接列印，查單系統也可補印。</li>
+        </ol>
+      </article>
+    </section>
+
+    <section class="ops-panel">
+      <div class="column-head"><h2>最近列印紀錄</h2><span id="printedCountPage">0</span></div>
+      <div id="printJobsList" class="admin-list"></div>
+    </section>
+  </main>
+
+  <script src="admin-pages.js"></script>
+</body>
+</html>

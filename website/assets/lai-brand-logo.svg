@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="230" viewBox="0 0 760 230" role="img" aria-labelledby="title desc">
+  <title id="title">LAI家便當</title>
+  <desc id="desc">暖陽黃與深棕色的 LAI 家便當品牌標誌，包含葉子與健康輕食標語。</desc>
+  <defs>
+    <style>
+      .sun { fill: #ffb81c; }
+      .brown { fill: #5a3e1e; }
+      .stroke-sun { fill: none; stroke: #ffb81c; stroke-width: 11; stroke-linecap: round; }
+      .stroke-brown { fill: none; stroke: #5a3e1e; stroke-width: 8; stroke-linecap: round; stroke-linejoin: round; }
+      .lai { font-family: "Nunito", "Arial Rounded MT Bold", Arial, sans-serif; font-size: 84px; font-weight: 900; letter-spacing: 8px; }
+      .zh { font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif; font-size: 72px; font-weight: 900; letter-spacing: 18px; }
+      .tag { font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif; font-size: 22px; font-weight: 700; letter-spacing: 14px; }
+      .en { font-family: "Nunito", Arial, sans-serif; font-size: 15px; font-weight: 800; letter-spacing: 10px; }
+    </style>
+  </defs>
+
+  <g transform="translate(70 20)">
+    <text class="lai sun" x="0" y="94">LAI</text>
+    <path class="sun" d="M128 89c10-23 29-35 56-36-6 25-23 39-56 36z"/>
+    <path class="stroke-sun" d="M324 24c-50-24-121-5-150 49-33 61-4 139 62 163"/>
+    <path class="sun" d="M334 13c2 31-12 52-43 63-1-31 13-52 43-63z"/>
+    <path class="sun" d="M290 70c2 22-9 37-31 45-1-23 10-38 31-45z"/>
+    <path class="sun" d="M344 76c-22 1-38-10-46-32 23-1 38 10 46 32z"/>
+
+    <path class="stroke-sun" d="M286 122l54-31 55 31"/>
+    <text class="zh brown" x="316" y="140">家便當</text>
+    <line x1="14" y1="170" x2="104" y2="170" stroke="#5a3e1e" stroke-width="2"/>
+    <text class="tag brown" x="128" y="178">健康・輕食・用心做</text>
+    <line x1="530" y1="170" x2="620" y2="170" stroke="#5a3e1e" stroke-width="2"/>
+    <text class="en brown" x="90" y="210">HEALTHY BENTO · FRESH EVERYDAY</text>
+  </g>
+</svg>

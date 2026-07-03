@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>健康輕食｜LAI家便當</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-catalog="healthy">
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="LAI家便當首頁">
+      <img src="assets/lai-brand-logo.svg" alt="LAI家便當">
+    </a>
+    <nav class="nav" aria-label="網站導覽">
+      <a class="active" href="menu.html">健康輕食</a>
+      <a href="classic.html">經典台味</a>
+      <a href="group.html">團訂</a>
+      <a href="story.html">品牌</a>
+      <a href="order.html">訂購專區</a>
+    </nav>
+    <a class="header-action" href="order.html">立即訂購</a>
+  </header>
+
+  <main class="catalog-page">
+    <section class="catalog-sheet dish-catalog-sheet">
+      <div class="catalog-title">
+        <div>
+          <p class="eyebrow">HEALTHY BENTO</p>
+          <h1>健康輕食系列</h1>
+          <p>高蛋白、少油少鹽、均衡營養。點擊餐盒圖片可查看營養指標與食材克數。</p>
+        </div>
+        <div class="catalog-icons">
+          <span>新鮮食材</span>
+          <span>均衡營養</span>
+          <span>高蛋白質</span>
+          <span>少油少鹽</span>
+        </div>
+      </div>
+
+      <div id="dishGrid" class="dish-card-grid"></div>
+    </section>
+  </main>
+
+  <div id="dishModal" class="dish-modal" aria-hidden="true">
+    <div class="dish-modal-backdrop" data-close-modal></div>
+    <article class="dish-modal-panel" role="dialog" aria-modal="true" aria-labelledby="dishModalTitle">
+      <button class="dish-modal-close" type="button" data-close-modal aria-label="關閉">×</button>
+      <img id="dishModalImage" alt="">
+      <div class="dish-modal-content">
+        <p id="dishModalSeries" class="eyebrow"></p>
+        <h2 id="dishModalTitle"></h2>
+        <p id="dishModalSubtitle"></p>
+        <div id="dishModalNutrition" class="modal-nutrition-grid"></div>
+        <div>
+          <h3>食材克數與熱量換算</h3>
+          <ul id="dishModalIngredients" class="modal-ingredient-list"></ul>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <script src="catalog.js"></script>
+</body>
+</html>

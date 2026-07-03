@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>查單系統｜LAI家便當</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin-app-body" data-admin-page="orders">
+  <header class="ops-topbar">
+    <div class="ops-brand">
+      <img src="assets/lai-brand-logo.svg" alt="LAI家便當">
+      <div><strong>查單系統</strong><span>加盟門市訂單查詢與補印</span></div>
+    </div>
+    <nav class="ops-nav" aria-label="加盟後台功能">
+      <a href="admin.html">接單工作台</a>
+      <a class="active" href="admin-orders.html">查單系統</a>
+      <a href="admin-stats.html">營業統計</a>
+      <a href="admin-print.html">列印設定</a>
+    </nav>
+    <div class="ops-top-actions">
+      <time id="adminClock">--:--</time>
+      <button class="admin-refresh" type="button">重新整理</button>
+    </div>
+  </header>
+
+  <main class="ops-console">
+    <section class="ops-toolbar" aria-label="訂單查詢">
+      <div class="search-box">
+        <input id="pageSearch" type="search" placeholder="搜尋訂單編號、姓名、電話、公司、品項">
+        <select id="pageStatus">
+          <option value="all">全部狀態</option>
+          <option value="pending">新單待接</option>
+          <option value="preparing">製作中</option>
+          <option value="ready">可取餐</option>
+          <option value="completed">已完成</option>
+          <option value="rejected">已拒單</option>
+          <option value="cancelled">已取消</option>
+        </select>
+        <input id="pageDate" type="date">
+      </div>
+    </section>
+
+    <section class="ops-panel">
+      <div class="column-head">
+        <h2>訂單列表</h2>
+        <span id="pageCount">0</span>
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-data-table">
+          <thead>
+            <tr>
+              <th>時間</th>
+              <th>訂單</th>
+              <th>客戶</th>
+              <th>品項</th>
+              <th>金額</th>
+              <th>狀態</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="ordersTable"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="admin-pages.js"></script>
+</body>
+</html>

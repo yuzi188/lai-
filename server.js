@@ -1,0 +1,372 @@
+const http = require("http");
+const fs = require("fs");
+const path = require("path");
+const net = require("net");
+
+const ROOT = __dirname;
+const WEB_ROOT = path.join(ROOT, "website");
+const DATA_DIR = path.join(ROOT, "data");
+const ORDERS_FILE = path.join(DATA_DIR, "orders.json");
+const PRINT_DIR = path.join(DATA_DIR, "print-jobs");
+const PORT = Number(process.env.PORT || 4180);
+const DATABASE_URL = process.env.DATABASE_URL || "";
+const PRINTER_HOST = process.env.PRINTER_HOST || "";
+const PRINTER_PORT = Number(process.env.PRINTER_PORT || 9100);
+
+const MIME = {
+  ".html": "text/html; charset=utf-8",
+  ".css": "text/css; charset=utf-8",
+  ".js": "application/javascript; charset=utf-8",
+  ".json": "application/json; charset=utf-8",
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".svg": "image/svg+xml; charset=utf-8",
+  ".ico": "image/x-icon"
+};
+
+const ORDER_STATUSES = new Set(["pending", "preparing", "ready", "completed", "rejected", "cancelled"]);
+let pool = null;
+let databaseReady = false;
+
+function ensureDataFiles() {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+  fs.mkdirSync(PRINT_DIR, { recursive: true });
+  if (!fs.existsSync(ORDERS_FILE)) fs.writeFileSync(ORDERS_FILE, "[]", "utf8");
+}
+
+function nowIso() {
+  return new Date().toISOString();
+}
+
+function createOrderId() {
+  const now = new Date();
+  const stamp = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`;
+  return `LAI-${stamp}-${String(now.getTime()).slice(-5)}`;
+}
+
+function sendJson(res, status, data) {
+  res.writeHead(status, { "Content-Type": "application/json; charset=utf-8" });
+  res.end(JSON.stringify(data));
+}
+
+function readBody(req) {
+  return new Promise((resolve, reject) => {
+    let body = "";
+    req.on("data", chunk => {
+      body += chunk;
+      if (body.length > 1_000_000) {
+        req.destroy();
+        reject(new Error("Request body too large"));
+      }
+    });
+    req.on("end", () => resolve(body));
+    req.on("error", reject);
+  });
+}
+
+async function parseJsonBody(req) {
+  return JSON.parse(await readBody(req) || "{}");
+}
+
+function validateOrder(payload) {
+  const required = ["customerName", "customerPhone", "pickupType", "pickupTime", "items"];
+  for (const field of required) {
+    if (!payload[field] || (Array.isArray(payload[field]) && payload[field].length === 0)) return `${field} is required`;
+  }
+  for (const item of payload.items) {
+    if (!item.name || !Number(item.quantity) || Number(item.quantity) < 1) return "Every item needs name and quantity";
+  }
+  return "";
+}
+
+function formatMoney(value) {
+  return `$${Number(value || 0).toLocaleString("zh-TW")}`;
+}
+
+function addTimeline(order, status, note = "") {
+  order.timeline = Array.isArray(order.timeline) ? order.timeline : [];
+  order.timeline.push({ status, note, at: nowIso() });
+}
+
+function applyStatus(order, status, extra = {}) {
+  if (!ORDER_STATUSES.has(status)) throw new Error("Unsupported order status");
+
+  order.status = status;
+  if (status === "preparing") {
+    order.acceptedAt = order.acceptedAt || nowIso();
+    order.preparingAt = nowIso();
+    const prepMinutes = Number(extra.prepMinutes || order.prepMinutes || 20);
+    order.prepMinutes = prepMinutes;
+    order.estimatedReadyAt = new Date(Date.now() + prepMinutes * 60 * 1000).toISOString();
+  }
+  if (status === "ready") order.readyAt = nowIso();
+  if (status === "completed") order.completedAt = nowIso();
+  if (status === "rejected") order.rejectedAt = nowIso();
+  if (status === "cancelled") order.cancelledAt = nowIso();
+  addTimeline(order, status, extra.note || "");
+  return order;
+}
+
+function readLocalOrders() {
+  ensureDataFiles();
+  try {
+    const orders = JSON.parse(fs.readFileSync(ORDERS_FILE, "utf8"));
+    return Array.isArray(orders) ? orders : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeLocalOrders(orders) {
+  ensureDataFiles();
+  fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2), "utf8");
+}
+
+async function initDatabase() {
+  if (!DATABASE_URL || databaseReady) return;
+  const { Pool } = require("pg");
+  pool = new Pool({
+    connectionString: DATABASE_URL,
+    ssl: process.env.PGSSLMODE === "disable" ? false : { rejectUnauthorized: false }
+  });
+  await pool.query(`
+    create table if not exists orders (
+      order_id text primary key,
+      payload jsonb not null,
+      status text not null,
+      total numeric not null default 0,
+      created_at timestamptz not null default now(),
+      updated_at timestamptz not null default now()
+    );
+  `);
+  databaseReady = true;
+}
+
+async function readOrders() {
+  if (!DATABASE_URL) return readLocalOrders();
+  await initDatabase();
+  const result = await pool.query("select payload from orders order by created_at desc");
+  return result.rows.map(row => row.payload);
+}
+
+async function writeOrder(order) {
+  if (!DATABASE_URL) {
+    const orders = readLocalOrders();
+    const index = orders.findIndex(item => item.orderId === order.orderId);
+    if (index >= 0) orders[index] = order;
+    else orders.unshift(order);
+    writeLocalOrders(orders);
+    return order;
+  }
+
+  await initDatabase();
+  await pool.query(
+    `
+      insert into orders (order_id, payload, status, total, created_at, updated_at)
+      values ($1, $2::jsonb, $3, $4, $5, now())
+      on conflict (order_id)
+      do update set payload = excluded.payload, status = excluded.status, total = excluded.total, updated_at = now()
+    `,
+    [order.orderId, JSON.stringify(order), order.status, Number(order.total || 0), order.createdAt || nowIso()]
+  );
+  return order;
+}
+
+async function findOrder(orderId) {
+  const orders = await readOrders();
+  return orders.find(order => order.orderId === orderId);
+}
+
+function buildKitchenTicket(order) {
+  const lines = [];
+  lines.push("LAI家便當");
+  lines.push("廚房接單小票");
+  lines.push("------------------------------");
+  lines.push(`訂單：${order.orderId}`);
+  lines.push(`狀態：${order.status}`);
+  lines.push(`方式：${order.pickupType}`);
+  lines.push(`時間：${String(order.pickupTime).replace("T", " ")}`);
+  lines.push(`客人：${order.customerName}`);
+  lines.push(`電話：${order.customerPhone}`);
+  if (order.companyName) lines.push(`公司：${order.companyName}`);
+  if (order.prepMinutes) lines.push(`預估製作：${order.prepMinutes} 分鐘`);
+  lines.push("------------------------------");
+  for (const item of order.items || []) {
+    lines.push(`${item.quantity} 份 ${item.name}`);
+    lines.push(`  ${item.seriesName || item.series || ""}`);
+  }
+  lines.push("------------------------------");
+  lines.push(`合計：${formatMoney(order.total)}`);
+  lines.push(`備註：${order.orderNote || "無"}`);
+  lines.push("\n\n");
+  return lines.join("\n");
+}
+
+function escposText(text) {
+  return Buffer.concat([
+    Buffer.from([0x1b, 0x40]),
+    Buffer.from(text, "utf8"),
+    Buffer.from([0x1d, 0x56, 0x42, 0x00])
+  ]);
+}
+
+function sendToNetworkPrinter(text) {
+  return new Promise((resolve, reject) => {
+    if (!PRINTER_HOST) {
+      reject(new Error("PRINTER_HOST not configured"));
+      return;
+    }
+    const socket = net.createConnection({ host: PRINTER_HOST, port: PRINTER_PORT, timeout: 5000 }, () => {
+      socket.write(escposText(text), () => socket.end());
+    });
+    socket.on("close", resolve);
+    socket.on("timeout", () => {
+      socket.destroy();
+      reject(new Error("Printer connection timeout"));
+    });
+    socket.on("error", reject);
+  });
+}
+
+async function handleApi(req, res, pathname) {
+  if (req.method === "GET" && pathname === "/api/health") {
+    sendJson(res, 200, { ok: true, storage: DATABASE_URL ? "postgres" : "local-json" });
+    return;
+  }
+
+  if (req.method === "GET" && pathname === "/api/orders") {
+    sendJson(res, 200, { orders: await readOrders() });
+    return;
+  }
+
+  if (req.method === "POST" && pathname === "/api/orders") {
+    const payload = await parseJsonBody(req);
+    const error = validateOrder(payload);
+    if (error) {
+      sendJson(res, 400, { error });
+      return;
+    }
+
+    const total = payload.items.reduce((sum, item) => sum + Number(item.quantity) * Number(item.price || 0), 0);
+    const order = {
+      orderId: createOrderId(),
+      status: "pending",
+      createdAt: nowIso(),
+      ...payload,
+      total
+    };
+    addTimeline(order, "pending", "網站送出訂單");
+    await writeOrder(order);
+    sendJson(res, 201, { order });
+    return;
+  }
+
+  const acceptMatch = pathname.match(/^\/api\/orders\/([^/]+)\/accept$/);
+  if (req.method === "POST" && acceptMatch) {
+    const order = await findOrder(decodeURIComponent(acceptMatch[1]));
+    if (!order) {
+      sendJson(res, 404, { error: "Order not found" });
+      return;
+    }
+    applyStatus(order, "preparing", { prepMinutes: 20, note: "後台接單" });
+    await writeOrder(order);
+    sendJson(res, 200, { order });
+    return;
+  }
+
+  const statusMatch = pathname.match(/^\/api\/orders\/([^/]+)\/status$/);
+  if (req.method === "POST" && statusMatch) {
+    const payload = await parseJsonBody(req);
+    const order = await findOrder(decodeURIComponent(statusMatch[1]));
+    if (!order) {
+      sendJson(res, 404, { error: "Order not found" });
+      return;
+    }
+    try {
+      applyStatus(order, payload.status, payload);
+    } catch (error) {
+      sendJson(res, 400, { error: error.message });
+      return;
+    }
+    await writeOrder(order);
+    sendJson(res, 200, { order });
+    return;
+  }
+
+  const printMatch = pathname.match(/^\/api\/orders\/([^/]+)\/print$/);
+  if (req.method === "POST" && printMatch) {
+    const order = await findOrder(decodeURIComponent(printMatch[1]));
+    if (!order) {
+      sendJson(res, 404, { error: "Order not found" });
+      return;
+    }
+
+    if (order.status === "pending") applyStatus(order, "preparing", { prepMinutes: 20, note: "列印時自動接單" });
+
+    const ticket = buildKitchenTicket(order);
+    let printResult = "file";
+    try {
+      await sendToNetworkPrinter(ticket);
+      printResult = `network:${PRINTER_HOST}:${PRINTER_PORT}`;
+    } catch {
+      ensureDataFiles();
+      const file = path.join(PRINT_DIR, `${order.orderId}.txt`);
+      fs.writeFileSync(file, ticket, "utf8");
+      printResult = `file:${file}`;
+    }
+
+    order.printedAt = nowIso();
+    order.printCount = Number(order.printCount || 0) + 1;
+    order.printResult = printResult;
+    addTimeline(order, "print", printResult);
+    await writeOrder(order);
+    sendJson(res, 200, { order, printResult });
+    return;
+  }
+
+  sendJson(res, 404, { error: "API route not found" });
+}
+
+function serveStatic(req, res, pathname) {
+  let filePath = pathname === "/" ? "/index.html" : pathname;
+  filePath = decodeURIComponent(filePath);
+  const fullPath = path.normalize(path.join(WEB_ROOT, filePath));
+
+  if (!fullPath.startsWith(WEB_ROOT)) {
+    res.writeHead(403);
+    res.end("Forbidden");
+    return;
+  }
+
+  fs.readFile(fullPath, (error, data) => {
+    if (error) {
+      res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
+      res.end("Not found");
+      return;
+    }
+    const ext = path.extname(fullPath).toLowerCase();
+    res.writeHead(200, { "Content-Type": MIME[ext] || "application/octet-stream" });
+    res.end(data);
+  });
+}
+
+ensureDataFiles();
+
+http.createServer(async (req, res) => {
+  const url = new URL(req.url, `http://${req.headers.host}`);
+  try {
+    if (url.pathname.startsWith("/api/")) {
+      await handleApi(req, res, url.pathname);
+      return;
+    }
+    serveStatic(req, res, url.pathname);
+  } catch (error) {
+    console.error(error);
+    sendJson(res, 500, { error: error.message });
+  }
+}).listen(PORT, "0.0.0.0", () => {
+  console.log(`LAI order server running at http://0.0.0.0:${PORT}/`);
+  console.log(`Storage: ${DATABASE_URL ? "PostgreSQL" : "local JSON"}`);
+  if (PRINTER_HOST) console.log(`Network printer configured: ${PRINTER_HOST}:${PRINTER_PORT}`);
+});

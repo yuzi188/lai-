@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>接單後台｜LAI家便當</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin-app-body">
+  <header class="ops-topbar">
+    <div class="ops-brand">
+      <img src="assets/lai-brand-logo.svg" alt="LAI家便當">
+      <div>
+        <strong>LAI家便當 接單中心</strong>
+        <span>訂單接收・廚房出單・取餐管理</span>
+      </div>
+    </div>
+    <nav class="ops-nav" aria-label="加盟後台功能">
+      <a class="active" href="admin.html">接單工作台</a>
+      <a href="admin-orders.html">查單系統</a>
+      <a href="admin-stats.html">營業統計</a>
+      <a href="admin-print.html">列印設定</a>
+    </nav>
+    <div class="ops-top-actions">
+      <time id="adminClock">--:--</time>
+      <button id="soundToggle" class="ghost-ops-button" type="button">提醒音：關</button>
+      <button class="admin-refresh" type="button">重新整理</button>
+    </div>
+  </header>
+
+  <main class="ops-console">
+    <section class="ops-stats" aria-label="今日營運統計">
+      <article>
+        <span>今日訂單</span>
+        <strong id="todayOrders">0</strong>
+      </article>
+      <article>
+        <span>總份數</span>
+        <strong id="todayItems">0</strong>
+      </article>
+      <article class="urgent-stat">
+        <span>新單待接</span>
+        <strong id="pendingCount">0</strong>
+      </article>
+      <article>
+        <span>製作中</span>
+        <strong id="preparingCount">0</strong>
+      </article>
+      <article>
+        <span>可取餐</span>
+        <strong id="readyCount">0</strong>
+      </article>
+    </section>
+
+    <section class="ops-toolbar" aria-label="訂單查詢">
+      <div class="search-box">
+        <input id="orderSearch" type="search" placeholder="搜尋訂單編號、姓名、電話、公司、品項">
+        <select id="statusFilter">
+          <option value="all">全部狀態</option>
+          <option value="pending">新單待接</option>
+          <option value="preparing">製作中</option>
+          <option value="ready">可取餐</option>
+          <option value="completed">已完成</option>
+          <option value="rejected">已拒單</option>
+          <option value="cancelled">已取消</option>
+        </select>
+        <input id="dateFilter" type="date">
+      </div>
+      <div class="quick-filters" aria-label="快速篩選">
+        <button type="button" data-quick-date="today">今日</button>
+        <button type="button" data-quick-date="all">全部日期</button>
+        <button type="button" data-quick-status="pending">只看新單</button>
+        <button type="button" data-quick-status="all">全部狀態</button>
+      </div>
+    </section>
+
+    <section class="delivery-board" aria-label="接單工作台">
+      <section class="delivery-column new-column">
+        <div class="column-head">
+          <h2>新單</h2>
+          <span id="pendingBadge">0</span>
+        </div>
+        <div id="pendingOrders" class="admin-list"></div>
+      </section>
+
+      <section class="delivery-column">
+        <div class="column-head">
+          <h2>製作中</h2>
+          <span id="preparingBadge">0</span>
+        </div>
+        <div id="preparingOrders" class="admin-list"></div>
+      </section>
+
+      <section class="delivery-column">
+        <div class="column-head">
+          <h2>可取餐</h2>
+          <span id="readyBadge">0</span>
+        </div>
+        <div id="readyOrders" class="admin-list"></div>
+      </section>
+
+      <section class="delivery-column history-column">
+        <div class="column-head">
+          <h2>查單 / 完成</h2>
+          <span id="historyBadge">0</span>
+        </div>
+        <div id="historyOrders" class="admin-list"></div>
+      </section>
+    </section>
+
+    <section class="ops-bottom-grid">
+      <article class="ops-panel">
+        <div class="column-head">
+          <h2>品項統計</h2>
+          <span>今日</span>
+        </div>
+        <div id="itemStats" class="item-stats"></div>
+      </article>
+      <article class="ops-panel">
+        <div class="column-head">
+          <h2>作業提醒</h2>
+          <span>內部使用</span>
+        </div>
+        <ul class="ops-tips">
+          <li>新單按 15 / 20 / 30 分鐘接單後，會自動進入製作中。</li>
+          <li>列印失敗時，系統會在 data/print-jobs 產生備用小票檔。</li>
+          <li>後台網址不放在官方前台選單，店內人員直接用後台網址登入操作。</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <script src="admin.js"></script>
+</body>
+</html>
