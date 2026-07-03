@@ -251,6 +251,7 @@ async function initDatabase() {
   `);
   await pool.query("create index if not exists member_ledger_phone_idx on member_ledger (phone, created_at desc)");
   await backfillCustomers();
+  await backfillLoyaltyAwards();
   databaseReady = true;
 }
 
@@ -300,6 +301,53 @@ async function backfillCustomers() {
         memberReferralCode(customer.phone)
       ]
     );
+  }
+}
+
+async function backfillLoyaltyAwards() {
+  const result = await pool.query("select order_id, payload from orders where status = 'completed' order by created_at asc");
+  for (const row of result.rows) {
+    const order = row.payload || {};
+    const phone = normalizePhone(order.customerPhone);
+    const points = loyaltyPointsForOrder(order);
+    if (!phone || points <= 0) continue;
+
+    const existing = await pool.query(
+      "select id from member_ledger where order_id = $1 and type = 'earn' limit 1",
+      [row.order_id]
+    );
+    if (existing.rows.length) {
+      if (!order.loyaltyAwardedAt) {
+        order.loyaltyPointsAwarded = points;
+        order.loyaltyAwardedAt = order.completedAt || nowIso();
+        await pool.query("update orders set payload = $2::jsonb, updated_at = now() where order_id = $1", [row.order_id, JSON.stringify(order)]);
+      }
+      continue;
+    }
+
+    await pool.query(
+      `
+        insert into customers (phone, name, company, loyalty_points, referral_code, updated_at)
+        values ($1, $2, $3, $4, $5, now())
+        on conflict (phone)
+        do update set
+          loyalty_points = customers.loyalty_points + $4,
+          referral_code = coalesce(customers.referral_code, excluded.referral_code),
+          updated_at = now()
+      `,
+      [phone, order.customerName || "", order.companyName || "", points, memberReferralCode(phone)]
+    );
+    await pool.query(
+      `
+        insert into member_ledger (phone, type, points, label, order_id, note, created_at)
+        values ($1, 'earn', $2, '完成訂單集點', $3, $4, $5)
+      `,
+      [phone, points, row.order_id, `消費 ${formatMoney(order.total)}`, order.completedAt || nowIso()]
+    );
+
+    order.loyaltyPointsAwarded = points;
+    order.loyaltyAwardedAt = order.completedAt || nowIso();
+    await pool.query("update orders set payload = $2::jsonb, updated_at = now() where order_id = $1", [row.order_id, JSON.stringify(order)]);
   }
 }
 
@@ -538,9 +586,47 @@ function statusKeyForServer(order) {
   return order.status === "accepted" ? "preparing" : order.status;
 }
 
+function backfillLocalLoyaltyAwards() {
+  if (DATABASE_URL) return;
+  const orders = readLocalOrders();
+  const ledger = readLocalMemberLedger().map(normalizeMemberLedgerEntry);
+  let changedOrders = false;
+  let changedLedger = false;
+
+  for (const order of orders) {
+    const phone = normalizePhone(order.customerPhone);
+    const points = loyaltyPointsForOrder(order);
+    if (!phone || points <= 0 || statusKeyForServer(order) !== "completed") continue;
+    const exists = ledger.some(entry => entry.type === "earn" && entry.orderId === order.orderId);
+    if (!exists) {
+      ledger.unshift(normalizeMemberLedgerEntry({
+        phone,
+        type: "earn",
+        points,
+        label: "完成訂單集點",
+        orderId: order.orderId,
+        note: `消費 ${formatMoney(order.total)}`,
+        createdAt: order.completedAt || nowIso()
+      }));
+      changedLedger = true;
+    }
+    if (!order.loyaltyAwardedAt) {
+      order.loyaltyPointsAwarded = points;
+      order.loyaltyAwardedAt = order.completedAt || nowIso();
+      changedOrders = true;
+    }
+  }
+
+  if (changedOrders) writeLocalOrders(orders);
+  if (changedLedger) writeLocalMemberLedger(ledger);
+}
+
 async function readMembers() {
   const orders = await readOrders();
-  if (!DATABASE_URL) return buildLocalMembers(orders, readLocalMemberLedger());
+  if (!DATABASE_URL) {
+    backfillLocalLoyaltyAwards();
+    return buildLocalMembers(readLocalOrders(), readLocalMemberLedger());
+  }
 
   await initDatabase();
   const customersResult = await pool.query("select * from customers order by updated_at desc");
@@ -597,6 +683,15 @@ async function awardLoyaltyForCompletedOrder(order) {
 
   if (DATABASE_URL) {
     await initDatabase();
+    const existing = await pool.query(
+      "select id from member_ledger where order_id = $1 and type = 'earn' limit 1",
+      [order.orderId]
+    );
+    if (existing.rows.length) {
+      order.loyaltyPointsAwarded = points;
+      order.loyaltyAwardedAt = order.completedAt || nowIso();
+      return;
+    }
     await pool.query(
       `
         update customers
@@ -607,6 +702,15 @@ async function awardLoyaltyForCompletedOrder(order) {
       `,
       [phone, points, memberReferralCode(phone)]
     );
+  } else {
+    const existing = readLocalMemberLedger()
+      .map(normalizeMemberLedgerEntry)
+      .some(entry => entry.type === "earn" && entry.orderId === order.orderId);
+    if (existing) {
+      order.loyaltyPointsAwarded = points;
+      order.loyaltyAwardedAt = order.completedAt || nowIso();
+      return;
+    }
   }
 
   await addMemberLedger({
