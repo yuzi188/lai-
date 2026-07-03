@@ -3358,6 +3358,680 @@ section {
   border-bottom-color: rgba(79, 141, 82, 0.15);
 }
 
+/* LAI Bento Life */
+.life-app-body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: #9edcf3;
+  color: #47341d;
+}
+
+.life-shell {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.92) 0 46px, transparent 47px),
+    radial-gradient(circle at 68% 10%, rgba(255, 255, 255, 0.82) 0 38px, transparent 39px),
+    linear-gradient(180deg, #85d5f4 0 42%, #bce7c0 42% 100%);
+}
+
+.life-topbar {
+  position: relative;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: minmax(240px, 310px) minmax(260px, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+  padding: 16px clamp(14px, 2.4vw, 26px) 0;
+}
+
+.life-profile-card,
+.life-currencies article,
+.life-menu,
+.life-invite-card,
+.life-task-card,
+.life-checkin-card,
+.life-actions-card,
+.life-ranking-card,
+.life-gift-toast,
+.life-bottom-nav,
+.life-order-cta {
+  border: 2px solid rgba(112, 76, 37, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 248, 218, 0.95);
+  box-shadow: 0 10px 24px rgba(67, 95, 60, 0.18), inset 0 -4px 0 rgba(112, 76, 37, 0.08);
+}
+
+.life-profile-card {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+}
+
+.life-avatar {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f5ca72, #fff1b5);
+  border: 4px solid #fff7db;
+}
+
+.life-avatar span,
+.life-friend-icons span {
+  width: 48px;
+  height: 48px;
+  border-radius: 50% 50% 44% 44%;
+  background:
+    radial-gradient(circle at 34% 43%, #3f2a13 0 3px, transparent 4px),
+    radial-gradient(circle at 66% 43%, #3f2a13 0 3px, transparent 4px),
+    radial-gradient(circle at 50% 62%, #b45d3f 0 5px, transparent 6px),
+    #f4a85c;
+  box-shadow: 0 -14px 0 #df7b39 inset;
+}
+
+.life-profile-card p,
+.life-profile-card h1 {
+  margin: 0;
+}
+
+.life-profile-card h1 {
+  font-size: 1rem;
+}
+
+.life-exp {
+  position: relative;
+  overflow: hidden;
+  height: 18px;
+  margin-top: 6px;
+  border-radius: 999px;
+  background: rgba(112, 76, 37, 0.18);
+}
+
+.life-exp i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #f7c95c, #fff29b);
+}
+
+.life-exp b {
+  position: relative;
+  z-index: 1;
+  display: block;
+  text-align: center;
+  font-family: "Nunito", sans-serif;
+  font-size: 0.78rem;
+  line-height: 18px;
+}
+
+.life-currencies {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.life-currencies article {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  min-height: 52px;
+  padding: 8px 10px;
+}
+
+.life-currencies span {
+  color: #7b5a20;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.life-currencies strong {
+  font-family: "Nunito", sans-serif;
+  font-size: 1.35rem;
+}
+
+.life-currencies button,
+.life-card-head button {
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 50%;
+  background: #ffc84f;
+  color: #47341d;
+  font-weight: 900;
+}
+
+.life-menu {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(52px, 1fr));
+  gap: 6px;
+  min-width: 420px;
+  padding: 8px;
+}
+
+.life-menu a,
+.life-actions-card a,
+.life-bottom-nav a {
+  display: grid;
+  place-items: center;
+  min-height: 48px;
+  border-radius: 8px;
+  color: #47341d;
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
+.life-menu a {
+  background: rgba(255, 255, 255, 0.42);
+}
+
+.life-town {
+  position: relative;
+  min-height: calc(100vh - 86px);
+  padding: 10px clamp(14px, 2.4vw, 26px) 104px;
+}
+
+.life-sky i {
+  position: absolute;
+  top: 18%;
+  width: 28px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.76);
+}
+
+.life-sky i:nth-child(1) { left: 24%; }
+.life-sky i:nth-child(2) { left: 58%; top: 22%; }
+.life-sky i:nth-child(3) { left: 72%; top: 14%; }
+
+.life-plaza {
+  position: absolute;
+  inset: 8% 18% 8% 22%;
+  border-radius: 46% 46% 38% 38%;
+  background:
+    radial-gradient(ellipse at 50% 86%, rgba(231, 195, 143, 0.72) 0 33%, transparent 34%),
+    radial-gradient(circle at 50% 48%, #e9cf9d 0 18%, #e7bd7e 19% 23%, transparent 24%),
+    radial-gradient(ellipse at 50% 58%, rgba(255, 247, 218, 0.86) 0 34%, transparent 35%);
+}
+
+.life-shop {
+  position: absolute;
+  left: 50%;
+  top: 8%;
+  width: min(260px, 38vw);
+  height: 176px;
+  transform: translateX(-50%);
+  border: 4px solid rgba(112, 76, 37, 0.2);
+  border-radius: 28px 28px 8px 8px;
+  background:
+    linear-gradient(180deg, #b87945 0 36px, #ffe08a 36px 58px, #f5b64a 58px 76px, #fff3d6 76px 100%);
+  box-shadow: 0 18px 30px rgba(67, 95, 60, 0.22);
+}
+
+.life-shop img {
+  position: absolute;
+  left: 50%;
+  top: 50px;
+  width: 170px;
+  transform: translateX(-50%);
+}
+
+.life-shop span {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  font-family: "Nunito", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+.life-stall {
+  position: absolute;
+  right: 9%;
+  top: 34%;
+  display: grid;
+  gap: 7px;
+  width: 150px;
+  padding: 10px;
+  border: 3px solid rgba(112, 76, 37, 0.2);
+  border-radius: 8px;
+  background: #fff8da;
+  box-shadow: 0 12px 22px rgba(67, 95, 60, 0.16);
+  text-align: center;
+}
+
+.life-stall img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.life-mascot {
+  position: absolute;
+  left: 50%;
+  bottom: 22%;
+  display: grid;
+  justify-items: center;
+  transform: translateX(-50%);
+}
+
+.life-mascot span {
+  width: 116px;
+  height: 116px;
+  border: 6px solid #fff7db;
+  border-radius: 50% 50% 44% 44%;
+  background:
+    radial-gradient(circle at 35% 42%, #3f2a13 0 6px, transparent 7px),
+    radial-gradient(circle at 65% 42%, #3f2a13 0 6px, transparent 7px),
+    radial-gradient(circle at 50% 61%, #fff7db 0 18px, transparent 19px),
+    radial-gradient(circle at 50% 65%, #c45f44 0 7px, transparent 8px),
+    #f3a65d;
+  box-shadow: 0 -28px 0 #de7a38 inset, 0 18px 28px rgba(67, 95, 60, 0.2);
+}
+
+.life-mascot strong {
+  margin-top: -8px;
+  border-radius: 999px;
+  background: #3f2a13;
+  color: #fff8da;
+  padding: 5px 14px;
+}
+
+.life-bubble {
+  position: absolute;
+  border: 2px solid rgba(112, 76, 37, 0.15);
+  border-radius: 999px;
+  background: #fffdf7;
+  padding: 9px 13px;
+  font-weight: 900;
+  box-shadow: 0 10px 18px rgba(67, 95, 60, 0.12);
+}
+
+.bubble-left { left: 17%; top: 44%; }
+.bubble-right { right: 12%; bottom: 28%; }
+
+.life-left-stack,
+.life-right-stack {
+  position: absolute;
+  z-index: 3;
+  display: grid;
+  gap: 12px;
+  width: min(300px, 22vw);
+}
+
+.life-left-stack { left: clamp(14px, 2.4vw, 26px); top: 12px; }
+.life-right-stack { right: clamp(14px, 2.4vw, 26px); top: 12px; }
+
+.life-invite-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+}
+
+.life-friend-icons {
+  display: flex;
+  align-items: center;
+}
+
+.life-friend-icons span {
+  border: 3px solid #fff7db;
+}
+
+.life-friend-icons span + span {
+  margin-left: -14px;
+  background-color: #f0c16d;
+}
+
+.life-invite-card h2,
+.life-task-card h2,
+.life-checkin-card h2,
+.life-ranking-card h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.life-invite-card p,
+.life-checkin-card p {
+  margin: 2px 0 0;
+  color: #7b5a20;
+  font-weight: 800;
+}
+
+.life-invite-card button,
+.life-checkin-card button,
+.life-ranking-card > button,
+.life-gift-toast button {
+  grid-column: 1 / -1;
+  border: 0;
+  border-radius: 999px;
+  background: #ffc84f;
+  color: #47341d;
+  min-height: 38px;
+  font-weight: 900;
+}
+
+.life-task-card,
+.life-checkin-card,
+.life-ranking-card {
+  padding: 14px;
+}
+
+.life-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.life-card-head span {
+  color: #8b6f3c;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.life-task-card label {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px dashed rgba(112, 76, 37, 0.16);
+  font-weight: 900;
+}
+
+.life-task-card input {
+  width: 18px;
+  height: 18px;
+  accent-color: #6fb15d;
+}
+
+.life-task-reward {
+  display: grid;
+  gap: 3px;
+  margin-top: 9px;
+  border-radius: 8px;
+  background: rgba(255, 200, 79, 0.24);
+  padding: 9px;
+}
+
+.life-task-reward span,
+.life-task-reward strong,
+.life-checkin-card small {
+  font-size: 0.86rem;
+}
+
+.life-checkin-card {
+  text-align: center;
+}
+
+.life-checkin-card .checked {
+  display: grid;
+  place-items: center;
+  width: 88px;
+  height: 88px;
+  margin: 10px auto;
+  border-radius: 50%;
+  background: #67b653;
+  color: #fffdf7;
+  font-size: 0.95rem;
+}
+
+.life-actions-card {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  padding: 10px;
+}
+
+.life-actions-card a {
+  background: rgba(255, 255, 255, 0.48);
+}
+
+.life-ranking-card ol {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.life-ranking-card li {
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
+  gap: 8px;
+  align-items: center;
+  min-height: 40px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.55);
+  padding: 6px 8px;
+  font-weight: 900;
+}
+
+.life-ranking-card li.me {
+  background: rgba(255, 200, 79, 0.38);
+}
+
+.life-ranking-card li span {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #f7d37c;
+}
+
+.life-ranking-card li b {
+  color: #7b5a20;
+}
+
+.life-gift-toast {
+  position: absolute;
+  left: 50%;
+  bottom: 146px;
+  z-index: 4;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 3px 12px;
+  width: min(420px, 40vw);
+  padding: 12px 14px;
+  transform: translateX(-50%);
+}
+
+.life-gift-toast p {
+  margin: 0;
+  color: #7b5a20;
+  font-weight: 800;
+}
+
+.life-gift-toast button {
+  grid-row: 1 / 3;
+  grid-column: 2;
+  min-width: 76px;
+}
+
+.life-order-cta {
+  position: absolute;
+  left: 50%;
+  bottom: 30px;
+  z-index: 4;
+  display: grid;
+  grid-template-columns: 80px auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 28px 10px 12px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #ffd866, #ffc84f);
+  color: #47341d;
+  font-size: 1.55rem;
+  font-weight: 900;
+}
+
+.life-order-cta img {
+  width: 80px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.life-bottom-nav {
+  position: fixed;
+  inset: auto 50% 12px auto;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(72px, 1fr));
+  gap: 8px;
+  width: min(760px, calc(100% - 28px));
+  padding: 8px;
+  transform: translateX(50%);
+}
+
+.life-bottom-nav a {
+  min-height: 48px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.life-bottom-nav a.active {
+  background: #ffc84f;
+  box-shadow: inset 0 -4px 0 rgba(112, 76, 37, 0.12);
+}
+
+@media (max-width: 1180px) {
+  .life-topbar {
+    grid-template-columns: 1fr;
+  }
+
+  .life-menu {
+    min-width: 0;
+  }
+
+  .life-left-stack,
+  .life-right-stack {
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
+    width: auto;
+  }
+
+  .life-town {
+    display: grid;
+    gap: 12px;
+    padding-bottom: 118px;
+  }
+
+  .life-plaza {
+    position: relative;
+    inset: auto;
+    min-height: 520px;
+    order: 2;
+  }
+
+  .life-left-stack {
+    order: 1;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .life-right-stack {
+    order: 3;
+    grid-template-columns: 0.9fr 1.1fr;
+  }
+
+  .life-gift-toast,
+  .life-order-cta {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    width: auto;
+    transform: none;
+    order: 4;
+  }
+}
+
+@media (max-width: 760px) {
+  .life-shell {
+    overflow: visible;
+  }
+
+  .life-topbar,
+  .life-town {
+    padding-inline: 10px;
+  }
+
+  .life-profile-card,
+  .life-currencies,
+  .life-menu,
+  .life-left-stack,
+  .life-right-stack,
+  .life-bottom-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .life-menu {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .life-actions-card {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .life-plaza {
+    min-height: 420px;
+  }
+
+  .life-shop {
+    width: 220px;
+    height: 150px;
+  }
+
+  .life-shop img {
+    width: 140px;
+  }
+
+  .life-stall {
+    right: 8px;
+    top: 44%;
+    width: 120px;
+  }
+
+  .life-mascot span {
+    width: 96px;
+    height: 96px;
+  }
+
+  .bubble-left {
+    left: 6px;
+    top: 42%;
+  }
+
+  .bubble-right {
+    right: 8px;
+    bottom: 18%;
+  }
+
+  .life-bottom-nav {
+    position: static;
+    width: auto;
+    margin: 0 10px 12px;
+    transform: none;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .life-order-cta {
+    grid-template-columns: 64px 1fr;
+    padding-right: 16px;
+    font-size: 1.25rem;
+  }
+}
+
 .status-bars {
   display: grid;
   gap: 12px;
