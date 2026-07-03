@@ -24,18 +24,18 @@
       </section>
 
       <section class="life-currencies" aria-label="會員資源">
-        <article><i class="life-coin-icon"></i><span>點數</span><strong>12,680</strong><button type="button" aria-label="增加點數">+</button></article>
-        <article><i class="life-ticket-icon"></i><span>禮券</span><strong>38</strong><button type="button" aria-label="查看禮券">+</button></article>
-        <article><i class="life-heart-icon"></i><span>愛心</span><strong>5/5</strong><button type="button" aria-label="查看愛心">+</button></article>
+        <article><i class="life-coin-icon"></i><span>點數</span><strong data-life-value="coins">12,680</strong><button type="button" data-life-open="resources" aria-label="增加點數">+</button></article>
+        <article><i class="life-ticket-icon"></i><span>禮券</span><strong data-life-value="tickets">38</strong><button type="button" data-life-open="coupons" aria-label="查看禮券">+</button></article>
+        <article><i class="life-heart-icon"></i><span>愛心</span><strong data-life-value="hearts">5/5</strong><button type="button" data-life-open="resources" aria-label="查看愛心">+</button></article>
       </section>
 
       <nav class="life-menu" aria-label="生活圈功能">
-        <a href="order.html"><i class="life-ui-icon icon-order"></i><span>訂單</span></a>
-        <a href="#messages"><i class="life-ui-icon icon-chat"></i><em></em><span>消息</span></a>
-        <a href="#event"><i class="life-ui-icon icon-gift"></i><em></em><span>活動</span></a>
-        <a href="#tasks"><i class="life-ui-icon icon-task"></i><em></em><span>任務</span></a>
-        <a href="#map"><i class="life-ui-icon icon-map"></i><span>地圖</span></a>
-        <a href="index.html"><i class="life-ui-icon icon-menu"></i><span>選單</span></a>
+        <a href="#" data-life-open="orders"><i class="life-ui-icon icon-order"></i><span>訂單</span></a>
+        <a href="#" data-life-open="notifications"><i class="life-ui-icon icon-chat"></i><em></em><span>消息</span></a>
+        <a href="#" data-life-open="events"><i class="life-ui-icon icon-gift"></i><em></em><span>活動</span></a>
+        <a href="#" data-life-open="tasks"><i class="life-ui-icon icon-task"></i><em></em><span>任務</span></a>
+        <a href="#" data-life-open="map"><i class="life-ui-icon icon-map"></i><span>地圖</span></a>
+        <a href="#" data-life-open="menu"><i class="life-ui-icon icon-menu"></i><span>選單</span></a>
       </nav>
     </header>
 
@@ -63,7 +63,7 @@
         </div>
         <div class="life-bubble bubble-left">新便當上架！</div>
         <div class="life-bubble bubble-right">午餐時間到囉</div>
-        <button class="life-camera-sign" type="button">打卡<br><small>+10 點數</small></button>
+        <button class="life-camera-sign" type="button" data-life-action="checkin">打卡<br><small>+10 點數</small></button>
       </div>
 
       <aside class="life-left-stack">
@@ -73,7 +73,7 @@
             <h2>邀請好友</h2>
             <p>一起拿好禮</p>
           </div>
-          <button type="button">立即邀請</button>
+          <button type="button" data-life-open="invite">立即邀請</button>
         </section>
 
         <section id="tasks" class="life-task-card">
@@ -82,9 +82,11 @@
             <span>每日 05:00 重置</span>
           </div>
           <label><input type="checkbox" checked> 購買 1 份便當 <b>1/1</b></label>
-          <label><input type="checkbox"> 分享便當照片 <b>0/1</b></label>
-          <label><input type="checkbox"> 送禮給好友 <b>0/1</b></label>
+          <label><input type="checkbox" data-life-task="share"> 分享便當照片 <b>0/1</b></label>
+          <label><input type="checkbox" data-life-task="gift"> 送禮給好友 <b>0/1</b></label>
+          <label><input type="checkbox" data-life-task="invite"> 邀請好友 <b>0/1</b></label>
           <div class="life-task-reward"><span>完成全部任務可獲得</span><strong>30 點 · 20 愛心 · 5 禮券</strong></div>
+          <button type="button" class="life-claim-button" data-life-action="claimTasks">領取任務獎勵</button>
         </section>
 
         <section class="life-checkin-card">
@@ -92,25 +94,25 @@
             <h2>今日簽到</h2>
             <p>連續 15 天</p>
           </div>
-          <button type="button" class="checked">已簽到</button>
+          <button type="button" class="checked" data-life-action="checkin">簽到</button>
           <small>+20 點數</small>
         </section>
       </aside>
 
       <aside class="life-right-stack">
         <section class="life-actions-card">
-          <a href="#game"><i class="life-action-icon icon-game"></i><em></em><span>遊戲屋</span></a>
-          <a href="#rank"><i class="life-action-icon icon-trophy"></i><em></em><span>排行榜</span></a>
-          <a href="#gift"><i class="life-action-icon icon-present"></i><em></em><span>禮物</span></a>
-          <a href="#collection"><i class="life-action-icon icon-book"></i><span>收藏冊</span></a>
-          <a href="#shop"><i class="life-action-icon icon-shop"></i><span>商城</span></a>
-          <a href="#pass"><i class="life-action-icon icon-pass"></i><span>通行證</span></a>
+          <a href="#" data-life-open="game"><i class="life-action-icon icon-game"></i><em></em><span>遊戲屋</span></a>
+          <a href="#" data-life-open="rankings"><i class="life-action-icon icon-trophy"></i><em></em><span>排行榜</span></a>
+          <a href="#" data-life-open="gifts"><i class="life-action-icon icon-present"></i><em></em><span>禮物</span></a>
+          <a href="#" data-life-open="collection"><i class="life-action-icon icon-book"></i><span>收藏冊</span></a>
+          <a href="#" data-life-open="shop"><i class="life-action-icon icon-shop"></i><span>商城</span></a>
+          <a href="#" data-life-open="pass"><i class="life-action-icon icon-pass"></i><span>通行證</span></a>
         </section>
 
         <section id="rank" class="life-ranking-card">
           <div class="life-card-head">
             <h2>便當王排行</h2>
-            <button type="button" aria-label="排行榜說明">i</button>
+            <button type="button" data-life-open="rankings" aria-label="排行榜說明">i</button>
           </div>
           <ol>
             <li><span>1</span><strong>Kevin</strong><b>1280 份</b></li>
@@ -119,31 +121,45 @@
             <li class="me"><span>4</span><strong>Yu Zi</strong><b>728 份</b></li>
             <li><span>5</span><strong>Hana</strong><b>610 份</b></li>
           </ol>
-          <button type="button">查看完整排行</button>
+          <button type="button" data-life-open="rankings">查看完整排行</button>
         </section>
       </aside>
 
       <section id="gift" class="life-gift-toast">
         <strong>朋友送你禮物</strong>
         <p>王小明送你 50 點與雞腿升級券</p>
-        <button type="button">領取</button>
+        <button type="button" data-life-action="receiveGift">領取</button>
       </section>
 
-      <a class="life-order-cta" href="order.html">
+      <a class="life-order-cta" href="#" data-life-open="orders">
         <img src="assets/lai-bento-hero.png" alt="">
         <span>去訂便當</span>
       </a>
     </section>
 
     <nav class="life-bottom-nav" aria-label="會員生活圈底部導覽">
-      <a href="#chat"><i class="life-bottom-icon bottom-chat"></i><span>聊天</span><em>3</em></a>
-      <a href="#friends"><i class="life-bottom-icon bottom-friend"></i><span>好友</span></a>
-      <a href="#guild"><i class="life-bottom-icon bottom-guild"></i><span>社群</span></a>
-      <a class="active" href="order.html">去訂便當</a>
-      <a href="#table"><i class="life-bottom-icon bottom-table"></i><span>我的餐桌</span></a>
-      <a href="#bag"><i class="life-bottom-icon bottom-bag"></i><span>背包</span></a>
-      <a href="#style"><i class="life-bottom-icon bottom-style"></i><span>裝扮</span></a>
+      <a href="#" data-life-open="chat"><i class="life-bottom-icon bottom-chat"></i><span>聊天</span><em>3</em></a>
+      <a href="#" data-life-open="friends"><i class="life-bottom-icon bottom-friend"></i><span>好友</span></a>
+      <a href="#" data-life-open="community"><i class="life-bottom-icon bottom-guild"></i><span>社群</span></a>
+      <a class="active" href="#" data-life-open="orders">去訂便當</a>
+      <a href="#" data-life-open="table"><i class="life-bottom-icon bottom-table"></i><span>我的餐桌</span></a>
+      <a href="#" data-life-open="bag"><i class="life-bottom-icon bottom-bag"></i><span>背包</span></a>
+      <a href="#" data-life-open="outfit"><i class="life-bottom-icon bottom-style"></i><span>裝扮</span></a>
     </nav>
+
+    <section class="life-modal" id="lifeModal" aria-hidden="true">
+      <div class="life-modal-backdrop" data-life-close></div>
+      <article class="life-modal-panel" role="dialog" aria-modal="true" aria-labelledby="lifeModalTitle">
+        <button class="life-modal-close" type="button" data-life-close aria-label="關閉">×</button>
+        <header>
+          <p id="lifeModalKicker">LAI LIFE</p>
+          <h2 id="lifeModalTitle">會員生活圈</h2>
+        </header>
+        <div id="lifeModalBody" class="life-modal-body"></div>
+      </article>
+    </section>
   </main>
+  <script src="life-data.js"></script>
+  <script src="life-app.js"></script>
 </body>
 </html>

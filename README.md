@@ -12,6 +12,17 @@ The order search page supports keyword search by phone digits, order number, nam
 
 The member center uses the customer's phone number as the membership key. Completed orders can earn points at `$100 = 1 point`; staff can also redeem or adjust points from the admin member page. The member page shows consumption history, point ledger, available points, redeemed points, referral code, and reward actions such as side-dish or free-bento redemption.
 
+## LAI Bento Life Phase 1
+
+`website/life.html` is the first mock UI for the customer-facing gamified member life app. It uses mock data only and does not connect to payment or real member APIs yet.
+
+Phase 1 files:
+
+- `website/life.html`: game-style member home screen.
+- `website/life-data.js`: mock data and mock API layer.
+- `website/life-app.js`: modal/drawer interactions and mock state updates.
+- `website/styles.css`: LAI Life visual system and responsive layout.
+
 ## Local Development
 
 ```bash
@@ -23,6 +34,7 @@ Local URLs:
 
 - Public site: `http://127.0.0.1:4180/`
 - Order page: `http://127.0.0.1:4180/order.html`
+- LAI Bento Life: `http://127.0.0.1:4180/life.html`
 - Admin dashboard: `http://127.0.0.1:4180/admin.html`
 - Member center: `http://127.0.0.1:4180/admin-members.html`
 
