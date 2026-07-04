@@ -7405,7 +7405,7 @@ section {
 /* Keep resource pills beside the avatar card on mobile. */
 @media (max-width: 640px) {
   .life-game-shell .life-currencies {
-    top: max(12px, calc(env(safe-area-inset-top) + 12px));
+    top: max(4px, calc(env(safe-area-inset-top) + 4px));
     left: 192px;
     right: 8px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -7431,6 +7431,7 @@ section {
   }
 
   .life-game-shell .life-facility-map-button {
-    top: 96px;
+    top: 88px;
+    right: 10px;
   }
 }
