@@ -7093,20 +7093,7 @@ section {
   }
 
   .life-game-shell .life-actions-card {
-    position: fixed;
-    top: calc(max(8px, env(safe-area-inset-top)) + 166px);
-    left: 10px;
-    right: 10px;
-    z-index: 36;
-    display: grid;
-    width: auto;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 7px;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    box-shadow: none;
-    backdrop-filter: none;
+    display: none !important;
   }
 
   .life-game-shell .life-menu a,
@@ -7128,22 +7115,10 @@ section {
 
   .life-game-shell .life-right-stack,
   .life-game-shell .life-left-stack {
-    display: block !important;
+    display: contents !important;
     position: fixed;
     z-index: 34;
     width: auto;
-  }
-
-  .life-game-shell .life-left-stack {
-    top: calc(max(8px, env(safe-area-inset-top)) + 240px);
-    left: 10px;
-    width: min(176px, 45vw);
-  }
-
-  .life-game-shell .life-right-stack {
-    top: calc(max(8px, env(safe-area-inset-top)) + 240px);
-    right: 10px;
-    width: min(164px, 42vw);
   }
 
   .life-game-shell .life-invite-card {
@@ -7153,51 +7128,44 @@ section {
   .life-game-shell .life-task-card,
   .life-game-shell .life-checkin-card,
   .life-game-shell .life-ranking-card {
-    display: block !important;
+    position: fixed;
+    z-index: 34;
+    display: grid !important;
+    min-height: 0;
     border: 2px solid rgba(112, 76, 37, 0.18);
-    border-radius: 20px;
+    border-radius: 999px;
     background: rgba(255, 246, 219, 0.94);
     box-shadow: 0 10px 20px rgba(51, 42, 28, 0.18), inset 0 -4px 0 rgba(112, 76, 37, 0.07);
     backdrop-filter: blur(10px);
   }
 
   .life-game-shell .life-task-card {
-    max-height: 206px;
-    padding: 10px;
+    top: calc(max(8px, env(safe-area-inset-top)) + 238px);
+    left: 10px;
+    width: 118px;
+    height: 46px;
+    place-items: center;
+    padding: 0 10px;
     overflow: hidden;
   }
 
   .life-game-shell .life-task-card .life-card-head,
   .life-game-shell .life-ranking-card .life-card-head {
-    margin-bottom: 6px;
-    padding-bottom: 5px;
+    margin: 0;
+    padding: 0;
+    border: 0;
   }
 
   .life-game-shell .life-task-card h2,
   .life-game-shell .life-ranking-card h2 {
-    font-size: 0.9rem;
+    font-size: 0.82rem;
+    white-space: nowrap;
   }
 
-  .life-game-shell .life-card-head span {
-    font-size: 0.58rem;
-  }
-
-  .life-game-shell .life-task-card label {
-    min-height: 27px;
-    padding: 3px 0;
-    gap: 5px;
-    font-size: 0.68rem;
-  }
-
-  .life-game-shell .life-task-card input {
-    width: 14px;
-    height: 14px;
-  }
-
+  .life-game-shell .life-card-head span,
+  .life-game-shell .life-task-card label,
   .life-game-shell .life-task-reward {
-    margin-top: 5px;
-    padding: 6px;
-    font-size: 0.66rem;
+    display: none;
   }
 
   .life-game-shell .life-claim-button {
@@ -7205,9 +7173,14 @@ section {
   }
 
   .life-game-shell .life-checkin-card {
-    margin-top: 8px;
-    min-height: 140px;
-    padding: 10px;
+    top: calc(max(8px, env(safe-area-inset-top)) + 238px);
+    left: 136px;
+    width: 118px;
+    height: 46px;
+    grid-template-columns: 1fr 34px;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 7px 5px 12px;
     background: linear-gradient(180deg, rgba(134, 86, 40, 0.96), rgba(96, 60, 31, 0.96));
     color: #fff8dd;
   }
@@ -7219,43 +7192,49 @@ section {
   }
 
   .life-game-shell .life-checkin-card h2 {
-    font-size: 0.86rem;
+    font-size: 0.78rem;
+    line-height: 1.05;
+    white-space: nowrap;
+  }
+
+  .life-game-shell .life-checkin-card p,
+  .life-game-shell .life-checkin-card small {
+    display: none;
   }
 
   .life-game-shell .life-checkin-card .checked {
-    width: 60px;
-    height: 60px;
-    margin: 8px auto 5px;
-    font-size: 0.72rem;
+    width: 34px;
+    height: 34px;
+    min-height: 34px;
+    margin: 0;
+    padding: 0;
+    font-size: 0.6rem;
   }
 
   .life-game-shell .life-ranking-card {
-    padding: 10px;
+    top: calc(max(8px, env(safe-area-inset-top)) + 238px);
+    right: 10px;
+    width: 116px;
+    height: 46px;
+    grid-template-columns: 1fr 24px;
+    align-items: center;
+    gap: 5px;
+    padding: 0 8px 0 12px;
+  }
+
+  .life-game-shell .life-ranking-card .life-card-head button {
+    width: 24px;
+    height: 24px;
+    min-height: 24px;
+    font-size: 0.7rem;
   }
 
   .life-game-shell .life-ranking-card ol {
-    gap: 5px;
-  }
-
-  .life-game-shell .life-ranking-card li {
-    min-height: 30px;
-    grid-template-columns: 22px 1fr auto;
-    gap: 5px;
-    padding: 4px 5px;
-    border-radius: 10px;
-    font-size: 0.68rem;
-  }
-
-  .life-game-shell .life-ranking-card li span {
-    width: 20px;
-    height: 20px;
-    font-size: 0.66rem;
+    display: none;
   }
 
   .life-game-shell .life-ranking-card > button {
-    min-height: 34px;
-    margin-top: 7px;
-    font-size: 0.74rem;
+    display: none;
   }
 
   .life-game-shell .life-mobile-fab,
