@@ -4704,6 +4704,317 @@ section {
   gap: 12px;
 }
 
+.life-game-body {
+  min-height: 100vh;
+  overflow: hidden;
+  background: #9fd7ee;
+}
+
+.life-game-shell {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+.life-game-shell .life-town {
+  position: fixed;
+  inset: 0;
+  min-height: 100vh;
+  padding: 0;
+}
+
+.life-game-shell .life-game-panel {
+  position: fixed;
+  inset: 0;
+  min-height: 100vh;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.life-game-shell #lifeGame {
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+}
+
+.life-game-shell .life-topbar {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: minmax(250px, 0.9fr) minmax(360px, 1.2fr) minmax(360px, 1.4fr);
+  gap: 12px;
+  padding: 0;
+  pointer-events: none;
+}
+
+.life-game-shell .life-topbar > * {
+  pointer-events: auto;
+}
+
+.life-game-shell .life-profile-card,
+.life-game-shell .life-currencies,
+.life-game-shell .life-menu,
+.life-game-shell .life-left-stack > *,
+.life-game-shell .life-right-stack > *,
+.life-game-shell .life-gift-toast,
+.life-game-shell .life-bottom-nav,
+.life-game-shell .life-game-help,
+.life-game-shell .life-interaction-hint {
+  border-color: rgba(112, 76, 37, 0.22);
+  background-color: rgba(255, 248, 218, 0.88);
+  backdrop-filter: blur(12px);
+}
+
+.life-game-shell .life-left-stack,
+.life-game-shell .life-right-stack {
+  position: fixed;
+  z-index: 25;
+  top: 136px;
+  width: min(292px, 23vw);
+}
+
+.life-game-shell .life-left-stack {
+  left: 14px;
+}
+
+.life-game-shell .life-right-stack {
+  right: 14px;
+}
+
+.life-game-shell .life-actions-card {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.life-game-shell .life-gift-toast {
+  position: fixed;
+  left: 16px;
+  bottom: 106px;
+  z-index: 25;
+  width: min(360px, 32vw);
+  transform: none;
+}
+
+.life-game-shell .life-order-cta {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  z-index: 32;
+}
+
+.life-game-shell .life-bottom-nav {
+  position: fixed;
+  left: 50%;
+  right: auto;
+  bottom: 16px;
+  z-index: 31;
+  width: min(760px, calc(100vw - 340px));
+  transform: translateX(-50%);
+  grid-template-columns: repeat(7, minmax(68px, 1fr));
+}
+
+.life-game-shell .life-game-help {
+  top: 102px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.life-game-shell .life-joystick {
+  position: fixed;
+  left: 18px;
+  bottom: 18px;
+}
+
+@media (max-width: 1100px) {
+  .life-game-body {
+    overflow: hidden;
+  }
+
+  .life-game-shell .life-topbar {
+    grid-template-columns: 1fr;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    gap: 7px;
+  }
+
+  .life-game-shell .life-profile-card {
+    max-width: 250px;
+  }
+
+  .life-game-shell .life-currencies {
+    position: fixed;
+    top: 8px;
+    left: 266px;
+    right: 8px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .life-game-shell .life-menu {
+    position: fixed;
+    top: 96px;
+    right: 8px;
+    width: min(312px, calc(100vw - 16px));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .life-game-shell .life-left-stack {
+    top: 168px;
+    left: 8px;
+    width: 238px;
+  }
+
+  .life-game-shell .life-right-stack {
+    top: 236px;
+    right: 8px;
+    width: 214px;
+  }
+
+  .life-game-shell .life-ranking-card {
+    display: none;
+  }
+
+  .life-game-shell .life-actions-card {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .life-game-shell .life-invite-card {
+    display: none;
+  }
+
+  .life-game-shell .life-task-card {
+    max-height: 238px;
+    overflow: hidden;
+  }
+
+  .life-game-shell .life-gift-toast {
+    display: none;
+  }
+
+  .life-game-shell .life-bottom-nav {
+    left: 50%;
+    bottom: 8px;
+    width: min(520px, calc(100vw - 126px));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    transform: translateX(-40%);
+  }
+
+  .life-game-shell .life-order-cta {
+    display: none;
+  }
+
+  .life-game-shell .life-game-help {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .life-game-shell .life-profile-card {
+    width: 174px;
+    min-height: 62px;
+    padding: 7px;
+  }
+
+  .life-game-shell .life-profile-card h1 {
+    font-size: 0.9rem;
+  }
+
+  .life-game-shell .life-avatar {
+    width: 48px;
+    height: 48px;
+  }
+
+  .life-game-shell .life-currencies {
+    left: 190px;
+    gap: 5px;
+  }
+
+  .life-game-shell .life-currencies article {
+    min-height: 44px;
+    padding: 5px 7px;
+  }
+
+  .life-game-shell .life-currencies article span {
+    display: none;
+  }
+
+  .life-game-shell .life-menu {
+    top: 76px;
+    width: 214px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .life-game-shell .life-menu a {
+    min-height: 50px;
+    font-size: 0.72rem;
+  }
+
+  .life-game-shell .life-left-stack {
+    top: 142px;
+    width: 188px;
+  }
+
+  .life-game-shell .life-task-card {
+    padding: 10px;
+    max-height: 178px;
+  }
+
+  .life-game-shell .life-task-card label,
+  .life-game-shell .life-task-reward {
+    font-size: 0.74rem;
+  }
+
+  .life-game-shell .life-checkin-card {
+    display: none;
+  }
+
+  .life-game-shell .life-right-stack {
+    top: 142px;
+    width: 150px;
+  }
+
+  .life-game-shell .life-actions-card {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    padding: 7px;
+  }
+
+  .life-game-shell .life-actions-card a {
+    min-height: 58px;
+    font-size: 0.7rem;
+  }
+
+  .life-game-shell .life-bottom-nav {
+    left: auto;
+    right: 8px;
+    bottom: 8px;
+    width: calc(100vw - 132px);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    transform: none;
+    gap: 5px;
+    padding: 5px;
+  }
+
+  .life-game-shell .life-bottom-nav a {
+    min-height: 42px;
+    font-size: 0.72rem;
+  }
+
+  .life-game-shell .life-bottom-nav a.active {
+    grid-column: span 3;
+  }
+
+  .life-game-shell .life-interaction-hint {
+    left: 126px;
+    right: 8px;
+    bottom: 104px;
+  }
+}
+
 .status-bar-row {
   position: relative;
   display: grid;

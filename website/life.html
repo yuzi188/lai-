@@ -9,8 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="life-app-body">
-  <main class="life-shell" aria-label="LAI便當 Life 會員生活圈">
+<body class="life-app-body life-game-body">
+  <main class="life-shell life-game-shell" aria-label="LAI便當 Life 會員生活圈網頁遊戲">
     <header class="life-topbar">
       <section class="life-profile-card" aria-label="會員資料">
         <div class="life-avatar" aria-hidden="true"><span></span></div>
@@ -42,7 +42,7 @@
 
       <section class="life-game-panel" aria-label="LAI便當小鎮場景">
         <canvas id="lifeGame" width="960" height="620" aria-label="可移動角色的小鎮場景"></canvas>
-        <div class="life-game-help">WASD / 方向鍵移動，點 NPC 對話</div>
+        <div class="life-game-help">WASD / 方向鍵移動，手機用搖桿，點 NPC 對話</div>
         <div class="life-interaction-hint" id="lifeInteractionHint" hidden>
           <strong id="lifeInteractionTitle">互動地點</strong>
           <span id="lifeInteractionText">靠近地點後可以互動</span>

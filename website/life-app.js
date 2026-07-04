@@ -353,6 +353,8 @@
     const world = { w: 1600, h: 1040 };
     const player = { x: 800, y: 690, w: 42, h: 56, speed: 220, moving: false, dir: "down" };
     const camera = { x: 0, y: 0, w: canvas.width, h: canvas.height };
+    const sceneImage = new Image();
+    sceneImage.src = "assets/lai-life-town-bg.png";
     const keys = new Set();
     const joy = { active: false, id: null, x: 0, y: 0 };
     const colors = {
@@ -499,6 +501,32 @@
       ctx.fill();
     }
 
+    function drawSceneBackground() {
+      if (!sceneImage.complete || !sceneImage.naturalWidth) {
+        ctx.fillStyle = "#9fd7ee";
+        ctx.fillRect(0, 0, world.w, world.h);
+        ctx.fillStyle = colors.grass;
+        ctx.fillRect(0, 0, world.w, world.h);
+        return;
+      }
+      const imageRatio = sceneImage.naturalWidth / sceneImage.naturalHeight;
+      const worldRatio = world.w / world.h;
+      let dw = world.w;
+      let dh = world.h;
+      let dx = 0;
+      let dy = 0;
+      if (imageRatio > worldRatio) {
+        dw = world.h * imageRatio;
+        dx = (world.w - dw) / 2;
+      } else {
+        dh = world.w / imageRatio;
+        dy = (world.h - dh) / 2;
+      }
+      ctx.drawImage(sceneImage, dx, dy, dw, dh);
+      ctx.fillStyle = "rgba(255, 248, 218, 0.12)";
+      ctx.fillRect(0, 0, world.w, world.h);
+    }
+
     function drawNpc(npc, time) {
       const bob = Math.sin(time / 420 + npc.x) * 2;
       ctx.fillStyle = "rgba(58,43,27,.16)";
@@ -554,10 +582,7 @@
       ctx.save();
       ctx.translate(-camera.x, -camera.y);
 
-      ctx.fillStyle = "#9fd7ee";
-      ctx.fillRect(camera.x, camera.y, canvas.width, canvas.height);
-      ctx.fillStyle = colors.grass;
-      ctx.fillRect(0, 0, world.w, world.h);
+      drawSceneBackground();
 
       ctx.fillStyle = "#eac88d";
       ctx.beginPath();
@@ -568,17 +593,14 @@
       ctx.ellipse(800, 690, 430, 145, 0, 0, Math.PI * 2);
       ctx.fill();
 
-      for (let i = 0; i < 22; i += 1) drawTree(60 + i * 74, 70 + (i % 3) * 22, 0.82);
-      for (let i = 0; i < 10; i += 1) drawTree(70 + i * 148, 965 - (i % 2) * 18, 0.9);
-
-      drawRoundedRect(560, 120, 480, 230, 26, "#fff3d6", "rgba(112,76,37,.26)");
-      drawRoundedRect(602, 70, 396, 72, 28, "#b87945", "rgba(112,76,37,.25)");
-      drawRoundedRect(620, 142, 360, 58, 20, "#ffd866");
+      drawRoundedRect(560, 120, 480, 230, 26, "rgba(255,243,214,.78)", "rgba(112,76,37,.2)");
+      drawRoundedRect(602, 70, 396, 72, 28, "rgba(184,121,69,.82)", "rgba(112,76,37,.2)");
+      drawRoundedRect(620, 142, 360, 58, 20, "rgba(255,216,102,.86)");
       ctx.fillStyle = colors.ink;
       ctx.font = "900 42px 'Noto Sans TC', sans-serif";
       ctx.textAlign = "center";
       ctx.fillText("LAI 便當", 800, 178);
-      drawRoundedRect(735, 240, 130, 110, 16, "#8b6f3c");
+      drawRoundedRect(735, 240, 130, 110, 16, "rgba(139,111,60,.7)");
       label("去訂便當", 800, 390);
 
       drawRoundedRect(1090, 125, 300, 205, 20, "#f3e2bd", "rgba(112,76,37,.22)");
