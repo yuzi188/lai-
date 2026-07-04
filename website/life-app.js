@@ -146,17 +146,30 @@
         </header>
         <div class="life-outfit-detail-body">
           <aside class="life-detail-preview">
-            <div class="life-wear-preview ${esc(profile.background)} effect-${esc(profile.effect)}">
-              <div class="life-outfit-character ${esc(profile.uniform)}">
-                <div class="life-avatar ${esc(profile.avatar)} frame-${esc(profile.frame)}"><span></span></div><i></i>
-              </div>
-              <b>${esc(profile.title)}</b>
-              <button data-life-action="saveProfile">&#20786;&#23384;&#25645;&#37197;</button>
-            </div>
+            ${fitPreview("detail")}
           </aside>
           <section>${content}</section>
         </div>
       </section>
+    `;
+  }
+
+  function fitPreview(mode = "") {
+    return `
+      <div class="life-fit-preview ${esc(mode)} ${esc(profile.background)} effect-${esc(profile.effect)}">
+        <div class="life-fit-main">
+          <div class="life-avatar ${esc(profile.avatar)} frame-${esc(profile.frame)}"><span></span></div>
+          <strong>${esc(profile.name)}</strong>
+          <b>${esc(profile.title)}</b>
+        </div>
+        <div class="life-fit-slots">
+          <article><span>&#21046;&#26381;</span><i class="life-cosmetic-icon uniform-${esc(profile.uniform)}"></i></article>
+          <article><span>&#24494;&#31456;</span><i class="life-cosmetic-icon badge-${esc(profile.badge)}"></i></article>
+          <article><span>&#29305;&#25928;</span><i class="life-cosmetic-icon effect-${esc(profile.effect)}"></i></article>
+          <article><span>&#32972;&#26223;</span><i class="life-cosmetic-icon background-${esc(profile.background)}"></i></article>
+        </div>
+        <button data-life-action="saveProfile">&#20786;&#23384;&#25645;&#37197;</button>
+      </div>
     `;
   }
 
@@ -177,7 +190,7 @@
           <div class="life-outfit-home">
             ${outfitNav()}
             <div class="life-outfit-hero-card">
-              <div class="life-outfit-character ${esc(profile.uniform)}"><div class="life-avatar ${esc(profile.avatar)} frame-${esc(profile.frame)}"><span></span></div><i></i></div>
+              ${fitPreview("compact")}
               <div>
                 <h3>${esc(profile.name)}</h3>
                 <p><b>${esc(profile.title)}</b></p>
@@ -198,7 +211,7 @@
         ${outfitPanel("05", "&#21046;&#26381;", `<div class="life-outfit-grid">${uniformOptions.map(option => cosmeticChoice("uniform", option)).join("")}</div><button class="life-open-section" data-life-action="outfitSection" data-outfit-section="uniform">&#36914;&#20837;&#21046;&#26381;&#35373;&#23450;</button>`)}
         ${outfitPanel("06", "&#24494;&#31456;", `<div class="life-outfit-grid">${badgeOptions.map(option => cosmeticChoice("badge", option)).join("")}</div><button class="life-open-section" data-life-action="outfitSection" data-outfit-section="badge">&#36914;&#20837;&#24494;&#31456;&#35373;&#23450;</button>`)}
         ${outfitPanel("07", "&#26700;&#24067;&#32972;&#26223;", `<div class="life-bg-grid">${backgroundOptions.map(option => cosmeticChoice("background", option)).join("")}</div><button class="life-open-section" data-life-action="outfitSection" data-outfit-section="background">&#36914;&#20837;&#32972;&#26223;&#35373;&#23450;</button>`)}
-        ${outfitPanel("08", "&#31359;&#25140;&#38928;&#35261;", `<div class="life-wear-preview ${esc(profile.background)} effect-${esc(profile.effect)}"><div class="life-outfit-character ${esc(profile.uniform)}"><div class="life-avatar ${esc(profile.avatar)} frame-${esc(profile.frame)}"><span></span></div><i></i></div><button data-life-action="saveProfile">&#20786;&#23384;&#25645;&#37197;</button></div><dl class="life-current-fit"><div><dt>&#38957;&#20687;</dt><dd>${avatarOptions.find(item => item.value === profile.avatar)?.label || "LAI"}</dd></div><div><dt>&#38957;&#20687;&#26694;</dt><dd>${frameOptions.find(item => item.value === profile.frame)?.label || "VIP"}</dd></div><div><dt>&#31281;&#34399;</dt><dd>${esc(profile.title)}</dd></div><div><dt>&#21046;&#26381;</dt><dd>${uniformOptions.find(item => item.value === profile.uniform)?.label || "LAI"}</dd></div><div><dt>&#24494;&#31456;</dt><dd>${badgeOptions.find(item => item.value === profile.badge)?.label || "VIP"}</dd></div><div><dt>&#29305;&#25928;</dt><dd>${effectOptions.find(item => item.value === profile.effect)?.label || "FX"}</dd></div></dl>`)}
+        ${outfitPanel("08", "&#31359;&#25140;&#38928;&#35261;", `${fitPreview()}<dl class="life-current-fit"><div><dt>&#38957;&#20687;</dt><dd>${avatarOptions.find(item => item.value === profile.avatar)?.label || "LAI"}</dd></div><div><dt>&#38957;&#20687;&#26694;</dt><dd>${frameOptions.find(item => item.value === profile.frame)?.label || "VIP"}</dd></div><div><dt>&#31281;&#34399;</dt><dd>${esc(profile.title)}</dd></div><div><dt>&#21046;&#26381;</dt><dd>${uniformOptions.find(item => item.value === profile.uniform)?.label || "LAI"}</dd></div><div><dt>&#24494;&#31456;</dt><dd>${badgeOptions.find(item => item.value === profile.badge)?.label || "VIP"}</dd></div><div><dt>&#29305;&#25928;</dt><dd>${effectOptions.find(item => item.value === profile.effect)?.label || "FX"}</dd></div></dl>`)}
         ${outfitPanel("09", "&#29554;&#21462;&#26041;&#24335;", `<div class="life-obtain-list">${obtainMethods.map(item => `<article><i></i><div><strong>${item[0]}</strong><p>${item[1]}</p></div><button data-life-open="${item[2]}">&#21069;&#24448;</button></article>`).join("")}</div>`)}
         <section class="life-outfit-actions"><strong>10 &#24555;&#36895;&#25805;&#20316;</strong><button data-life-action="outfitSection" data-outfit-section="avatar">&#35373;&#23450;&#38957;&#20687;</button><button data-life-action="outfitSection" data-outfit-section="uniform">&#35373;&#23450;&#21046;&#26381;</button><button data-life-action="outfitSection" data-outfit-section="effect">&#35373;&#23450;&#29305;&#25928;</button><button data-life-action="saveProfile">&#20786;&#23384;&#25645;&#37197;</button></section>
       </section>

@@ -4593,7 +4593,7 @@ section {
 .life-outfit-hero-card,
 .life-wear-preview {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr;
   gap: 14px;
   align-items: center;
   min-height: 162px;
@@ -4601,6 +4601,105 @@ section {
   border-radius: 16px;
   background: linear-gradient(135deg, rgba(255, 219, 128, 0.28), rgba(255, 253, 243, 0.95));
   padding: 14px;
+}
+
+.life-outfit-hero-card {
+  grid-template-columns: minmax(210px, 0.92fr) 1fr;
+}
+
+.life-fit-preview {
+  position: relative;
+  display: grid;
+  gap: 12px;
+  min-height: 220px;
+  padding: 14px;
+  border: 2px solid rgba(112, 76, 37, 0.14);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255, 248, 220, 0.16), rgba(255, 248, 220, 0.34));
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.life-fit-preview.compact {
+  min-height: 188px;
+  padding: 10px;
+}
+
+.life-fit-main {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+  max-width: 150px;
+  margin-inline: auto;
+  padding: 10px;
+  border-radius: 16px;
+  background: rgba(255, 253, 243, 0.84);
+  box-shadow: inset 0 -4px 0 rgba(112, 76, 37, 0.07);
+}
+
+.life-fit-main .life-avatar {
+  width: 88px;
+  height: 88px;
+}
+
+.life-fit-main .life-avatar span {
+  width: 68px;
+  height: 68px;
+}
+
+.life-fit-main strong {
+  color: #3f2a13;
+  font-size: 0.95rem;
+  font-weight: 950;
+}
+
+.life-fit-main b {
+  border-radius: 999px;
+  padding: 3px 10px;
+  background: linear-gradient(180deg, #ffd85e, #f2a12d);
+  color: #3f2a13;
+  font-size: 0.78rem;
+}
+
+.life-fit-slots {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.life-fit-slots article {
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+  min-height: 82px;
+  border-radius: 14px;
+  background: rgba(255, 253, 243, 0.86);
+  padding: 8px 5px;
+  box-shadow: inset 0 -3px 0 rgba(112, 76, 37, 0.06);
+}
+
+.life-fit-slots span {
+  color: #6f5130;
+  font-size: 0.72rem;
+  font-weight: 950;
+}
+
+.life-fit-slots .life-cosmetic-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+}
+
+.life-fit-preview > button {
+  position: relative;
+  z-index: 1;
+  justify-self: center;
+  min-width: 132px;
 }
 
 .life-outfit-character {
@@ -4949,6 +5048,10 @@ section {
     grid-template-columns: 1fr;
   }
 
+  .life-outfit-hero-card {
+    grid-template-columns: 1fr;
+  }
+
   .life-outfit-panel.home {
     grid-row: auto;
   }
@@ -4999,6 +5102,10 @@ section {
 
   .life-outfit-detail > header {
     grid-template-columns: 1fr;
+  }
+
+  .life-fit-slots {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -5125,13 +5232,25 @@ section {
 .life-wear-preview.forest { background-image: linear-gradient(rgba(255, 248, 220, 0.08), rgba(255, 248, 220, 0.24)), url("assets/outfit/background-forest.png"); }
 .life-wear-preview.night { background-image: linear-gradient(rgba(255, 248, 220, 0.08), rgba(255, 248, 220, 0.24)), url("assets/outfit/background-night.png"); }
 .life-wear-preview.secret { background-image: linear-gradient(rgba(255, 248, 220, 0.08), rgba(255, 248, 220, 0.24)), url("assets/outfit/background-secret.png"); }
+.life-fit-preview.shop { background-image: linear-gradient(rgba(255, 248, 220, 0.1), rgba(255, 248, 220, 0.3)), url("assets/outfit/background-shop.png"); }
+.life-fit-preview.beach { background-image: linear-gradient(rgba(255, 248, 220, 0.08), rgba(255, 248, 220, 0.24)), url("assets/outfit/background-beach.png"); }
+.life-fit-preview.sakura { background-image: linear-gradient(rgba(255, 248, 220, 0.08), rgba(255, 248, 220, 0.24)), url("assets/outfit/background-sakura.png"); }
+.life-fit-preview.forest { background-image: linear-gradient(rgba(255, 248, 220, 0.08), rgba(255, 248, 220, 0.24)), url("assets/outfit/background-forest.png"); }
+.life-fit-preview.night { background-image: linear-gradient(rgba(255, 248, 220, 0.08), rgba(255, 248, 220, 0.24)), url("assets/outfit/background-night.png"); }
+.life-fit-preview.secret { background-image: linear-gradient(rgba(255, 248, 220, 0.08), rgba(255, 248, 220, 0.24)), url("assets/outfit/background-secret.png"); }
 
 .life-wear-preview.shop,
 .life-wear-preview.beach,
 .life-wear-preview.sakura,
 .life-wear-preview.forest,
 .life-wear-preview.night,
-.life-wear-preview.secret {
+.life-wear-preview.secret,
+.life-fit-preview.shop,
+.life-fit-preview.beach,
+.life-fit-preview.sakura,
+.life-fit-preview.forest,
+.life-fit-preview.night,
+.life-fit-preview.secret {
   overflow: hidden;
   background-size: cover;
   background-position: center;
