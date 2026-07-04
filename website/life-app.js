@@ -31,6 +31,9 @@
     kicker.textContent = view.kicker || "LAI LIFE";
     title.textContent = view.title;
     body.innerHTML = view.render();
+    modal.classList.remove("life-modal-page", "life-modal-drawer", "life-modal-wide");
+    if (view.type) modal.classList.add(`life-modal-${view.type}`);
+    if (view.wide) modal.classList.add("life-modal-wide");
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
     document.body.classList.add("modal-open");
@@ -56,6 +59,19 @@
     checkin: "打卡王排行",
     share: "分享王排行"
   };
+
+  function tabs(items) {
+    return `<div class="life-tabs">${items.map((item, index) => `<button class="${index === 0 ? "active" : ""}" type="button">${esc(item)}</button>`).join("")}</div>`;
+  }
+
+  function progressBar(value, label = "") {
+    const safeValue = Number.isFinite(Number(value)) ? Math.max(0, Math.min(100, Number(value))) : 50;
+    return `<div class="life-progress"><i style="width:${safeValue}%"></i><span>${esc(label || `${safeValue}%`)}</span></div>`;
+  }
+
+  function statPills(items) {
+    return `<div class="life-pill-row">${items.map(item => `<span>${esc(item)}</span>`).join("")}</div>`;
+  }
 
   const views = {
     resources: {
@@ -261,6 +277,222 @@
     }
   };
 
+  Object.assign(views, {
+    orders: {
+      title: "訂單",
+      kicker: "ORDER PAGE",
+      type: "page",
+      render: () => {
+        const meals = [
+          ["舒肥雞胸健康餐", "$120", "645 kcal", "55g", "18"],
+          ["香煎雞腿排健康餐", "$150", "705 kcal", "48g", "12"],
+          ["招牌控肉便當", "$120", "781 kcal", "31g", "22"],
+          ["川味口水雞便當", "$120", "721 kcal", "40g", "15"],
+          ["香煎鮭魚健康餐", "$200", "690 kcal", "46g", "8"]
+        ];
+        return `
+          <section class="life-page-hero">
+            <div><span>TODAY SPECIAL</span><h3>今日推薦：香煎雞腿排健康餐</h3><p>去骨雞腿排、五穀飯、固定配菜，適合午餐高峰快速出餐。</p></div>
+            <img src="assets/lai-bento-hero.png" alt="">
+          </section>
+          <section class="life-order-layout">
+            <div class="life-product-grid">${meals.map((meal, index) => `
+              <article class="life-product-card">
+                <img src="assets/lai-bento-hero.png" alt="">
+                <span>庫存 ${meal[4]}</span>
+                <h3>${meal[0]}</h3>
+                ${statPills([meal[2], `蛋白質 ${meal[3]}`, meal[1]])}
+                <label>數量 <input type="number" min="1" value="${index === 0 ? 1 : 0}"></label>
+                <label>配菜 <select><option>固定配菜</option><option>加青花菜</option><option>少飯多菜</option></select></label>
+                <button data-life-action="addCart">加入購物車</button>
+              </article>
+            `).join("")}</div>
+            <aside class="life-checkout-panel">
+              <h3>購物車</h3>
+              <p>香煎雞腿排健康餐 x1</p>
+              <label><input type="checkbox"> 使用滷蛋券</label>
+              <label><input type="checkbox"> 點數折抵 50 金幣</label>
+              <b>小計 $150</b>
+              <button data-life-action="checkout">結帳</button>
+              ${list(["製作中：LAI-20260704-009", "配送中：LAI-20260704-006", "已完成：LAI-20260703-086"].map(item => `<article class="life-mini-row">${esc(item)}</article>`))}
+            </aside>
+          </section>`;
+      }
+    },
+    notifications: {
+      title: "消息中心",
+      kicker: "MESSAGE CENTER",
+      wide: true,
+      render: () => {
+        const groups = ["系統通知", "好友消息", "禮物通知", "訂單通知", "活動通知"];
+        const messages = [
+          ["系統", "會員點數已更新", "消費紀錄完成同步，點數 +150。", "剛剛", "未讀"],
+          ["好友", "Amy 傳來訊息", "等等一起開團訂便當嗎？", "5 分鐘前", "未讀"],
+          ["禮物", "王小明送你禮物", "收到 50 金幣禮包。", "12 分鐘前", "已讀"],
+          ["訂單", "訂單製作中", "LAI-20260704-009 已進入廚房。", "20 分鐘前", "已讀"],
+          ["活動", "夏日南瓜季開始", "完成 7 天任務可拿限定桌布。", "今天", "未讀"]
+        ];
+        return `${tabs(groups)}${list(messages.map(msg => `<article class="life-message-card ${msg[4] === "未讀" ? "unread" : ""}"><b>${msg[0]}</b><div><strong>${msg[1]}</strong><p>${msg[2]}</p></div><span>${msg[3]}｜${msg[4]}</span><button data-life-action="readNotice">查看</button></article>`))}`;
+      }
+    },
+    events: {
+      title: "活動中心",
+      kicker: "EVENT CENTER",
+      wide: true,
+      render: () => `
+        <section class="life-page-hero"><div><span>LIMITED EVENT</span><h3>夏日南瓜季</h3><p>每日訂購健康餐、分享照片、邀請好友，解鎖限定餐盒與桌布。</p></div></section>
+        ${tabs(["每日活動", "每週活動", "節日活動", "團購活動"])}
+        ${cardGrid(data.events.concat([
+          { name: "午餐尖峰挑戰", progress: "12/20 份", reward: "加菜券 x2" },
+          { name: "企業團購日", progress: "28/50 份", reward: "企業團購券" }
+        ]).map(event => `<article class="life-modal-card"><span>${esc(event.progress)}</span><strong>${esc(event.name)}</strong>${progressBar(Number(event.progress) || 56, event.progress)}<p>獎勵：${esc(event.reward)}</p><button data-life-action="joinEvent">立即參加</button></article>`))}
+      `
+    },
+    tasks: {
+      title: "任務中心",
+      kicker: "TASK CENTER",
+      wide: true,
+      render: () => {
+        const taskSets = ["每日任務", "每週任務", "新手任務", "成就任務"];
+        const tasks = data.tasks.concat([
+          { label: "連續簽到 7 天", reward: "+80 金幣 +50 EXP", done: false },
+          { label: "完成第一次送禮", reward: "+5 禮券", done: false },
+          { label: "收藏 5 種便當", reward: "收藏徽章", done: true }
+        ]);
+        return `${tabs(taskSets)}${list(tasks.map((task, index) => `<article class="life-task-row"><div><strong>${esc(task.label)}</strong><p>完成指定行為即可獲得獎勵。</p>${progressBar(task.done ? 100 : [35, 60, 20, 80][index % 4], task.done ? "完成" : "進行中")}</div><span>${esc(task.reward)}</span><button data-life-open="${index % 2 ? "orders" : "map"}">前往</button><button data-life-action="claimTasks">領取</button></article>`))}`;
+      }
+    },
+    map: {
+      title: "LAI便當小鎮地圖",
+      kicker: "TOWN MAP PAGE",
+      type: "page",
+      render: () => {
+        const places = [
+          ["LAI便當店", "orders", "訂便當、查訂單"],
+          ["小菜園", "garden", "收成配菜"],
+          ["排行榜廣場", "rankings", "每週榜單"],
+          ["好友廣場", "friends", "送禮打招呼"],
+          ["禮物郵箱", "gifts", "收送禮物"],
+          ["商城攤位", "shop", "兌換商品"],
+          ["我的餐桌", "table", "佈置展示"],
+          ["企業團購區", "community", "社群與團購"]
+        ];
+        return `<div class="life-town-map">${places.map(place => `<button data-life-open="${place[1]}"><strong>${place[0]}</strong><span>${place[2]}</span></button>`).join("")}</div>`;
+      }
+    },
+    menu: {
+      title: "選單",
+      kicker: "MENU DRAWER",
+      type: "drawer",
+      render: () => list(["會員資料", "設定", "客服中心", "優惠券", "訂單紀錄", "邀請好友", "常見問題", "登出"].map((item, index) => `<article class="life-drawer-item"><strong>${item}</strong><span>${index === 0 ? "Yu Zi｜Gold VIP｜Lv.27" : "查看與管理"}</span><button data-life-open="${["resources", "notifications", "chat", "coupons", "orders", "invite", "notifications", "menu"][index]}">進入</button></article>`))
+    },
+    game: {
+      title: "遊戲屋",
+      kicker: "GAME HOUSE",
+      wide: true,
+      render: () => {
+        const games = [["每日轉盤", "1 次", "20 金幣", "最高 200 金幣"], ["刮刮卡", "3 次", "1 禮券", "折價券 / 加菜券"], ["配菜挑戰", "2 次", "10 金幣", "配菜券"], ["便當記憶翻牌", "5 次", "愛心 1", "經驗值"]];
+        return `${cardGrid(games.map(game => `<article class="life-modal-card"><span>${game[1]}</span><strong>${game[0]}</strong><p>消耗：${game[2]}</p><p>可能獎勵：${game[3]}</p><button data-life-action="playGame">開始遊戲</button></article>`))}<h3>獎勵紀錄</h3>${list(["轉盤獲得 50 金幣", "刮刮卡獲得滷蛋券", "翻牌獲得 30 EXP"].map(item => `<article class="life-mini-row">${item}</article>`))}`;
+      }
+    },
+    rankings: {
+      title: "排行榜",
+      kicker: "WEEKLY RANK",
+      wide: true,
+      render: () => `${tabs(Object.values(rankingNames))}<p class="life-modal-note">每週重置倒數：2 天 08:36。我的排名固定顯示於下方。</p>${Object.entries(data.rankings).map(([key, rows]) => `<section class="life-rank-section"><h3>${rankingNames[key]}</h3><ol>${rows.map((row, index) => `<li class="${index < 3 ? "top" : ""}"><span>${index + 1}</span><i class="life-rank-avatar"></i><strong>${esc(row[0])}<small>${index === 0 ? "傳奇食客" : "便當夥伴"}</small></strong><b>${esc(row[1])}</b></li>`).join("")}</ol><div class="life-my-rank">我的排名：#4 Yu Zi｜728 份</div></section>`).join("")}`
+    },
+    gifts: {
+      title: "禮物中心",
+      kicker: "GIFT CENTER",
+      wide: true,
+      render: () => `${tabs(["可送禮物", "收到的禮物", "已送出的禮物"])}<p class="life-modal-note">每日送禮上限 3 次，今日剩餘 2 次。</p><div class="life-search-line"><input placeholder="選擇好友：Amy / Kevin / 王小明"><button data-life-action="sendGift">送出</button></div>${cardGrid(data.gifts.concat([{ name: "限定小物", cost: 50, stock: 1 }]).map(gift => `<article class="life-modal-card"><span>庫存 ${gift.stock}</span><strong>${gift.name}</strong><p>消耗 ${gift.cost} 金幣</p><button data-life-action="sendGift">送禮</button></article>`))}<h3>禮物紀錄</h3>${list(["收到：王小明送 50 金幣", "送出：Amy 飲料券", "收到：Kevin 加菜券"].map(item => `<article class="life-mini-row">${item}</article>`))}`
+    },
+    collection: {
+      title: "收藏冊",
+      kicker: "COLLECTION PAGE",
+      type: "page",
+      render: () => `${tabs(["便當圖鑑", "食材圖鑑", "徽章圖鑑", "限定活動收藏"])}<p class="life-modal-note">集滿系列可領取限定徽章與餐桌裝飾。</p>${cardGrid(data.collection.concat([{ name: "青花菜", rarity: "食材", unlocked: true }, { name: "創始會員徽章", rarity: "稀有", unlocked: false }, { name: "南瓜季餐盒", rarity: "季節限定", unlocked: false }]).map(item => `<article class="life-modal-card ${item.unlocked ? "" : "locked"}"><span>${item.rarity}</span><strong>${item.unlocked ? item.name : "未解鎖"}</strong><p>${item.unlocked ? "已解鎖，可展示。" : "完成指定活動後解鎖。"}</p></article>`))}`
+    },
+    shop: {
+      title: "商城",
+      kicker: "POINT SHOP",
+      wide: true,
+      render: () => `${tabs(["優惠券", "加菜券", "裝飾品", "頭像框", "限定周邊", "企業團購券"])}${cardGrid(data.shop.concat([{ name: "企業團購 95 折券", price: "1500 金幣", stock: "剩 8" }, { name: "限定餐盒", price: "2200 金幣", stock: "剩 3" }]).map(item => `<article class="life-product-card"><div class="life-shop-image"></div><span>${item.stock}</span><h3>${item.name}</h3><p>${item.price}</p><button data-life-action="redeemShop">兌換</button></article>`))}`
+    },
+    pass: {
+      title: "便當通行證",
+      kicker: "BATTLE PASS",
+      wide: true,
+      render: () => `<section class="life-pass-head"><h3>Lv.8 / 30</h3>${progressBar(42, "1280 / 3000 EXP")}<button data-life-action="claimTasks">一鍵領取</button><button data-life-action="redeemShop">升級高級通行證</button></section>${tabs(["免費獎勵線", "付費獎勵線"])}<div class="life-pass-track">${Array.from({ length: 10 }, (_, i) => `<article><b>Lv.${i + 1}</b><span>${i % 2 ? "禮券" : "金幣"}</span></article>`).join("")}</div>`
+    },
+    chat: {
+      title: "聊天系統",
+      kicker: "CHAT DRAWER",
+      type: "drawer",
+      render: () => `${tabs(["世界聊天", "好友聊天", "社群聊天"])}${list(data.chats.map((chat, index) => `<article class="life-chat-row"><span>${chat.room}｜未讀 ${index === 0 ? 3 : 0}</span><strong>${chat.user}</strong><p>${chat.text}</p><small>12:${10 + index}</small></article>`))}<form class="life-message-box" data-life-message><input placeholder="輸入訊息或表情"><button>送出</button></form>`
+    },
+    friends: {
+      title: "好友系統",
+      kicker: "FRIENDS",
+      wide: true,
+      render: () => `<div class="life-copy-box"><code>邀請碼 LAI-8W91</code><button data-life-action="copyInvite">分享邀請連結</button></div><div class="life-search-line"><input placeholder="搜尋好友姓名 / 手機 / 邀請碼"><button data-life-action="addFriend">搜尋</button></div>${list(data.friends.map(friend => `<article class="life-modal-row"><b>${friend.status}</b><strong>${friend.name}</strong><span>最近吃：${friend.lastMeal}｜${friend.note}</span><button data-life-open="gifts">送禮</button><button data-life-action="greetFriend">打招呼</button><button data-life-action="removeFriend">移除</button></article>`))}`
+    },
+    community: {
+      title: "社群廣場",
+      kicker: "COMMUNITY PAGE",
+      type: "page",
+      render: () => `<button class="life-wide-button" data-life-action="newPost">發布便當照片</button>${tabs(["今日熱門", "最新貼文", "控肉", "健康餐", "雞腿", "鯖魚"])}${list(data.posts.map(post => `<article class="life-post-card"><strong>${post.user}｜${post.meal}</strong><p>${"★".repeat(post.rating)} ${post.text}</p><span>${post.likes} 愛心｜留言｜分享｜#健康餐</span></article>`))}`
+    },
+    table: {
+      title: "我的餐桌",
+      kicker: "MY TABLE PAGE",
+      type: "page",
+      render: () => `<div class="life-table-preview"><span></span><b>個人展示空間</b></div>${tabs(["桌子", "便當", "植物", "公仔", "背景"])}${cardGrid(data.table.decorations.map(item => `<article class="life-modal-card"><strong>${item}</strong><p>拖曳擺放、儲存佈置、分享截圖。</p><button data-life-action="decorate">擺放</button></article>`))}<button class="life-wide-button" data-life-action="decorate">儲存佈置</button>`
+    },
+    bag: {
+      title: "背包",
+      kicker: "INVENTORY",
+      wide: true,
+      render: () => `${tabs(["道具", "禮券", "裝飾品", "食材", "徽章", "任務物品"])}${cardGrid(data.bag.map(item => `<article class="life-modal-card"><span>${item.type}</span><strong>${item.name}</strong><p>數量：1｜稀有度：普通</p><button data-life-action="useItem">使用</button></article>`))}`
+    },
+    outfit: {
+      title: "裝扮系統",
+      kicker: "OUTFIT",
+      wide: true,
+      render: () => `${tabs(["頭像", "頭像框", "稱號", "制服", "徽章", "桌布背景"])}<section class="life-outfit-preview"><div class="life-avatar"><span></span></div><h3>Yu Zi｜便當王</h3></section>${cardGrid(data.outfit.map((item, index) => `<article class="life-modal-card ${index > 2 ? "locked" : ""}"><strong>${item}</strong><p>${index > 2 ? "解鎖條件：完成健康王任務。" : "已擁有，可立即套用。"}</p><button data-life-action="equip">套用</button></article>`))}`
+    },
+    checkin: {
+      title: "每日簽到",
+      kicker: "CHECK IN",
+      wide: true,
+      render: () => `<section class="life-page-hero"><div><span>連續 ${data.signIn.streak} 天</span><h3>今日獎勵：${data.signIn.todayReward}</h3><p>可使用補簽券補回中斷天數。</p></div><button data-life-action="checkin">簽到</button></section><h3>7 日獎勵表</h3><div class="life-signin-week">${data.signIn.week.map(day => `<span class="${day.claimed ? "done" : ""}"><b>D${day.day}</b>${day.reward}</span>`).join("")}</div><h3>30 日獎勵表</h3><div class="life-pass-track">${Array.from({ length: 30 }, (_, i) => `<article><b>${i + 1}</b><span>${i % 5 === 0 ? "禮券" : "金幣"}</span></article>`).join("")}</div>`
+    },
+    invite: {
+      title: "邀請好友",
+      kicker: "INVITE",
+      wide: true,
+      render: () => `<section class="life-page-hero"><div><span>我的邀請碼</span><h3>LAI-8W91</h3><p>朋友註冊 +100，首次消費雙方再 +500。</p></div><div class="life-qr-box">QR</div></section><div class="life-copy-box"><code>https://lai.app/invite/LAI-8W91</code><button data-life-action="copyInvite">複製分享連結</button></div>${cardGrid([infoCard("邀請成功", "18 人", "累積"), infoCard("首購獎勵", "9 人已完成", "雙方獎勵"), infoCard("邀請排行榜", "#3", "本週")])}`
+    },
+    todayRecommendation: {
+      title: "今日推薦",
+      kicker: "TODAY RECOMMENDATION",
+      wide: true,
+      render: () => `<section class="life-page-hero"><div><span>便當餐車推薦</span><h3>香煎雞腿排健康餐</h3><p>705 kcal｜蛋白質 48g｜今日餐車庫存 12 份。</p></div><img src="assets/lai-bento-hero.png" alt=""></section>${cardGrid([infoCard("推薦理由", "去骨雞腿排，外皮香煎，搭配五穀飯與固定配菜。", "熱銷"), infoCard("營養標示", "碳水 50g｜脂肪 28g｜鈉 720mg", "每份"), `<article class="life-modal-card accent"><strong>加入今日餐車訂單</strong><p>可直接帶入訂購頁。</p><button data-life-open="orders">去訂便當</button></article>`])}`
+    },
+    groupOrder: {
+      title: "企業團購區",
+      kicker: "GROUP ORDER PAGE",
+      type: "page",
+      render: () => `<section class="life-page-hero"><div><span>企業訂餐</span><h3>公司團購任務</h3><p>湊滿 30 份享 95 折，50 份解鎖企業福利券。</p></div><button data-life-open="orders">建立團購</button></section>${cardGrid([infoCard("本月團購", "28 / 50 份", "進行中"), infoCard("企業福利券", "95 折券 x8", "可領取"), infoCard("團體排行榜", "#2 北屯健康隊", "本週")])}${list(["LAI-企業-001｜午餐團購｜28 份", "LAI-企業-002｜健身社群｜16 份", "LAI-企業-003｜學校社團｜12 份"].map(item => `<article class="life-mini-row">${item}</article>`))}`
+    },
+    explore: {
+      title: "出門逛逛",
+      kicker: "EXPLORE PAGE",
+      type: "page",
+      render: () => `<section class="life-page-hero"><div><span>生活圈地圖</span><h3>附近活動與好友出沒</h3><p>查看附近店家、團購點、活動會場與朋友正在吃什麼。</p></div></section>${cardGrid([infoCard("北屯", "Kevin 正在吃控肉便當", "5 分鐘前"), infoCard("西屯", "企業團購差 12 份成團", "團購點"), infoCard("南屯", "健康餐桌挑戰 48 人參加", "活動")])}${tabs(["附近活動", "團購點", "生活圈地圖", "好友出沒"])}`
+    }
+  });
+
   function toast(text) {
     const notice = document.createElement("div");
     notice.className = "life-toast";
@@ -311,8 +543,11 @@
       syncWallet();
       toast("收到好友禮物：+50 金幣。");
     },
+    addCart: () => toast("已加入購物車。"),
+    checkout: () => toast("訂單已送出，後台會收到 mock 訂單。"),
     sendGift: () => toast("已送出 mock 禮物。"),
     greetFriend: () => toast("已和好友打招呼，親密度 +1。"),
+    removeFriend: () => toast("已移除好友。"),
     harvestGarden() {
       data.wallet.coins += 20;
       const shareTask = data.tasks.find(task => task.id === "share");
@@ -342,12 +577,34 @@
   function initTownGame() {
     const canvas = document.querySelector("#lifeGame");
     if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
     const hint = document.querySelector("#lifeInteractionHint");
     const hintTitle = document.querySelector("#lifeInteractionTitle");
     const hintText = document.querySelector("#lifeInteractionText");
     const hintButton = document.querySelector("#lifeInteractButton");
+
+    if (window.LAI_PHASER_TOWN?.mount) {
+      const mounted = window.LAI_PHASER_TOWN.mount({
+        openModal,
+        toast,
+        updateHint(zone) {
+          if (!zone) {
+            hint.hidden = true;
+            return;
+          }
+          hint.hidden = false;
+          hintTitle.textContent = zone.title;
+          hintText.textContent = zone.text;
+          hintButton.textContent = zone.button;
+          hintButton.onclick = () => openModal(zone.open);
+        }
+      });
+      if (mounted) {
+        canvas.hidden = true;
+        return;
+      }
+    }
+
+    const ctx = canvas.getContext("2d");
     const world = { w: 1600, h: 1040 };
     const player = { x: 800, y: 690, w: 42, h: 56, speed: 220, moving: false, dir: "down" };
     const camera = { x: 0, y: 0, w: canvas.width, h: canvas.height };

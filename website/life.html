@@ -48,6 +48,7 @@
       <div class="life-sky" aria-hidden="true"><i></i><i></i><i></i></div>
 
       <section class="life-game-panel" aria-label="LAI便當小鎮場景">
+        <div id="lifePhaserMount" aria-hidden="true"></div>
         <canvas id="lifeGame" width="960" height="620" aria-label="可移動角色的小鎮場景"></canvas>
         <div class="life-game-help">點擊地圖移動，點 NPC 對話，靠近建築互動</div>
         <div class="life-interaction-hint" id="lifeInteractionHint" hidden>
@@ -151,6 +152,8 @@
     </section>
   </main>
   <script src="life-data.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
+  <script src="life-phaser-game.js"></script>
   <script src="life-app.js"></script>
 </body>
 </html>
