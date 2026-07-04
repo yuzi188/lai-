@@ -7330,3 +7330,52 @@ section {
     height: 34px;
   }
 }
+
+/* Mobile town-entry mode: buildings and NPCs are the main feature navigation. */
+@media (max-width: 640px) {
+  .life-game-shell .life-menu,
+  .life-game-shell .life-actions-card,
+  .life-game-shell .life-mobile-fab,
+  .life-game-shell .life-task-card,
+  .life-game-shell .life-checkin-card,
+  .life-game-shell .life-ranking-card {
+    display: none !important;
+  }
+
+  .life-game-shell .life-currencies {
+    top: max(92px, calc(env(safe-area-inset-top) + 92px));
+    left: 10px;
+    right: 10px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .life-game-shell .life-currencies article {
+    min-height: 32px;
+    grid-template-columns: 24px 1fr 20px;
+    gap: 3px;
+    padding: 3px 4px;
+  }
+
+  .life-game-shell .life-currencies strong {
+    font-size: 0.74rem;
+  }
+
+  .life-game-shell .life-currencies button {
+    width: 20px;
+    height: 20px;
+    min-height: 20px;
+    font-size: 0.74rem;
+  }
+
+  .life-game-shell .life-coin-icon,
+  .life-game-shell .life-ticket-icon,
+  .life-game-shell .life-heart-icon,
+  .life-game-shell .life-leaf-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .life-game-shell .life-order-cta {
+    bottom: calc(82px + env(safe-area-inset-bottom));
+  }
+}

@@ -161,12 +161,26 @@
         const worldPoint = pointer.positionToCamera(this.cameras.main);
         const clickedNpc = this.npcs.find(npc => Phaser.Math.Distance.Between(worldPoint.x, worldPoint.y, npc.x, npc.y) < 58);
         if (clickedNpc) {
-          this.wavePlayer();
-          openModal(clickedNpc.interaction.open);
+          this.openInteraction(clickedNpc.interaction);
+          return;
+        }
+
+        const clickedInteraction = this.interactions.find(interaction => {
+          return Phaser.Math.Distance.Between(worldPoint.x, worldPoint.y, interaction.x, interaction.y) < interaction.radius;
+        });
+        if (clickedInteraction) {
+          this.openInteraction(clickedInteraction);
           return;
         }
         this.moveTarget = new Phaser.Math.Vector2(worldPoint.x, worldPoint.y);
         this.addTargetRing(worldPoint.x, worldPoint.y);
+      }
+
+      openInteraction(interaction) {
+        this.wavePlayer();
+        this.activeInteraction = interaction;
+        updateHint(interaction);
+        openModal(interaction.open);
       }
 
       addTargetRing(x, y) {
