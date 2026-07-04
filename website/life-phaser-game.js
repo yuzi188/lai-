@@ -50,7 +50,8 @@
         const height = this.scale.height || window.innerHeight;
         const isPortraitPhone = width <= 640 && height >= width;
         const isTablet = width <= 1100;
-        const zoom = isPortraitPhone ? 0.26 : isTablet ? 0.46 : 0.72;
+        const coverZoom = Math.max(width / world.width, height / world.height) * 1.04;
+        const zoom = isPortraitPhone ? Math.max(coverZoom, 0.54) : isTablet ? Math.max(coverZoom, 0.46) : 0.72;
         this.cameras.main.setZoom(zoom);
         this.cameras.main.setLerp(isPortraitPhone ? 0.08 : 0.12, isPortraitPhone ? 0.08 : 0.12);
         this.cameras.main.centerOn(this.player.x, this.player.y);
