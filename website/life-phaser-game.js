@@ -26,6 +26,10 @@
 
       preload() {
         this.load.image("townBg", "assets/lai-life-town-bg.png");
+        this.load.spritesheet("characters", "assets/lai-life-characters-sheet.png", {
+          frameWidth: 283,
+          frameHeight: 793
+        });
       }
 
       create() {
@@ -100,13 +104,11 @@
 
       createPlayer() {
         const container = this.add.container(1200, 930);
-        const shadow = this.add.ellipse(0, 24, 62, 18, 0x2a461f, 0.18);
-        const body = this.add.rectangle(0, 0, 48, 58, 0x3f2a13).setStrokeStyle(3, 0xfff8da, 0.9);
-        const head = this.add.circle(0, -44, 34, 0xf3a65d).setStrokeStyle(4, 0xfff8da, 0.9);
-        const face = this.add.ellipse(0, -34, 36, 22, 0xfff7db);
-        const cap = this.add.rectangle(0, -72, 54, 16, 0x3f2a13).setStrokeStyle(2, 0xffc84f);
-        const logo = this.add.text(0, -5, "LAI", { fontFamily: "Nunito", fontSize: "14px", fontStyle: "900", color: "#ffc84f" }).setOrigin(0.5);
-        container.add([shadow, body, head, face, cap, logo]);
+        const shadow = this.add.ellipse(0, 10, 58, 18, 0x2a461f, 0.22);
+        const sprite = this.add.image(0, 14, "characters", 0).setOrigin(0.5, 1);
+        sprite.displayHeight = 148;
+        sprite.scaleX = sprite.scaleY;
+        container.add([shadow, sprite]);
         this.physics.add.existing(container);
         container.body.setSize(42, 42).setOffset(-21, -4).setCollideWorldBounds(true);
         this.player = container;
@@ -122,8 +124,11 @@
           ["外送員", 1510, 760, 0x64a6df, "訂單正在配送中。", "orders"]
         ].forEach(([name, x, y, color, line, open], index) => {
           const npc = this.add.container(x, y);
-          npc.add(this.add.ellipse(0, 20, 44, 13, 0x2a461f, 0.14));
-          npc.add(this.add.circle(0, -10, 27, color).setStrokeStyle(3, 0xfff8da));
+          npc.add(this.add.ellipse(0, 14, 48, 15, 0x2a461f, 0.18));
+          const sprite = this.add.image(0, 18, "characters", index + 1).setOrigin(0.5, 1);
+          sprite.displayHeight = 124;
+          sprite.scaleX = sprite.scaleY;
+          npc.add(sprite);
           npc.add(this.add.text(0, -51, name, { fontFamily: "Noto Sans TC", fontSize: "17px", fontStyle: "900", color: "#47341d", backgroundColor: "#fff8da", padding: { x: 8, y: 4 } }).setOrigin(0.5));
           npc.interaction = { id: `npc-${index}`, title: name, text: line, button: "互動", open };
           npc.setSize(58, 72).setInteractive();
