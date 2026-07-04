@@ -7405,33 +7405,11 @@ section {
 /* Keep resource pills beside the avatar card on mobile. */
 @media (max-width: 640px) {
   .life-game-shell .life-currencies {
-    top: max(8px, env(safe-area-inset-top));
-    left: 184px;
-    right: 92px;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 6px;
-  }
-
-  .life-game-shell .life-currencies article {
-    min-height: 34px;
-    grid-template-columns: 24px 1fr 20px;
-    gap: 4px;
-    padding: 4px 4px;
-  }
-
-  .life-game-shell .life-currencies strong {
-    font-size: 0.76rem;
-  }
-
-  .life-game-shell .life-currencies button {
-    width: 20px;
-    height: 20px;
-    min-height: 20px;
-    font-size: 0.74rem;
+    display: none !important;
   }
 
   .life-game-shell .life-facility-map-button {
-    top: max(56px, calc(env(safe-area-inset-top) + 56px));
+    top: max(12px, calc(env(safe-area-inset-top) + 12px));
     right: 8px;
     min-width: 76px;
     min-height: 44px;
