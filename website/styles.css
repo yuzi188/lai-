@@ -4640,15 +4640,22 @@ section {
   box-shadow: inset 0 -4px 0 rgba(112, 76, 37, 0.07);
 }
 
-.life-fit-main .life-avatar {
-  width: 88px;
-  height: 88px;
+.life-character-art {
+  display: block;
+  width: min(170px, 45vw);
+  aspect-ratio: 1 / 1;
+  border-radius: 18px;
+  background-size: contain;
+  background-position: center bottom;
+  background-repeat: no-repeat;
 }
 
-.life-fit-main .life-avatar span {
-  width: 68px;
-  height: 68px;
-}
+.life-character-art.character-staff { background-image: url("assets/outfit/character-staff.png"); }
+.life-character-art.character-chef { background-image: url("assets/outfit/character-chef.png"); }
+.life-character-art.character-summer { background-image: url("assets/outfit/character-summer.png"); }
+.life-character-art.character-delivery { background-image: url("assets/outfit/character-delivery.png"); }
+.life-character-art.character-festival { background-image: url("assets/outfit/character-festival.png"); }
+.life-character-art.character-locked { background-image: url("assets/outfit/character-locked.png"); }
 
 .life-fit-main strong {
   color: #3f2a13;
@@ -4668,7 +4675,7 @@ section {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
 }
 

@@ -155,18 +155,19 @@
   }
 
   function fitPreview(mode = "") {
+    const characterKey = uniformOptions.find(item => item.value === profile.uniform)?.icon || "staff";
     return `
       <div class="life-fit-preview ${esc(mode)} ${esc(profile.background)} effect-${esc(profile.effect)}">
         <div class="life-fit-main">
-          <div class="life-avatar ${esc(profile.avatar)} frame-${esc(profile.frame)}"><span></span></div>
+          <i class="life-character-art character-${esc(characterKey)}"></i>
           <strong>${esc(profile.name)}</strong>
           <b>${esc(profile.title)}</b>
         </div>
         <div class="life-fit-slots">
+          <article><span>&#38957;&#20687;</span><i class="life-mini-avatar ${esc(profile.avatar)}"></i></article>
           <article><span>&#21046;&#26381;</span><i class="life-cosmetic-icon uniform-${esc(profile.uniform)}"></i></article>
           <article><span>&#24494;&#31456;</span><i class="life-cosmetic-icon badge-${esc(profile.badge)}"></i></article>
           <article><span>&#29305;&#25928;</span><i class="life-cosmetic-icon effect-${esc(profile.effect)}"></i></article>
-          <article><span>&#32972;&#26223;</span><i class="life-cosmetic-icon background-${esc(profile.background)}"></i></article>
         </div>
         <button data-life-action="saveProfile">&#20786;&#23384;&#25645;&#37197;</button>
       </div>
