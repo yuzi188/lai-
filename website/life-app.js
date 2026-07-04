@@ -14,8 +14,52 @@
     "'": "&#39;"
   }[char]));
 
+  const profile = {
+    name: "Yu Zi",
+    title: "\u4fbf\u7576\u738b",
+    avatar: "dog",
+    frame: "gold",
+    declaration: "\u4eca\u5929\u4e5f\u8981\u4f86\u7532\u4fbf\u7576"
+  };
+
+  const avatarOptions = [
+    { value: "dog", label: "LAI &#23567;&#29399;&#24215;&#21729;", meta: "&#24050;&#22871;&#29992;", icon: "dog" },
+    { value: "bear", label: "&#35987;&#24215;&#38263;", meta: "&#38936;&#23566;&#21147; +5", icon: "bear" },
+    { value: "rabbit", label: "&#33756;&#22290;&#20820;", meta: "&#39135;&#26448;&#40670;&#25976; +3", icon: "rabbit" },
+    { value: "sheep", label: "&#27963;&#21205;&#32650;", meta: "&#27963;&#21205;&#35299;&#37782;", icon: "sheep", locked: true }
+  ];
+
+  const frameOptions = [
+    { value: "gold", label: "VIP &#37329;&#33394;&#26694;", meta: "&#24050;&#25317;&#26377;", icon: "gold" },
+    { value: "leaf", label: "&#20581;&#24247;&#39184;&#26694;", meta: "&#20581;&#24247;&#39184; 7 &#27425;", icon: "leaf" },
+    { value: "checkin", label: "&#31805;&#21040;&#28779;&#33457;&#26694;", meta: "&#36899;&#32196; 15 &#22825;", icon: "checkin" },
+    { value: "crown", label: "&#20415;&#30070;&#29579;&#20896;&#26694;", meta: "&#25490;&#34892;&#27036;&#21069; 3", icon: "crown", locked: true }
+  ];
+
+  const titleOptions = [
+    { value: "\u4fbf\u7576\u738b", label: "&#20415;&#30070;&#29579;" },
+    { value: "\u96de\u817f\u72c2\u4eba", label: "&#38622;&#33151;&#29378;&#20154;" },
+    { value: "\u5065\u5eb7\u9054\u4eba", label: "&#20581;&#24247;&#36948;&#20154;" },
+    { value: "\u9023\u7e8c\u7c3d\u5230 15 \u5929", label: "&#36899;&#32196;&#31805;&#21040; 15 &#22825;" },
+    { value: "\u5275\u59cb\u6703\u54e1", label: "&#21109;&#22987;&#26371;&#21729;" },
+    { value: "\u795e\u79d8\u98df\u5ba2", label: "&#31070;&#31192;&#39135;&#23458;", locked: true }
+  ];
+
   function cardGrid(items) {
     return `<div class="life-modal-grid">${items.join("")}</div>`;
+  }
+
+  function profileChoice(kind, option) {
+    const selected = profile[kind] === option.value;
+    const icon = kind === "frame"
+      ? `<i class="life-frame-swatch ${esc(option.icon)}"></i>`
+      : `<i class="life-mini-avatar ${esc(option.icon || "dog")}"></i>`;
+    return `<button class="life-choice-card ${selected ? "selected" : ""} ${option.locked ? "locked" : ""}" data-life-action="equip" data-profile-kind="${esc(kind)}" data-profile-value="${esc(option.value)}" data-profile-locked="${option.locked ? "true" : "false"}">${icon}<strong>${option.label}</strong><small>${option.locked ? "&#26410;&#35299;&#37782;" : option.meta}</small></button>`;
+  }
+
+  function profileTitleOption(option) {
+    const selected = profile.title === option.value;
+    return `<button class="${selected ? "selected" : ""} ${option.locked ? "locked" : ""}" data-life-action="equip" data-profile-kind="title" data-profile-value="${esc(option.value)}" data-profile-locked="${option.locked ? "true" : "false"}">${option.label}</button>`;
   }
 
   function infoCard(titleText, bodyText, meta = "") {
@@ -51,6 +95,20 @@
     document.querySelector("[data-life-value='hearts']").textContent = `${data.wallet.hearts}/${data.wallet.maxHearts}`;
   }
 
+  function syncProfile() {
+    const cards = document.querySelectorAll(".life-avatar");
+    cards.forEach(avatar => {
+      avatar.classList.remove("dog", "bear", "rabbit", "sheep", "frame-gold", "frame-leaf", "frame-checkin", "frame-crown");
+      avatar.classList.add(profile.avatar, `frame-${profile.frame}`);
+    });
+    document.querySelectorAll(".life-profile-card p").forEach(item => {
+      item.textContent = `\u65e9\u5b89\uff0c ${profile.name}`;
+    });
+    document.querySelectorAll(".life-profile-card h1").forEach(item => {
+      item.textContent = `Lv.27 ${profile.title}`;
+    });
+  }
+
   const rankingNames = {
     bento: "便當王排行",
     gift: "送禮王排行",
@@ -82,19 +140,19 @@
         <section class="life-member-editor">
           <div class="life-member-editor-hero">
             <div class="life-profile-avatar-stage">
-              <div class="life-avatar big"><span></span></div>
+              <div class="life-avatar big ${esc(profile.avatar)} frame-${esc(profile.frame)}"><span></span></div>
               <b>VIP3</b>
             </div>
             <div>
-              <span>VIP3&#65372;Lv.27&#65372;&#20415;&#30070;&#29579;</span>
-              <h3>Yu Zi</h3>
-              <p>&#31281;&#34399;&#65306;&#20415;&#30070;&#29579;</p>
+              <span>VIP3&#65372;Lv.27&#65372;${esc(profile.title)}</span>
+              <h3>${esc(profile.name)}</h3>
+              <p>&#31281;&#34399;&#65306;${esc(profile.title)}</p>
               ${progressBar(51, "1280 / 2500 EXP")}
             </div>
           </div>
           <div class="life-profile-form">
-            <label>&#39023;&#31034;&#21517;&#31281;<input value="Yu Zi" maxlength="16"></label>
-            <label>&#20491;&#20154;&#23459;&#35328;<input value="&#20170;&#22825;&#20063;&#35201;&#20358;&#30002;&#20415;&#30070;" maxlength="24"></label>
+            <label>&#39023;&#31034;&#21517;&#31281;<input data-profile-name value="${esc(profile.name)}" maxlength="16"></label>
+            <label>&#20491;&#20154;&#23459;&#35328;<input data-profile-declaration value="${esc(profile.declaration)}" maxlength="24"></label>
           </div>
           <div class="life-wallet-grid">
             <article><i class="life-coin-icon"></i><span>&#37329;&#24163;</span><strong>${fmt(data.wallet.coins)}</strong></article>
@@ -105,30 +163,19 @@
           <div class="life-custom-section">
             <header><strong>&#38957;&#20687;&#39080;&#26684;</strong><span>&#36984;&#25799;&#20320;&#22312;&#20415;&#30070;&#23567;&#37806;&#30340;&#35282;&#33394;</span></header>
             <div class="life-choice-grid">
-              <button class="life-choice-card selected" data-life-action="equip"><i class="life-mini-avatar dog"></i><strong>LAI &#23567;&#29399;&#24215;&#21729;</strong><small>&#24050;&#22871;&#29992;</small></button>
-              <button class="life-choice-card" data-life-action="equip"><i class="life-mini-avatar bear"></i><strong>&#35987;&#24215;&#38263;</strong><small>&#38936;&#23566;&#21147; +5</small></button>
-              <button class="life-choice-card" data-life-action="equip"><i class="life-mini-avatar rabbit"></i><strong>&#33756;&#22290;&#20820;</strong><small>&#39135;&#26448;&#40670;&#25976; +3</small></button>
-              <button class="life-choice-card locked" data-life-action="equip"><i class="life-mini-avatar sheep"></i><strong>&#27963;&#21205;&#32650;</strong><small>&#27963;&#21205;&#35299;&#37782;</small></button>
+              ${avatarOptions.map(option => profileChoice("avatar", option)).join("")}
             </div>
           </div>
           <div class="life-custom-section">
             <header><strong>&#38957;&#20687;&#26694;</strong><span>&#23637;&#31034; VIP&#12289;&#31805;&#21040;&#33287;&#20581;&#24247;&#25104;&#23601;</span></header>
             <div class="life-choice-grid">
-              <button class="life-choice-card selected" data-life-action="equip"><i class="life-frame-swatch gold"></i><strong>VIP &#37329;&#33394;&#26694;</strong><small>&#24050;&#25317;&#26377;</small></button>
-              <button class="life-choice-card" data-life-action="equip"><i class="life-frame-swatch leaf"></i><strong>&#20581;&#24247;&#39184;&#26694;</strong><small>&#20581;&#24247;&#39184; 7 &#27425;</small></button>
-              <button class="life-choice-card" data-life-action="equip"><i class="life-frame-swatch checkin"></i><strong>&#31805;&#21040;&#28779;&#33457;&#26694;</strong><small>&#36899;&#32196; 15 &#22825;</small></button>
-              <button class="life-choice-card locked" data-life-action="equip"><i class="life-frame-swatch crown"></i><strong>&#20415;&#30070;&#29579;&#20896;&#26694;</strong><small>&#25490;&#34892;&#27036;&#21069; 3</small></button>
+              ${frameOptions.map(option => profileChoice("frame", option)).join("")}
             </div>
           </div>
           <div class="life-custom-section">
             <header><strong>&#31281;&#34399;</strong><span>&#21029;&#20154;&#30475;&#24471;&#21040;&#30340;&#20491;&#20154;&#27161;&#31844;</span></header>
             <div class="life-title-rack">
-              <button class="selected" data-life-action="equip">&#20415;&#30070;&#29579;</button>
-              <button data-life-action="equip">&#38622;&#33151;&#29378;&#20154;</button>
-              <button data-life-action="equip">&#20581;&#24247;&#36948;&#20154;</button>
-              <button data-life-action="equip">&#36899;&#32196;&#31805;&#21040; 15 &#22825;</button>
-              <button data-life-action="equip">&#21109;&#22987;&#26371;&#21729;</button>
-              <button class="locked" data-life-action="equip">&#31070;&#31192;&#39135;&#23458;</button>
+              ${titleOptions.map(profileTitleOption).join("")}
             </div>
           </div>
           <div class="life-member-actions">
@@ -634,10 +681,34 @@
     mapPin: () => toast("已標記地圖點位。"),
     decorate: () => toast("已擺上我的餐桌。"),
     useItem: () => toast("已使用背包道具。"),
-    equip: () => toast("已套用裝扮。"),
+    equip(event) {
+      const target = event.target.closest("[data-profile-kind]");
+      if (!target) {
+        toast("已套用裝扮。");
+        return;
+      }
+      if (target.dataset.profileLocked === "true") {
+        toast("\u9019\u500b\u5916\u89c0\u9084\u6c92\u89e3\u9396\u3002");
+        return;
+      }
+      const kind = target.dataset.profileKind;
+      const value = target.dataset.profileValue;
+      if (kind && value) profile[kind] = value;
+      syncProfile();
+      toast("\u5df2\u5957\u7528\u5916\u89c0\u8a2d\u5b9a\u3002");
+      openModal("memberProfile");
+    },
     joinEvent: () => toast("已加入活動。"),
     trackOrder: () => toast("訂單追蹤已開啟。"),
-    saveProfile: () => toast("\u6703\u54e1\u8cc7\u6599\u5df2\u5132\u5b58\u3002"),
+    saveProfile() {
+      const nameInput = body.querySelector("[data-profile-name]");
+      const declarationInput = body.querySelector("[data-profile-declaration]");
+      if (nameInput?.value.trim()) profile.name = nameInput.value.trim();
+      if (declarationInput?.value.trim()) profile.declaration = declarationInput.value.trim();
+      syncProfile();
+      toast("\u6703\u54e1\u8cc7\u6599\u5df2\u5132\u5b58\u3002");
+      openModal("memberProfile");
+    },
     readNotice: event => event.target.closest(".life-modal-row")?.remove()
   };
 
@@ -1120,5 +1191,6 @@
   });
 
   syncWallet();
+  syncProfile();
   initTownGame();
 })();

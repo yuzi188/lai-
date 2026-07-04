@@ -3421,6 +3421,26 @@ section {
   border: 4px solid #fff7db;
 }
 
+.life-avatar.frame-gold {
+  border-color: #ffe391;
+  box-shadow: 0 0 0 4px rgba(214, 148, 31, 0.28), inset 0 -5px 0 rgba(112, 76, 37, 0.12);
+}
+
+.life-avatar.frame-leaf {
+  border-color: #c8e7a2;
+  box-shadow: 0 0 0 4px rgba(95, 152, 76, 0.24), inset 0 -5px 0 rgba(70, 111, 55, 0.12);
+}
+
+.life-avatar.frame-checkin {
+  border-color: #ffd2a1;
+  box-shadow: 0 0 0 4px rgba(239, 143, 58, 0.26), inset 0 -5px 0 rgba(112, 76, 37, 0.12);
+}
+
+.life-avatar.frame-crown {
+  border-color: #ffd967;
+  box-shadow: 0 0 0 5px rgba(214, 151, 24, 0.36), 0 0 16px rgba(255, 222, 105, 0.48), inset 0 -5px 0 rgba(112, 76, 37, 0.12);
+}
+
 .life-avatar span,
 .life-friend-icons span {
   width: 48px;
@@ -3432,6 +3452,34 @@ section {
     radial-gradient(circle at 50% 62%, #b45d3f 0 5px, transparent 6px),
     #f4a85c;
   box-shadow: 0 -14px 0 #df7b39 inset;
+}
+
+.life-avatar.bear span {
+  background:
+    radial-gradient(circle at 34% 43%, #3f2a13 0 3px, transparent 4px),
+    radial-gradient(circle at 66% 43%, #3f2a13 0 3px, transparent 4px),
+    radial-gradient(circle at 50% 62%, #7d452d 0 5px, transparent 6px),
+    #b77b3e;
+  box-shadow: 0 -14px 0 #8b572f inset;
+}
+
+.life-avatar.rabbit span {
+  border-radius: 48% 48% 44% 44%;
+  background:
+    radial-gradient(circle at 34% 43%, #3f2a13 0 3px, transparent 4px),
+    radial-gradient(circle at 66% 43%, #3f2a13 0 3px, transparent 4px),
+    radial-gradient(circle at 50% 62%, #b45d3f 0 5px, transparent 6px),
+    #f3c6b0;
+  box-shadow: 0 -14px 0 #e7a0a6 inset;
+}
+
+.life-avatar.sheep span {
+  background:
+    radial-gradient(circle at 34% 43%, #3f2a13 0 3px, transparent 4px),
+    radial-gradient(circle at 66% 43%, #3f2a13 0 3px, transparent 4px),
+    radial-gradient(circle at 50% 62%, #876142 0 5px, transparent 6px),
+    #d8d2bd;
+  box-shadow: 0 -14px 0 #f8f0dc inset;
 }
 
 .life-profile-card p,
