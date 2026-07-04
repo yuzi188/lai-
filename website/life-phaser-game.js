@@ -59,13 +59,7 @@
 
       drawTown() {
         const bg = this.add.image(world.width / 2, world.height / 2, "townBg");
-        bg.setDisplaySize(world.width, world.height).setAlpha(0.92);
-
-        const g = this.add.graphics();
-        g.fillStyle(0xe7c487, 0.72);
-        g.fillEllipse(1200, 900, 1180, 520);
-        g.fillStyle(0xfff3d6, 0.45);
-        g.fillEllipse(1200, 900, 860, 320);
+        bg.setDisplaySize(world.width, world.height).setAlpha(1);
 
         this.addZoneObstacle(1070, 770, 260, 170, "噴水池", 0x78b7c7, "circle");
         this.addBuilding(840, 150, 620, 360, "LAI 便當", 0xfff3d6, 0xffc84f);
@@ -85,17 +79,8 @@
       }
 
       addBuilding(x, y, w, h, label, bodyColor, roofColor) {
-        const base = this.add.rectangle(x + w / 2, y + h / 2, w, h, bodyColor, 0.9).setStrokeStyle(5, 0x704c25, 0.18);
-        const roof = this.add.rectangle(x + w / 2, y + 32, w * 0.86, 64, roofColor, 0.9).setStrokeStyle(4, 0x704c25, 0.16);
-        const text = this.add.text(x + w / 2, y + h / 2, label, {
-          fontFamily: "Noto Sans TC",
-          fontSize: "28px",
-          fontStyle: "900",
-          color: "#47341d"
-        }).setOrigin(0.5);
-        this.tweens.add({ targets: roof, y: roof.y + 3, yoyo: true, repeat: -1, duration: 1400, ease: "Sine.inOut" });
         this.addZoneObstacle(x, y, w, h, label);
-        return { base, roof, text };
+        return null;
       }
 
       addZoneObstacle(x, y, w, h, label, color, shape) {
@@ -103,20 +88,13 @@
         this.physics.add.existing(zone, true);
         zone.label = label;
         this.blockers.push(zone);
-        if (shape === "circle") {
-          const water = this.add.ellipse(x + w / 2, y + h / 2, w, h, color || 0x78b7c7, 0.72).setStrokeStyle(5, 0xfff8da, 0.7);
-          this.tweens.add({ targets: water, scaleX: 1.03, scaleY: 1.03, yoyo: true, repeat: -1, duration: 1100 });
-        }
         return zone;
       }
 
       addTree(x, y) {
-        const trunk = this.add.rectangle(x, y + 34, 18, 54, 0x8b6f3c);
-        const crown = this.add.circle(x, y, 44, 0x6fb15d);
         const zone = this.add.zone(x, y + 24, 76, 92);
         this.physics.add.existing(zone, true);
         this.blockers.push(zone);
-        this.tweens.add({ targets: crown, angle: 2, yoyo: true, repeat: -1, duration: 1900, ease: "Sine.inOut" });
         return zone;
       }
 
