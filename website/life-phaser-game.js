@@ -9,7 +9,7 @@
     const openModal = options.openModal;
     const updateHint = options.updateHint;
     const toast = options.toast;
-    const world = { width: 941, height: 2037 };
+    const world = { width: 1130, height: 2037 };
 
     class LaiTownScene extends Phaser.Scene {
       constructor() {
@@ -56,7 +56,7 @@
         const isTablet = width <= 1100;
         const fullMapZoom = Math.min(width / world.width, height / world.height);
         const coverZoom = Math.max(width / world.width, height / world.height) * 1.02;
-        const zoom = isPortraitPhone ? fullMapZoom : isTablet ? Math.max(coverZoom, 0.46) : 0.72;
+        const zoom = isPortraitPhone ? coverZoom : isTablet ? Math.max(coverZoom, 0.46) : 0.72;
         this.cameras.main.setZoom(zoom);
         this.cameras.main.setLerp(isPortraitPhone ? 0.08 : 0.12, isPortraitPhone ? 0.08 : 0.12);
         this.cameras.main.centerOn(this.player.x, this.player.y);
@@ -66,17 +66,17 @@
         const bg = this.add.image(world.width / 2, world.height / 2, "townBg");
         bg.setDisplaySize(world.width, world.height).setAlpha(1);
 
-        this.addZoneObstacle(392, 880, 160, 118, "噴水池", 0x78b7c7, "circle");
-        this.addBuilding(310, 365, 320, 210, "LAI 便當", 0xfff3d6, 0xffc84f);
-        this.addBuilding(690, 360, 180, 150, "便當餐車", 0xfff8da, 0x7fb86f);
-        this.addBuilding(260, 1240, 220, 210, "小菜園", 0xf3e2bd, 0x7fb86f);
-        this.addBuilding(26, 650, 170, 170, "任務看板", 0xfff8da, 0xb87945);
-        this.addBuilding(680, 910, 220, 205, "排行榜", 0xfff8da, 0xffc84f);
-        this.addBuilding(685, 1218, 130, 160, "禮物郵箱", 0xf06a55, 0xffc84f);
-        this.addBuilding(690, 690, 190, 160, "商城攤位", 0xfff8da, 0xb87945);
-        this.addBuilding(60, 1420, 220, 210, "我的餐桌", 0xfff8da, 0x8b6f3c);
-        this.addBuilding(70, 330, 230, 210, "企業團購", 0xe8eef6, 0x7fb86f);
-        this.addBuilding(650, 1550, 230, 210, "巴士站", 0xf7d37c, 0x64a6df);
+        this.addZoneObstacle(486.5, 880, 160, 118, "噴水池", 0x78b7c7, "circle");
+        this.addBuilding(404.5, 365, 320, 210, "LAI 便當", 0xfff3d6, 0xffc84f);
+        this.addBuilding(784.5, 360, 180, 150, "便當餐車", 0xfff8da, 0x7fb86f);
+        this.addBuilding(354.5, 1240, 220, 210, "小菜園", 0xf3e2bd, 0x7fb86f);
+        this.addBuilding(120.5, 650, 170, 170, "任務看板", 0xfff8da, 0xb87945);
+        this.addBuilding(774.5, 910, 220, 205, "排行榜", 0xfff8da, 0xffc84f);
+        this.addBuilding(779.5, 1218, 130, 160, "禮物郵箱", 0xf06a55, 0xffc84f);
+        this.addBuilding(784.5, 690, 190, 160, "商城攤位", 0xfff8da, 0xb87945);
+        this.addBuilding(154.5, 1420, 220, 210, "我的餐桌", 0xfff8da, 0x8b6f3c);
+        this.addBuilding(164.5, 330, 230, 210, "企業團購", 0xe8eef6, 0x7fb86f);
+        this.addBuilding(744.5, 1550, 230, 210, "巴士站", 0xf7d37c, 0x64a6df);
       }
 
       addBuilding(x, y, w, h, label, bodyColor, roofColor) {
@@ -100,7 +100,7 @@
       }
 
       createPlayer() {
-        const container = this.add.container(470, 1050);
+        const container = this.add.container(564.5, 1050);
         const shadow = this.add.ellipse(0, 10, 58, 18, 0x2a461f, 0.22);
         const sprite = this.add.image(0, 14, "characters", 0).setOrigin(0.5, 1);
         sprite.displayHeight = 148;
@@ -113,12 +113,12 @@
 
       createNpcs() {
         [
-          ["店長阿萊", 420, 620, 0xf3a65d, "今天推薦雞腿排健康餐。", "orders"],
-          ["菜園小幫手", 340, 1470, 0x7fb86f, "番茄和高麗菜快成熟了。", "garden"],
-          ["好友小鎮民", 175, 1120, 0xf0c16d, "要互送禮物嗎？", "friends"],
-          ["活動主持人", 420, 930, 0xa7d9d0, "新活動正在中央廣場。", "events"],
-          ["商城老闆", 760, 860, 0xb87945, "今天優惠券補貨。", "shop"],
-          ["外送員", 770, 610, 0x64a6df, "訂單正在配送中。", "orders"]
+          ["店長阿萊", 514.5, 620, 0xf3a65d, "今天推薦雞腿排健康餐。", "orders"],
+          ["菜園小幫手", 434.5, 1470, 0x7fb86f, "番茄和高麗菜快成熟了。", "garden"],
+          ["好友小鎮民", 269.5, 1120, 0xf0c16d, "要互送禮物嗎？", "friends"],
+          ["活動主持人", 514.5, 930, 0xa7d9d0, "新活動正在中央廣場。", "events"],
+          ["商城老闆", 854.5, 860, 0xb87945, "今天優惠券補貨。", "shop"],
+          ["外送員", 864.5, 610, 0x64a6df, "訂單正在配送中。", "orders"]
         ].forEach(([name, x, y, color, line, open], index) => {
           const npc = this.add.container(x, y);
           npc.add(this.add.ellipse(0, 14, 48, 15, 0x2a461f, 0.18));
@@ -126,7 +126,7 @@
           sprite.displayHeight = 124;
           sprite.scaleX = sprite.scaleY;
           npc.add(sprite);
-          npc.add(this.add.text(0, -51, name, { fontFamily: "Noto Sans TC", fontSize: "17px", fontStyle: "900", color: "#47341d", backgroundColor: "#fff8da", padding: { x: 8, y: 4 } }).setOrigin(0.5));
+          npc.add(this.add.text(0, -51, name, { fontFamily: "Noto Sans TC", fontSize: "17px", fontStyle: "900", color: "#47341d", backgroundColor: "#fff8da", padding: { x: 102.5, y: 4 } }).setOrigin(0.5));
           npc.interaction = { id: `npc-${index}`, title: name, text: line, button: "互動", open };
           npc.setSize(58, 72).setInteractive();
           npc.on("pointerdown", () => {
@@ -140,17 +140,17 @@
 
       createInteractions() {
         this.interactions = [
-          { id: "shop", x: 470, y: 610, radius: 78, title: "LAI\u4fbf\u7576\u5e97", text: "\u9032\u5165\u8a02\u8cfc\u8207\u4eca\u65e5\u9910\u76d2\u3002", button: "\u8a02\u4fbf\u7576", open: "orders" },
-          { id: "truck", x: 770, y: 620, radius: 68, title: "\u4fbf\u7576\u9910\u8eca", text: "\u67e5\u770b\u4eca\u65e5\u63a8\u85a6\u9910\u76d2\u3002", button: "\u4eca\u65e5\u63a8\u85a6", open: "todayRecommendation" },
-          { id: "task", x: 110, y: 790, radius: 66, title: "\u4efb\u52d9\u677f", text: "\u67e5\u770b\u6bcf\u65e5\u4efb\u52d9\u8207\u734e\u52f5\u3002", button: "\u4efb\u52d9\u4e2d\u5fc3", open: "tasks" },
-          { id: "rank", x: 770, y: 1070, radius: 72, title: "\u6392\u884c\u699c", text: "\u67e5\u770b\u4fbf\u7576\u738b\u8207\u597d\u53cb\u6392\u884c\u3002", button: "\u6392\u884c\u699c", open: "rankings" },
-          { id: "garden", x: 345, y: 1390, radius: 78, title: "\u5c0f\u83dc\u5712", text: "\u6536\u6210\u98df\u6750\u4e26\u7d2f\u7a4d\u98df\u6750\u9ede\u6578\u3002", button: "\u9032\u5165\u83dc\u5712", open: "garden" },
-          { id: "friends", x: 175, y: 1120, radius: 68, title: "\u597d\u53cb\u5ee3\u5834", text: "\u627e\u597d\u53cb\u3001\u6253\u62db\u547c\u8207\u9001\u79ae\u3002", button: "\u597d\u53cb", open: "friends" },
-          { id: "mail", x: 745, y: 1325, radius: 70, title: "\u79ae\u7269\u90f5\u7bb1", text: "\u67e5\u770b\u6536\u5230\u8207\u9001\u51fa\u7684\u79ae\u7269\u3002", button: "\u79ae\u7269", open: "gifts" },
-          { id: "shopStand", x: 775, y: 820, radius: 72, title: "\u512a\u60e0\u5546\u57ce", text: "\u514c\u63db\u512a\u60e0\u5238\u3001\u52a0\u83dc\u5238\u8207\u88dd\u98fe\u54c1\u3002", button: "\u5546\u57ce", open: "shop" },
-          { id: "table", x: 170, y: 1530, radius: 76, title: "\u6211\u7684\u9910\u684c", text: "\u4f48\u7f6e\u500b\u4eba\u9910\u684c\u7a7a\u9593\u3002", button: "\u6211\u7684\u9910\u684c", open: "table" },
-          { id: "group", x: 180, y: 500, radius: 76, title: "\u4f01\u696d\u5718\u8cfc", text: "\u67e5\u770b\u516c\u53f8\u8207\u5718\u9ad4\u8a02\u9910\u3002", button: "\u4f01\u696d\u8a02\u9910", open: "groupOrder" },
-          { id: "bus", x: 760, y: 1650, radius: 76, title: "\u63a2\u7d22\u51fa\u767c\u7ad9", text: "\u51fa\u9580\u901b\u901b\u9644\u8fd1\u6d3b\u52d5\u8207\u751f\u6d3b\u5708\u3002", button: "\u51fa\u9580\u901b\u901b", open: "explore" }
+          { id: "shop", x: 564.5, y: 610, radius: 78, title: "LAI\u4fbf\u7576\u5e97", text: "\u9032\u5165\u8a02\u8cfc\u8207\u4eca\u65e5\u9910\u76d2\u3002", button: "\u8a02\u4fbf\u7576", open: "orders" },
+          { id: "truck", x: 864.5, y: 620, radius: 68, title: "\u4fbf\u7576\u9910\u8eca", text: "\u67e5\u770b\u4eca\u65e5\u63a8\u85a6\u9910\u76d2\u3002", button: "\u4eca\u65e5\u63a8\u85a6", open: "todayRecommendation" },
+          { id: "task", x: 204.5, y: 790, radius: 66, title: "\u4efb\u52d9\u677f", text: "\u67e5\u770b\u6bcf\u65e5\u4efb\u52d9\u8207\u734e\u52f5\u3002", button: "\u4efb\u52d9\u4e2d\u5fc3", open: "tasks" },
+          { id: "rank", x: 864.5, y: 1070, radius: 72, title: "\u6392\u884c\u699c", text: "\u67e5\u770b\u4fbf\u7576\u738b\u8207\u597d\u53cb\u6392\u884c\u3002", button: "\u6392\u884c\u699c", open: "rankings" },
+          { id: "garden", x: 439.5, y: 1390, radius: 78, title: "\u5c0f\u83dc\u5712", text: "\u6536\u6210\u98df\u6750\u4e26\u7d2f\u7a4d\u98df\u6750\u9ede\u6578\u3002", button: "\u9032\u5165\u83dc\u5712", open: "garden" },
+          { id: "friends", x: 269.5, y: 1120, radius: 68, title: "\u597d\u53cb\u5ee3\u5834", text: "\u627e\u597d\u53cb\u3001\u6253\u62db\u547c\u8207\u9001\u79ae\u3002", button: "\u597d\u53cb", open: "friends" },
+          { id: "mail", x: 839.5, y: 1325, radius: 70, title: "\u79ae\u7269\u90f5\u7bb1", text: "\u67e5\u770b\u6536\u5230\u8207\u9001\u51fa\u7684\u79ae\u7269\u3002", button: "\u79ae\u7269", open: "gifts" },
+          { id: "shopStand", x: 869.5, y: 820, radius: 72, title: "\u512a\u60e0\u5546\u57ce", text: "\u514c\u63db\u512a\u60e0\u5238\u3001\u52a0\u83dc\u5238\u8207\u88dd\u98fe\u54c1\u3002", button: "\u5546\u57ce", open: "shop" },
+          { id: "table", x: 264.5, y: 1530, radius: 76, title: "\u6211\u7684\u9910\u684c", text: "\u4f48\u7f6e\u500b\u4eba\u9910\u684c\u7a7a\u9593\u3002", button: "\u6211\u7684\u9910\u684c", open: "table" },
+          { id: "group", x: 274.5, y: 500, radius: 76, title: "\u4f01\u696d\u5718\u8cfc", text: "\u67e5\u770b\u516c\u53f8\u8207\u5718\u9ad4\u8a02\u9910\u3002", button: "\u4f01\u696d\u8a02\u9910", open: "groupOrder" },
+          { id: "bus", x: 854.5, y: 1650, radius: 76, title: "\u63a2\u7d22\u51fa\u767c\u7ad9", text: "\u51fa\u9580\u901b\u901b\u9644\u8fd1\u6d3b\u52d5\u8207\u751f\u6d3b\u5708\u3002", button: "\u51fa\u9580\u901b\u901b", open: "explore" }
         ];
       }
 
