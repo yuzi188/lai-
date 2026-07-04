@@ -9,7 +9,7 @@
     const openModal = options.openModal;
     const updateHint = options.updateHint;
     const toast = options.toast;
-    const world = { width: 2400, height: 1600 };
+    const world = { width: 941, height: 2037 };
 
     class LaiTownScene extends Phaser.Scene {
       constructor() {
@@ -54,8 +54,9 @@
         const height = this.scale.height || window.innerHeight;
         const isPortraitPhone = width <= 640 && height >= width;
         const isTablet = width <= 1100;
-        const coverZoom = Math.max(width / world.width, height / world.height) * 1.04;
-        const zoom = isPortraitPhone ? Math.max(coverZoom, 0.54) : isTablet ? Math.max(coverZoom, 0.46) : 0.72;
+        const fullMapZoom = Math.min(width / world.width, height / world.height);
+        const coverZoom = Math.max(width / world.width, height / world.height) * 1.02;
+        const zoom = isPortraitPhone ? fullMapZoom : isTablet ? Math.max(coverZoom, 0.46) : 0.72;
         this.cameras.main.setZoom(zoom);
         this.cameras.main.setLerp(isPortraitPhone ? 0.08 : 0.12, isPortraitPhone ? 0.08 : 0.12);
         this.cameras.main.centerOn(this.player.x, this.player.y);
@@ -65,21 +66,17 @@
         const bg = this.add.image(world.width / 2, world.height / 2, "townBg");
         bg.setDisplaySize(world.width, world.height).setAlpha(1);
 
-        this.addZoneObstacle(1070, 770, 260, 170, "噴水池", 0x78b7c7, "circle");
-        this.addBuilding(840, 150, 620, 360, "LAI 便當", 0xfff3d6, 0xffc84f);
-        this.addBuilding(1560, 670, 300, 210, "便當餐車", 0xfff8da, 0x7fb86f);
-        this.addBuilding(1580, 170, 500, 300, "小菜園", 0xf3e2bd, 0x7fb86f);
-        this.addBuilding(470, 630, 300, 170, "任務看板", 0xfff8da, 0xb87945);
-        this.addBuilding(450, 850, 320, 170, "排行榜", 0xfff8da, 0xffc84f);
-        this.addBuilding(1660, 930, 220, 200, "禮物郵箱", 0xf06a55, 0xffc84f);
-        this.addBuilding(1710, 1210, 300, 230, "商城攤位", 0xfff8da, 0xb87945);
-        this.addBuilding(640, 1190, 330, 220, "我的餐桌", 0xfff8da, 0x8b6f3c);
-        this.addBuilding(1080, 1210, 360, 240, "企業團購", 0xe8eef6, 0x7fb86f);
-        this.addBuilding(260, 1180, 260, 190, "巴士站", 0xf7d37c, 0x64a6df);
-
-        for (let i = 0; i < 26; i += 1) this.addTree(90 + i * 86, 92 + (i % 3) * 26);
-        for (let i = 0; i < 18; i += 1) this.addTree(110 + i * 126, 1500 - (i % 2) * 36);
-        for (let i = 0; i < 9; i += 1) this.addTree(2260, 180 + i * 132);
+        this.addZoneObstacle(392, 880, 160, 118, "噴水池", 0x78b7c7, "circle");
+        this.addBuilding(310, 365, 320, 210, "LAI 便當", 0xfff3d6, 0xffc84f);
+        this.addBuilding(690, 360, 180, 150, "便當餐車", 0xfff8da, 0x7fb86f);
+        this.addBuilding(260, 1240, 220, 210, "小菜園", 0xf3e2bd, 0x7fb86f);
+        this.addBuilding(26, 650, 170, 170, "任務看板", 0xfff8da, 0xb87945);
+        this.addBuilding(680, 910, 220, 205, "排行榜", 0xfff8da, 0xffc84f);
+        this.addBuilding(685, 1218, 130, 160, "禮物郵箱", 0xf06a55, 0xffc84f);
+        this.addBuilding(690, 690, 190, 160, "商城攤位", 0xfff8da, 0xb87945);
+        this.addBuilding(60, 1420, 220, 210, "我的餐桌", 0xfff8da, 0x8b6f3c);
+        this.addBuilding(70, 330, 230, 210, "企業團購", 0xe8eef6, 0x7fb86f);
+        this.addBuilding(650, 1550, 230, 210, "巴士站", 0xf7d37c, 0x64a6df);
       }
 
       addBuilding(x, y, w, h, label, bodyColor, roofColor) {
@@ -103,7 +100,7 @@
       }
 
       createPlayer() {
-        const container = this.add.container(1200, 930);
+        const container = this.add.container(470, 1050);
         const shadow = this.add.ellipse(0, 10, 58, 18, 0x2a461f, 0.22);
         const sprite = this.add.image(0, 14, "characters", 0).setOrigin(0.5, 1);
         sprite.displayHeight = 148;
@@ -116,12 +113,12 @@
 
       createNpcs() {
         [
-          ["店長阿萊", 1060, 610, 0xf3a65d, "今天推薦雞腿排健康餐。", "orders"],
-          ["菜園小幫手", 1680, 520, 0x7fb86f, "番茄和高麗菜快成熟了。", "garden"],
-          ["好友小鎮民", 1430, 1020, 0xf0c16d, "要互送禮物嗎？", "friends"],
-          ["活動主持人", 1000, 900, 0xa7d9d0, "新活動正在中央廣場。", "events"],
-          ["商城老闆", 1660, 1160, 0xb87945, "今天優惠券補貨。", "shop"],
-          ["外送員", 1510, 760, 0x64a6df, "訂單正在配送中。", "orders"]
+          ["店長阿萊", 420, 620, 0xf3a65d, "今天推薦雞腿排健康餐。", "orders"],
+          ["菜園小幫手", 340, 1470, 0x7fb86f, "番茄和高麗菜快成熟了。", "garden"],
+          ["好友小鎮民", 175, 1120, 0xf0c16d, "要互送禮物嗎？", "friends"],
+          ["活動主持人", 420, 930, 0xa7d9d0, "新活動正在中央廣場。", "events"],
+          ["商城老闆", 760, 860, 0xb87945, "今天優惠券補貨。", "shop"],
+          ["外送員", 770, 610, 0x64a6df, "訂單正在配送中。", "orders"]
         ].forEach(([name, x, y, color, line, open], index) => {
           const npc = this.add.container(x, y);
           npc.add(this.add.ellipse(0, 14, 48, 15, 0x2a461f, 0.18));
@@ -143,17 +140,17 @@
 
       createInteractions() {
         this.interactions = [
-          { id: "shop", x: 1120, y: 560, radius: 150, title: "LAI便當店", text: "查看便當、加入購物車、結帳。", button: "去訂便當", open: "orders" },
-          { id: "truck", x: 1510, y: 850, radius: 130, title: "便當餐車", text: "查看今日推薦與配送狀態。", button: "今日推薦", open: "todayRecommendation" },
-          { id: "task", x: 590, y: 800, radius: 110, title: "任務看板", text: "每日、每週、新手、成就任務。", button: "任務中心", open: "tasks" },
-          { id: "rank", x: 590, y: 1010, radius: 110, title: "排行榜看板", text: "便當王、送禮王、健康王排行。", button: "查看排行", open: "rankings" },
-          { id: "garden", x: 1740, y: 500, radius: 150, title: "小菜園", text: "收成高麗菜、番茄、菇類、玉米。", button: "進入菜園", open: "garden" },
-          { id: "friends", x: 1420, y: 1040, radius: 140, title: "好友廣場", text: "打招呼、送禮、看好友最近吃什麼。", button: "打招呼 / 送禮", open: "friends" },
-          { id: "mail", x: 1770, y: 1050, radius: 105, title: "禮物郵箱", text: "查看收到與送出的禮物。", button: "查看禮物", open: "gifts" },
-          { id: "shopStand", x: 1850, y: 1320, radius: 125, title: "商城攤位", text: "兌換優惠券、裝飾、周邊。", button: "進入商城", open: "shop" },
-          { id: "table", x: 800, y: 1340, radius: 120, title: "我的餐桌", text: "佈置桌子、便當、植物、公仔。", button: "我的餐桌", open: "table" },
-          { id: "group", x: 1260, y: 1370, radius: 130, title: "企業團購區", text: "公司團購、企業福利券、團體排行。", button: "企業訂餐", open: "groupOrder" },
-          { id: "bus", x: 390, y: 1340, radius: 120, title: "巴士站", text: "出門逛逛附近活動與生活圈。", button: "出門逛逛", open: "explore" }
+          { id: "shop", x: 470, y: 610, radius: 78, title: "LAI\u4fbf\u7576\u5e97", text: "\u9032\u5165\u8a02\u8cfc\u8207\u4eca\u65e5\u9910\u76d2\u3002", button: "\u8a02\u4fbf\u7576", open: "orders" },
+          { id: "truck", x: 770, y: 620, radius: 68, title: "\u4fbf\u7576\u9910\u8eca", text: "\u67e5\u770b\u4eca\u65e5\u63a8\u85a6\u9910\u76d2\u3002", button: "\u4eca\u65e5\u63a8\u85a6", open: "todayRecommendation" },
+          { id: "task", x: 110, y: 790, radius: 66, title: "\u4efb\u52d9\u677f", text: "\u67e5\u770b\u6bcf\u65e5\u4efb\u52d9\u8207\u734e\u52f5\u3002", button: "\u4efb\u52d9\u4e2d\u5fc3", open: "tasks" },
+          { id: "rank", x: 770, y: 1070, radius: 72, title: "\u6392\u884c\u699c", text: "\u67e5\u770b\u4fbf\u7576\u738b\u8207\u597d\u53cb\u6392\u884c\u3002", button: "\u6392\u884c\u699c", open: "rankings" },
+          { id: "garden", x: 345, y: 1390, radius: 78, title: "\u5c0f\u83dc\u5712", text: "\u6536\u6210\u98df\u6750\u4e26\u7d2f\u7a4d\u98df\u6750\u9ede\u6578\u3002", button: "\u9032\u5165\u83dc\u5712", open: "garden" },
+          { id: "friends", x: 175, y: 1120, radius: 68, title: "\u597d\u53cb\u5ee3\u5834", text: "\u627e\u597d\u53cb\u3001\u6253\u62db\u547c\u8207\u9001\u79ae\u3002", button: "\u597d\u53cb", open: "friends" },
+          { id: "mail", x: 745, y: 1325, radius: 70, title: "\u79ae\u7269\u90f5\u7bb1", text: "\u67e5\u770b\u6536\u5230\u8207\u9001\u51fa\u7684\u79ae\u7269\u3002", button: "\u79ae\u7269", open: "gifts" },
+          { id: "shopStand", x: 775, y: 820, radius: 72, title: "\u512a\u60e0\u5546\u57ce", text: "\u514c\u63db\u512a\u60e0\u5238\u3001\u52a0\u83dc\u5238\u8207\u88dd\u98fe\u54c1\u3002", button: "\u5546\u57ce", open: "shop" },
+          { id: "table", x: 170, y: 1530, radius: 76, title: "\u6211\u7684\u9910\u684c", text: "\u4f48\u7f6e\u500b\u4eba\u9910\u684c\u7a7a\u9593\u3002", button: "\u6211\u7684\u9910\u684c", open: "table" },
+          { id: "group", x: 180, y: 500, radius: 76, title: "\u4f01\u696d\u5718\u8cfc", text: "\u67e5\u770b\u516c\u53f8\u8207\u5718\u9ad4\u8a02\u9910\u3002", button: "\u4f01\u696d\u8a02\u9910", open: "groupOrder" },
+          { id: "bus", x: 760, y: 1650, radius: 76, title: "\u63a2\u7d22\u51fa\u767c\u7ad9", text: "\u51fa\u9580\u901b\u901b\u9644\u8fd1\u6d3b\u52d5\u8207\u751f\u6d3b\u5708\u3002", button: "\u51fa\u9580\u901b\u901b", open: "explore" }
         ];
       }
 
