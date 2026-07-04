@@ -75,7 +75,7 @@
 
   const views = {
     memberProfile: {
-      title: "????",
+      title: "\u6703\u54e1\u8cc7\u6599",
       kicker: "PROFILE",
       wide: true,
       render: () => `
@@ -83,28 +83,28 @@
           <div class="life-member-editor-hero">
             <div class="life-avatar big"><span></span></div>
             <div>
-              <span>VIP3?Lv.27</span>
+              <span>VIP3｜Lv.27</span>
               <h3>Yu Zi</h3>
-              <p>??????</p>
+              <p>&#31281;&#34399;&#65306;&#20415;&#30070;&#29579;</p>
               ${progressBar(51, "1280 / 2500 EXP")}
             </div>
           </div>
           <div class="life-profile-form">
-            <label>????<input value="Yu Zi" maxlength="16"></label>
-            <label>????<select><option>???</option><option>????</option><option>????</option><option>????</option></select></label>
-            <label>????<select><option>LAI ????</option><option>???</option><option>???</option><option>???</option></select></label>
-            <label>???<select><option>VIP ???</option><option>?????</option><option>????</option></select></label>
+            <label>&#39023;&#31034;&#21517;&#31281;<input value="Yu Zi" maxlength="16"></label>
+            <label>&#30446;&#21069;&#31281;&#34399;<select><option>&#20415;&#30070;&#29579;</option><option>&#20581;&#24247;&#36948;&#20154;</option><option>&#38622;&#33151;&#29378;&#20154;</option><option>&#21109;&#22987;&#26371;&#21729;</option></select></label>
+            <label>&#38957;&#20687;&#39080;&#26684;<select><option>LAI &#23567;&#29399;&#24215;&#21729;</option><option>&#35987;&#24215;&#38263;</option><option>&#33756;&#22290;&#20820;</option><option>&#27963;&#21205;&#32650;</option></select></label>
+            <label>&#38957;&#20687;&#26694;<select><option>VIP &#37329;&#33394;&#26694;</option><option>&#27599;&#26085;&#31805;&#21040;&#26694;</option><option>&#20581;&#24247;&#39184;&#26694;</option></select></label>
           </div>
           <div class="life-wallet-grid">
-            <article><i class="life-coin-icon"></i><span>??</span><strong>${fmt(data.wallet.coins)}</strong></article>
-            <article><i class="life-ticket-icon"></i><span>?? / ??</span><strong>${fmt(data.wallet.tickets)}</strong></article>
-            <article><i class="life-heart-icon"></i><span>??</span><strong>${data.wallet.hearts}/${data.wallet.maxHearts}</strong></article>
-            <article><i class="life-leaf-icon"></i><span>????</span><strong>320</strong></article>
+            <article><i class="life-coin-icon"></i><span>&#37329;&#24163;</span><strong>${fmt(data.wallet.coins)}</strong></article>
+            <article><i class="life-ticket-icon"></i><span>&#40670;&#21048; / &#31150;&#21048;</span><strong>${fmt(data.wallet.tickets)}</strong></article>
+            <article><i class="life-heart-icon"></i><span>&#39636;&#21147;</span><strong>${data.wallet.hearts}/${data.wallet.maxHearts}</strong></article>
+            <article><i class="life-leaf-icon"></i><span>&#39135;&#26448;&#40670;&#25976;</span><strong>320</strong></article>
           </div>
           <div class="life-member-actions">
-            <button data-life-action="saveProfile">????</button>
-            <button data-life-open="outfit">????</button>
-            <button data-life-open="coupons">????</button>
+            <button data-life-action="saveProfile">&#20786;&#23384;&#36039;&#26009;</button>
+            <button data-life-open="outfit">&#36914;&#20837;&#35037;&#25198;</button>
+            <button data-life-open="coupons">&#26597;&#30475;&#40670;&#21048;</button>
           </div>
         </section>
       `
@@ -607,7 +607,7 @@
     equip: () => toast("已套用裝扮。"),
     joinEvent: () => toast("已加入活動。"),
     trackOrder: () => toast("訂單追蹤已開啟。"),
-    saveProfile: () => toast("????????"),
+    saveProfile: () => toast("\u6703\u54e1\u8cc7\u6599\u5df2\u5132\u5b58\u3002"),
     readNotice: event => event.target.closest(".life-modal-row")?.remove()
   };
 
