@@ -40,7 +40,20 @@
         this.keys = this.input.keyboard.addKeys("W,A,S,D");
         this.cameras.main.startFollow(this.player, true, 0.12, 0.12);
         this.cameras.main.setBounds(0, 0, world.width, world.height);
+        this.applyResponsiveCamera();
         this.input.on("pointerdown", pointer => this.handlePointer(pointer));
+        this.scale.on("resize", () => this.applyResponsiveCamera());
+      }
+
+      applyResponsiveCamera() {
+        const width = this.scale.width || window.innerWidth;
+        const height = this.scale.height || window.innerHeight;
+        const isPortraitPhone = width <= 640 && height >= width;
+        const isTablet = width <= 1100;
+        const zoom = isPortraitPhone ? 0.26 : isTablet ? 0.46 : 0.72;
+        this.cameras.main.setZoom(zoom);
+        this.cameras.main.setLerp(isPortraitPhone ? 0.08 : 0.12, isPortraitPhone ? 0.08 : 0.12);
+        this.cameras.main.centerOn(this.player.x, this.player.y);
       }
 
       drawTown() {
