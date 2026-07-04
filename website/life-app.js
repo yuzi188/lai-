@@ -19,6 +19,9 @@
     title: "\u4fbf\u7576\u738b",
     avatar: "dog",
     frame: "gold",
+    uniform: "staff",
+    badge: "gold",
+    background: "shop",
     declaration: "\u4eca\u5929\u4e5f\u8981\u4f86\u7532\u4fbf\u7576"
   };
 
@@ -26,14 +29,18 @@
     { value: "dog", label: "LAI &#23567;&#29399;&#24215;&#21729;", meta: "&#24050;&#22871;&#29992;", icon: "dog" },
     { value: "bear", label: "&#35987;&#24215;&#38263;", meta: "&#38936;&#23566;&#21147; +5", icon: "bear" },
     { value: "rabbit", label: "&#33756;&#22290;&#20820;", meta: "&#39135;&#26448;&#40670;&#25976; +3", icon: "rabbit" },
-    { value: "sheep", label: "&#27963;&#21205;&#32650;", meta: "&#27963;&#21205;&#35299;&#37782;", icon: "sheep", locked: true }
+    { value: "sheep", label: "&#27963;&#21205;&#32650;", meta: "&#27963;&#21205;&#35299;&#37782;", icon: "sheep", locked: true },
+    { value: "chef", label: "&#24282;&#24107;&#38463;&#33756;", meta: "&#20219;&#21209;&#29554;&#24471;", icon: "chef" },
+    { value: "fox", label: "&#26612;&#29356;&#38957;", meta: "&#21830;&#22478;", icon: "fox", locked: true }
   ];
 
   const frameOptions = [
     { value: "gold", label: "VIP &#37329;&#33394;&#26694;", meta: "&#24050;&#25317;&#26377;", icon: "gold" },
     { value: "leaf", label: "&#20581;&#24247;&#39184;&#26694;", meta: "&#20581;&#24247;&#39184; 7 &#27425;", icon: "leaf" },
     { value: "checkin", label: "&#31805;&#21040;&#28779;&#33457;&#26694;", meta: "&#36899;&#32196; 15 &#22825;", icon: "checkin" },
-    { value: "crown", label: "&#20415;&#30070;&#29579;&#20896;&#26694;", meta: "&#25490;&#34892;&#27036;&#21069; 3", icon: "crown", locked: true }
+    { value: "crown", label: "&#20415;&#30070;&#29579;&#20896;&#26694;", meta: "&#25490;&#34892;&#27036;&#21069; 3", icon: "crown", locked: true },
+    { value: "flower", label: "&#33457;&#22290;&#26085;&#26706;", meta: "&#27963;&#21205;", icon: "leaf" },
+    { value: "newyear", label: "&#26032;&#24180;&#36196;&#26694;", meta: "&#38480;&#23450;", icon: "checkin", locked: true }
   ];
 
   const titleOptions = [
@@ -43,6 +50,40 @@
     { value: "\u9023\u7e8c\u7c3d\u5230 15 \u5929", label: "&#36899;&#32196;&#31805;&#21040; 15 &#22825;" },
     { value: "\u5275\u59cb\u6703\u54e1", label: "&#21109;&#22987;&#26371;&#21729;" },
     { value: "\u795e\u79d8\u98df\u5ba2", label: "&#31070;&#31192;&#39135;&#23458;", locked: true }
+  ];
+
+  const uniformOptions = [
+    { value: "staff", label: "LAI &#24215;&#21729;&#26381;", meta: "&#20351;&#29992;&#20013;", icon: "staff" },
+    { value: "chef", label: "&#24282;&#24107;&#21046;&#26381;", meta: "&#20219;&#21209;&#29554;&#24471;", icon: "chef" },
+    { value: "summer", label: "&#22799;&#26085;&#21046;&#26381;", meta: "&#27963;&#21205;&#29554;&#24471;", icon: "summer" },
+    { value: "delivery", label: "&#36939;&#21205;&#22806;&#22871;", meta: "&#21830;&#22478;&#20812;&#25563;", icon: "delivery" },
+    { value: "festival", label: "&#26032;&#24180;&#21644;&#26381;", meta: "&#38480;&#23450;", icon: "festival", locked: true },
+    { value: "secret", label: "&#26410;&#35299;&#37782;", meta: "???", icon: "locked", locked: true }
+  ];
+
+  const badgeOptions = [
+    { value: "gold", label: "&#20415;&#30070;&#29579;", meta: "&#20351;&#29992;&#20013;", icon: "gold" },
+    { value: "healthy", label: "&#20581;&#24247;&#36948;&#20154;", meta: "&#20581;&#24247;&#39184; 7 &#27425;", icon: "healthy" },
+    { value: "spicy", label: "&#36914;&#25802;&#36948;&#20154;", meta: "&#20219;&#21209;&#29554;&#24471;", icon: "spicy" },
+    { value: "social", label: "&#31038;&#32676;&#36948;&#20154;", meta: "&#30332;&#25991; 10 &#27425;", icon: "social" },
+    { value: "checkin", label: "&#25171;&#21345;&#36948;&#20154;", meta: "&#36899;&#32196;&#31805;&#21040;", icon: "checkin" },
+    { value: "hidden", label: "&#38577;&#34255;&#24494;&#31456;", meta: "&#26410;&#35299;&#37782;", icon: "hidden", locked: true }
+  ];
+
+  const backgroundOptions = [
+    { value: "shop", label: "LAI &#23567;&#39184;&#26700;", meta: "&#20351;&#29992;&#20013;", icon: "shop" },
+    { value: "beach", label: "&#28023;&#36942;&#39184;&#26700;", meta: "&#31232;&#26377;", icon: "beach" },
+    { value: "sakura", label: "&#27185;&#33457;&#24237;&#22290;", meta: "&#27963;&#21205;", icon: "sakura" },
+    { value: "forest", label: "&#26862;&#26519;&#23567;&#23627;", meta: "&#20219;&#21209;", icon: "forest" },
+    { value: "night", label: "&#22812;&#26202;&#26143;&#31354;", meta: "&#38480;&#23450;", icon: "night", locked: true },
+    { value: "secret", label: "&#31070;&#31192;&#22580;&#26223;", meta: "&#26410;&#35299;&#37782;", icon: "secret", locked: true }
+  ];
+
+  const obtainMethods = [
+    ["&#27963;&#21205;&#29554;&#24471;", "&#21443;&#33287;&#38480;&#26178;&#27963;&#21205;&#38936;&#21462;&#35037;&#25198;&#29518;&#21237;", "events"],
+    ["&#20219;&#21209;&#29554;&#24471;", "&#23436;&#25104;&#25351;&#23450;&#20219;&#21209;&#35299;&#37782;&#31281;&#34399;&#33287;&#24494;&#31456;", "tasks"],
+    ["&#21830;&#22478;&#36092;&#36023;", "&#20351;&#29992;&#37329;&#24163;&#25110;&#40670;&#21048;&#20812;&#25563;&#22806;&#35264;", "shop"],
+    ["&#31038;&#32676;&#25104;&#23601;", "&#30332;&#25991;&#12289;&#36865;&#31150;&#12289;&#36992;&#35531;&#22909;&#21451;&#29554;&#24471;", "community"]
   ];
 
   function cardGrid(items) {
@@ -60,6 +101,15 @@
   function profileTitleOption(option) {
     const selected = profile.title === option.value;
     return `<button class="${selected ? "selected" : ""} ${option.locked ? "locked" : ""}" data-life-action="equip" data-profile-kind="title" data-profile-value="${esc(option.value)}" data-profile-locked="${option.locked ? "true" : "false"}">${option.label}</button>`;
+  }
+
+  function cosmeticChoice(kind, option) {
+    const selected = profile[kind] === option.value;
+    return `<button class="life-outfit-item ${selected ? "selected" : ""} ${option.locked ? "locked" : ""}" data-life-action="equip" data-cosmetic-kind="${esc(kind)}" data-cosmetic-value="${esc(option.value)}" data-profile-locked="${option.locked ? "true" : "false"}"><i class="life-cosmetic-icon ${esc(kind)}-${esc(option.icon)}"></i><strong>${option.label}</strong><small>${option.locked ? "&#26410;&#35299;&#37782;" : option.meta}</small></button>`;
+  }
+
+  function outfitPanel(number, titleText, content, extraClass = "") {
+    return `<section class="life-outfit-panel ${extraClass}"><header><b>${number}</b><strong>${titleText}</strong></header>${content}</section>`;
   }
 
   function infoCard(titleText, bodyText, meta = "") {
@@ -98,7 +148,7 @@
   function syncProfile() {
     const cards = document.querySelectorAll(".life-avatar");
     cards.forEach(avatar => {
-      avatar.classList.remove("dog", "bear", "rabbit", "sheep", "frame-gold", "frame-leaf", "frame-checkin", "frame-crown");
+      avatar.classList.remove("dog", "bear", "rabbit", "sheep", "chef", "fox", "frame-gold", "frame-leaf", "frame-checkin", "frame-crown", "frame-flower", "frame-newyear");
       avatar.classList.add(profile.avatar, `frame-${profile.frame}`);
     });
     document.querySelectorAll(".life-profile-card p").forEach(item => {
@@ -569,10 +619,41 @@
       render: () => `${tabs(["道具", "禮券", "裝飾品", "食材", "徽章", "任務物品"])}${cardGrid(data.bag.map(item => `<article class="life-modal-card"><span>${item.type}</span><strong>${item.name}</strong><p>數量：1｜稀有度：普通</p><button data-life-action="useItem">使用</button></article>`))}`
     },
     outfit: {
-      title: "裝扮系統",
+      title: "\u88dd\u626e\u7cfb\u7d71\u7e3d\u89bd",
       kicker: "OUTFIT",
       wide: true,
-      render: () => `${tabs(["頭像", "頭像框", "稱號", "制服", "徽章", "桌布背景"])}<section class="life-outfit-preview"><div class="life-avatar"><span></span></div><h3>Yu Zi｜便當王</h3></section>${cardGrid(data.outfit.map((item, index) => `<article class="life-modal-card ${index > 2 ? "locked" : ""}"><strong>${item}</strong><p>${index > 2 ? "解鎖條件：完成健康王任務。" : "已擁有，可立即套用。"}</p><button data-life-action="equip">套用</button></article>`))}`
+      render: () => `
+        <section class="life-outfit-system">
+          ${outfitPanel("01", "&#35037;&#25198;&#31995;&#32113;&#20027;&#38913;", `
+            <div class="life-outfit-home">
+              <div class="life-outfit-tabs"><span>&#38957;&#20687;</span><span>&#38957;&#20687;&#26694;</span><span>&#31281;&#34399;</span><span>&#21046;&#26381;</span><span>&#24494;&#31456;</span><span>&#26700;&#24067;&#32972;&#26223;</span></div>
+              <div class="life-outfit-hero-card">
+                <div class="life-outfit-character ${esc(profile.uniform)}"><div class="life-avatar ${esc(profile.avatar)} frame-${esc(profile.frame)}"><span></span></div><i></i></div>
+                <div>
+                  <h3>${esc(profile.name)}</h3>
+                  <p><b>${esc(profile.title)}</b></p>
+                  ${progressBar(51, "Lv.27  1280 / 2500")}
+                </div>
+              </div>
+              <div class="life-outfit-equipped">
+                <article><i class="life-frame-swatch ${esc(profile.frame)}"></i><strong>&#21109;&#22987;&#26371;&#21729;&#38957;&#20687;&#26694;</strong><button data-life-action="equip">&#22871;&#29992;</button></article>
+                <article><i class="life-cosmetic-icon badge-${esc(profile.badge)}"></i><strong>${esc(profile.title)} &#31281;&#34399;</strong><button data-life-action="equip">&#22871;&#29992;</button></article>
+                <article><i class="life-cosmetic-icon uniform-${esc(profile.uniform)}"></i><strong>LAI &#24215;&#21729;&#24125;</strong><button data-life-action="equip">&#22871;&#29992;</button></article>
+                <article><i class="life-cosmetic-icon badge-healthy"></i><strong>&#20581;&#24247;&#36948;&#20154;&#24494;&#31456;</strong><button class="disabled" type="button">&#26410;&#35299;&#37782;</button></article>
+              </div>
+            </div>
+          `, "home")}
+          ${outfitPanel("02", "&#38957;&#20687;", `<div class="life-outfit-filter"><span>&#20840;&#37096;</span><span>&#22522;&#30990;</span><span>&#27963;&#21205;</span><span>&#38480;&#23450;</span></div><div class="life-outfit-grid avatar-grid">${avatarOptions.map(option => profileChoice("avatar", option)).join("")}</div><div class="life-page-dots">1/3</div>`)}
+          ${outfitPanel("03", "&#38957;&#20687;&#26694;", `<div class="life-outfit-filter"><span>&#20840;&#37096;</span><span>&#19968;&#33324;</span><span>&#31232;&#26377;</span><span>&#38480;&#23450;</span></div><div class="life-outfit-grid">${frameOptions.map(option => profileChoice("frame", option)).join("")}</div><div class="life-page-dots">1/4</div>`)}
+          ${outfitPanel("04", "&#31281;&#34399;", `<div class="life-title-board"><aside><span>&#20840;&#37096;</span><span>&#19968;&#33324;</span><span>&#31232;&#26377;</span><span>&#21490;&#35433;</span><span>&#27963;&#21205;</span></aside><div class="life-title-rack outfit-title">${titleOptions.map(profileTitleOption).join("")}</div></div>`)}
+          ${outfitPanel("05", "&#21046;&#26381;", `<div class="life-outfit-filter"><span>&#20840;&#37096;</span><span>&#19968;&#33324;</span><span>&#31232;&#26377;</span><span>&#38480;&#23450;</span></div><div class="life-outfit-grid">${uniformOptions.map(option => cosmeticChoice("uniform", option)).join("")}</div><div class="life-page-dots">1/3</div>`)}
+          ${outfitPanel("06", "&#24494;&#31456;", `<div class="life-outfit-filter"><span>&#20840;&#37096;</span><span>&#19968;&#33324;</span><span>&#31232;&#26377;</span><span>&#27963;&#21205;</span></div><div class="life-outfit-grid">${badgeOptions.map(option => cosmeticChoice("badge", option)).join("")}</div><div class="life-page-dots">1/3</div>`)}
+          ${outfitPanel("07", "&#26700;&#24067;&#32972;&#26223;", `<div class="life-outfit-filter"><span>&#20840;&#37096;</span><span>&#19968;&#33324;</span><span>&#31232;&#26377;</span><span>&#38480;&#23450;</span></div><div class="life-bg-grid">${backgroundOptions.map(option => cosmeticChoice("background", option)).join("")}</div>`)}
+          ${outfitPanel("08", "&#31359;&#25140;&#38928;&#35261;", `<div class="life-wear-preview ${esc(profile.background)}"><div class="life-outfit-character ${esc(profile.uniform)}"><div class="life-avatar ${esc(profile.avatar)} frame-${esc(profile.frame)}"><span></span></div><i></i></div><button data-life-action="saveProfile">&#20786;&#23384;&#25645;&#37197;</button></div><dl class="life-current-fit"><div><dt>&#38957;&#20687;</dt><dd>${avatarOptions.find(item => item.value === profile.avatar)?.label || "LAI"}</dd></div><div><dt>&#38957;&#20687;&#26694;</dt><dd>${frameOptions.find(item => item.value === profile.frame)?.label || "VIP"}</dd></div><div><dt>&#31281;&#34399;</dt><dd>${esc(profile.title)}</dd></div><div><dt>&#21046;&#26381;</dt><dd>${uniformOptions.find(item => item.value === profile.uniform)?.label || "LAI"}</dd></div><div><dt>&#24494;&#31456;</dt><dd>${badgeOptions.find(item => item.value === profile.badge)?.label || "VIP"}</dd></div></dl>`)}
+          ${outfitPanel("09", "&#29554;&#21462;&#26041;&#24335;", `<div class="life-obtain-list">${obtainMethods.map(item => `<article><i></i><div><strong>${item[0]}</strong><p>${item[1]}</p></div><button data-life-open="${item[2]}">&#21069;&#24448;</button></article>`).join("")}</div>`)}
+          <section class="life-outfit-actions"><strong>10 &#24555;&#36895;&#25805;&#20316;</strong><button data-life-action="equip">&#19968;&#37749;&#22871;&#29992;</button><button data-life-action="saveProfile">&#38568;&#26178;&#20786;&#23384;</button><button data-life-open="shop">&#25512;&#34214;&#26041;&#26696;</button><button data-life-open="friends">&#20998;&#20139;&#25645;&#37197;</button></section>
+        </section>
+      `
     },
     checkin: {
       title: "每日簽到",
@@ -683,6 +764,20 @@
     useItem: () => toast("已使用背包道具。"),
     equip(event) {
       const target = event.target.closest("[data-profile-kind]");
+      const cosmeticTarget = event.target.closest("[data-cosmetic-kind]");
+      if (cosmeticTarget) {
+        if (cosmeticTarget.dataset.profileLocked === "true") {
+          toast("\u9019\u500b\u5916\u89c0\u9084\u6c92\u89e3\u9396\u3002");
+          return;
+        }
+        const kind = cosmeticTarget.dataset.cosmeticKind;
+        const value = cosmeticTarget.dataset.cosmeticValue;
+        if (kind && value) profile[kind] = value;
+        syncProfile();
+        toast("\u5df2\u5957\u7528\u5916\u89c0\u8a2d\u5b9a\u3002");
+        openModal("outfit");
+        return;
+      }
       if (!target) {
         toast("已套用裝扮。");
         return;
@@ -696,7 +791,7 @@
       if (kind && value) profile[kind] = value;
       syncProfile();
       toast("\u5df2\u5957\u7528\u5916\u89c0\u8a2d\u5b9a\u3002");
-      openModal("memberProfile");
+      openModal(target.closest(".life-member-editor") ? "memberProfile" : "outfit");
     },
     joinEvent: () => toast("已加入活動。"),
     trackOrder: () => toast("訂單追蹤已開啟。"),

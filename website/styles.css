@@ -3441,6 +3441,16 @@ section {
   box-shadow: 0 0 0 5px rgba(214, 151, 24, 0.36), 0 0 16px rgba(255, 222, 105, 0.48), inset 0 -5px 0 rgba(112, 76, 37, 0.12);
 }
 
+.life-avatar.frame-flower {
+  border-color: #ffc6d8;
+  box-shadow: 0 0 0 4px rgba(218, 112, 148, 0.24), inset 0 -5px 0 rgba(112, 76, 37, 0.12);
+}
+
+.life-avatar.frame-newyear {
+  border-color: #ef5942;
+  box-shadow: 0 0 0 4px rgba(214, 54, 36, 0.28), inset 0 -5px 0 rgba(112, 76, 37, 0.12);
+}
+
 .life-avatar span,
 .life-friend-icons span {
   width: 48px;
@@ -3480,6 +3490,24 @@ section {
     radial-gradient(circle at 50% 62%, #876142 0 5px, transparent 6px),
     #d8d2bd;
   box-shadow: 0 -14px 0 #f8f0dc inset;
+}
+
+.life-avatar.chef span {
+  background:
+    radial-gradient(circle at 34% 43%, #3f2a13 0 3px, transparent 4px),
+    radial-gradient(circle at 66% 43%, #3f2a13 0 3px, transparent 4px),
+    radial-gradient(circle at 50% 62%, #b45d3f 0 5px, transparent 6px),
+    #ffe2b0;
+  box-shadow: 0 -16px 0 #fffaf0 inset;
+}
+
+.life-avatar.fox span {
+  background:
+    radial-gradient(circle at 34% 43%, #3f2a13 0 3px, transparent 4px),
+    radial-gradient(circle at 66% 43%, #3f2a13 0 3px, transparent 4px),
+    radial-gradient(circle at 50% 62%, #7d452d 0 5px, transparent 6px),
+    #df8a39;
+  box-shadow: 0 -14px 0 #ffffff inset;
 }
 
 .life-profile-card p,
@@ -4490,6 +4518,356 @@ section {
   text-align: center;
 }
 
+.life-outfit-system {
+  display: grid;
+  grid-template-columns: 1.12fr 1fr 1fr;
+  gap: 12px;
+}
+
+.life-outfit-panel,
+.life-outfit-actions {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  border: 2px solid rgba(112, 76, 37, 0.12);
+  border-radius: 16px;
+  background: rgba(255, 252, 238, 0.88);
+  padding: 12px;
+  box-shadow: inset 0 -4px 0 rgba(112, 76, 37, 0.06), 0 8px 18px rgba(112, 76, 37, 0.08);
+}
+
+.life-outfit-panel.home {
+  grid-row: span 2;
+}
+
+.life-outfit-panel header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #4b351f;
+  font-weight: 950;
+}
+
+.life-outfit-panel header b {
+  color: #d78e1f;
+  font-size: 1.05rem;
+}
+
+.life-outfit-tabs,
+.life-outfit-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.life-outfit-tabs span,
+.life-outfit-filter span {
+  border-radius: 999px;
+  padding: 7px 12px;
+  background: #fffaf0;
+  color: #694c2b;
+  font-size: 0.8rem;
+  font-weight: 900;
+  box-shadow: inset 0 -2px 0 rgba(112, 76, 37, 0.08);
+}
+
+.life-outfit-tabs span:first-child,
+.life-outfit-filter span:first-child {
+  background: linear-gradient(180deg, #ffd85e, #f2a12d);
+  color: #3f2a13;
+}
+
+.life-outfit-hero-card,
+.life-wear-preview {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: center;
+  min-height: 162px;
+  border: 2px dashed rgba(112, 76, 37, 0.16);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255, 219, 128, 0.28), rgba(255, 253, 243, 0.95));
+  padding: 14px;
+}
+
+.life-outfit-character {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  width: 96px;
+}
+
+.life-outfit-character .life-avatar {
+  position: relative;
+  z-index: 2;
+  width: 74px;
+  height: 74px;
+}
+
+.life-outfit-character i {
+  width: 58px;
+  height: 54px;
+  margin-top: -8px;
+  border-radius: 18px 18px 14px 14px;
+  background: linear-gradient(180deg, #1f1f1f, #424242);
+  box-shadow: inset 0 -8px 0 rgba(255, 194, 54, 0.68);
+}
+
+.life-outfit-character.chef i { background: linear-gradient(180deg, #fffaf0, #e9dfc9); }
+.life-outfit-character.summer i { background: linear-gradient(180deg, #fff8dd, #4b9ed8); }
+.life-outfit-character.delivery i { background: linear-gradient(180deg, #233b5d, #111b2d); }
+.life-outfit-character.festival i { background: linear-gradient(180deg, #e44d2f, #8c1f1b); }
+
+.life-outfit-equipped {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.life-outfit-equipped article {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 8px;
+  align-items: center;
+  border-radius: 12px;
+  background: #fffdf5;
+  padding: 9px;
+}
+
+.life-outfit-equipped button,
+.life-obtain-list button,
+.life-outfit-actions button,
+.life-wear-preview button {
+  min-height: 34px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffd85e, #f2a12d);
+  color: #3f2a13;
+  font-weight: 950;
+}
+
+.life-outfit-equipped button.disabled {
+  background: #dccbb1;
+  color: #7c6749;
+}
+
+.life-outfit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.life-outfit-grid .life-choice-card {
+  min-height: 112px;
+  padding: 9px 6px;
+}
+
+.life-outfit-item {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  min-height: 112px;
+  border: 2px solid rgba(112, 76, 37, 0.12);
+  border-radius: 16px;
+  background: linear-gradient(180deg, #fffef8, #fff2c9);
+  padding: 9px 6px;
+  color: #3f2a13;
+  font-weight: 900;
+  box-shadow: inset 0 -4px 0 rgba(112, 76, 37, 0.07);
+}
+
+.life-outfit-item.selected {
+  border-color: rgba(88, 160, 65, 0.82);
+  background: linear-gradient(180deg, #fff7be, #dff0a4);
+}
+
+.life-outfit-item.locked {
+  opacity: 0.58;
+  filter: grayscale(0.35);
+}
+
+.life-cosmetic-icon {
+  display: block;
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffd85e, #f2a12d);
+  box-shadow: inset 0 -7px 0 rgba(112, 76, 37, 0.16), 0 5px 10px rgba(112, 76, 37, 0.12);
+}
+
+.uniform-chef { background: linear-gradient(180deg, #fffaf0, #d9cfbd); }
+.uniform-summer { background: linear-gradient(180deg, #f9f4dc, #4b9ed8); }
+.uniform-delivery { background: linear-gradient(180deg, #233b5d, #111b2d); }
+.uniform-festival { background: linear-gradient(180deg, #f65d3d, #9c2720); }
+.uniform-locked,
+.badge-hidden { background: linear-gradient(180deg, #d8cab5, #ab9b84); }
+.badge-healthy { background: radial-gradient(circle, #fff8c8 0 24%, #55a76a 25% 58%, #e7ffe1 59%); }
+.badge-spicy { background: radial-gradient(circle, #fff2b4 0 24%, #e35433 25% 58%, #ffd7c8 59%); }
+.badge-social { background: radial-gradient(circle, #fff2b4 0 24%, #ca6fc7 25% 58%, #ffe0fa 59%); }
+.badge-checkin { background: radial-gradient(circle, #fff2b4 0 24%, #f39b30 25% 58%, #ffe7ba 59%); }
+
+.life-bg-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.life-bg-grid .life-outfit-item {
+  min-height: 102px;
+}
+
+.background-shop { background: linear-gradient(135deg, #f5c668, #8fb864); }
+.background-beach { background: linear-gradient(135deg, #71c8e8, #f7dca1); }
+.background-sakura { background: linear-gradient(135deg, #f8abc4, #fff0d6); }
+.background-forest { background: linear-gradient(135deg, #4b8b5f, #f1d88d); }
+.background-night { background: linear-gradient(135deg, #1d2b5c, #49316b); }
+.background-secret { background: linear-gradient(135deg, #746b62, #2f2b27); }
+
+.life-title-board {
+  display: grid;
+  grid-template-columns: 82px 1fr;
+  gap: 8px;
+}
+
+.life-title-board aside {
+  display: grid;
+  gap: 7px;
+  align-content: start;
+}
+
+.life-title-board aside span {
+  border-radius: 10px;
+  background: #fff4c5;
+  padding: 8px;
+  color: #6d4a20;
+  font-weight: 900;
+  text-align: center;
+}
+
+.outfit-title button {
+  border-radius: 12px;
+}
+
+.life-wear-preview {
+  grid-template-columns: 1fr;
+  justify-items: center;
+  text-align: center;
+  background: linear-gradient(135deg, #ffe3a4, #b9d79b);
+}
+
+.life-current-fit {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+}
+
+.life-current-fit div {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 6px;
+  align-items: center;
+  border-radius: 10px;
+  background: #fffdf5;
+  padding: 7px 9px;
+}
+
+.life-current-fit dt {
+  color: #7a5b34;
+  font-weight: 900;
+}
+
+.life-current-fit dd {
+  margin: 0;
+  color: #3f2a13;
+  font-weight: 950;
+}
+
+.life-obtain-list {
+  display: grid;
+  gap: 8px;
+}
+
+.life-obtain-list article {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  gap: 8px;
+  align-items: center;
+  border-radius: 12px;
+  background: #fffdf5;
+  padding: 9px;
+}
+
+.life-obtain-list i {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #ffd85e, #f2a12d);
+}
+
+.life-obtain-list p {
+  margin: 2px 0 0;
+  color: #7a5b34;
+  font-size: 0.82rem;
+}
+
+.life-outfit-actions {
+  grid-column: 1 / -1;
+  grid-template-columns: auto repeat(4, minmax(0, 1fr));
+  align-items: center;
+}
+
+.life-page-dots {
+  color: #7a5b34;
+  font-weight: 950;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .life-outfit-system {
+    grid-template-columns: 1fr;
+  }
+
+  .life-outfit-panel.home {
+    grid-row: auto;
+  }
+
+  .life-outfit-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .life-outfit-actions strong {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .life-outfit-grid,
+  .life-bg-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .life-outfit-equipped {
+    grid-template-columns: 1fr;
+  }
+
+  .life-title-board {
+    grid-template-columns: 1fr;
+  }
+
+  .life-title-board aside {
+    display: flex;
+    overflow-x: auto;
+  }
+
+  .life-obtain-list article {
+    grid-template-columns: 34px 1fr;
+  }
+
+  .life-obtain-list button {
+    grid-column: 2;
+  }
+}
+
 .life-modal-card,
 .life-modal-row,
 .life-chat-row,
@@ -5358,11 +5736,15 @@ section {
 .life-mini-avatar.bear { background: radial-gradient(circle at 34% 24%, #f7dca1 0 12%, transparent 13%), #b77b3e; }
 .life-mini-avatar.rabbit { background: radial-gradient(circle at 34% 24%, #fff0d6 0 12%, transparent 13%), #f3c6b0; }
 .life-mini-avatar.sheep { background: radial-gradient(circle at 34% 24%, #ffffff 0 12%, transparent 13%), #d8d2bd; }
+.life-mini-avatar.chef { background: radial-gradient(circle at 50% 18%, #ffffff 0 18%, transparent 19%), #ffe2b0; }
+.life-mini-avatar.fox { background: radial-gradient(circle at 34% 24%, #fff2db 0 12%, transparent 13%), #df8a39; }
 
 .life-mini-avatar.dog::before,
 .life-mini-avatar.bear::before,
 .life-mini-avatar.rabbit::before,
-.life-mini-avatar.sheep::before {
+.life-mini-avatar.sheep::before,
+.life-mini-avatar.chef::before,
+.life-mini-avatar.fox::before {
   box-shadow: 18px 0 0 #3f2a13;
 }
 
