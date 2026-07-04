@@ -5099,6 +5099,10 @@ section {
   display: none;
 }
 
+.life-facility-map-button {
+  display: none;
+}
+
 @media (max-width: 1100px) {
   .life-game-body {
     overflow: hidden;
@@ -7377,5 +7381,23 @@ section {
 
   .life-game-shell .life-order-cta {
     bottom: calc(82px + env(safe-area-inset-bottom));
+  }
+
+  .life-game-shell .life-facility-map-button {
+    position: fixed;
+    right: 12px;
+    top: 148px;
+    z-index: 39;
+    display: grid;
+    min-width: 58px;
+    min-height: 42px;
+    place-items: center;
+    border: 2px solid rgba(112, 76, 37, 0.18);
+    border-radius: 999px;
+    background: rgba(255, 244, 213, 0.95);
+    color: #47341d;
+    box-shadow: 0 8px 16px rgba(51, 42, 28, 0.18), inset 0 -4px 0 rgba(112, 76, 37, 0.08);
+    font-size: 0.82rem;
+    font-weight: 900;
   }
 }
