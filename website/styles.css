@@ -5341,6 +5341,410 @@ section {
   background: var(--sun);
 }
 
+/* LAI Life game UI skin v2 */
+.life-game-shell {
+  --lai-ui-cream: #fff3cf;
+  --lai-ui-paper: rgba(255, 247, 220, 0.94);
+  --lai-ui-gold: #ffc447;
+  --lai-ui-gold-dark: #c88624;
+  --lai-ui-wood: #7c5328;
+  --lai-ui-ink: #3f2c18;
+  --lai-ui-line: rgba(124, 83, 40, 0.24);
+}
+
+.life-game-shell .life-topbar {
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  grid-template-columns: 250px minmax(430px, 0.9fr) minmax(470px, 1.1fr);
+  align-items: start;
+  gap: 10px;
+}
+
+.life-game-shell .life-profile-card {
+  position: relative;
+  grid-template-columns: 78px 1fr;
+  min-height: 94px;
+  padding: 9px 12px 10px 9px;
+  border: 3px solid rgba(132, 91, 45, 0.24);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 8% 0, rgba(255, 255, 255, 0.9) 0 34px, transparent 35px),
+    linear-gradient(180deg, rgba(255, 249, 229, 0.97), rgba(249, 222, 166, 0.96));
+  box-shadow: 0 12px 24px rgba(60, 82, 52, 0.22), inset 0 -6px 0 rgba(124, 83, 40, 0.1);
+}
+
+.life-game-shell .life-avatar {
+  width: 70px;
+  height: 70px;
+  border: 4px solid #fffaf0;
+  background: linear-gradient(135deg, #fff5c5, #eeb659);
+  box-shadow: inset 0 -5px 0 rgba(124, 83, 40, 0.12), 0 5px 0 rgba(124, 83, 40, 0.12);
+}
+
+.life-game-shell .life-profile-card p {
+  color: var(--lai-ui-ink);
+  font-family: "Nunito", "Noto Sans TC", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 900;
+}
+
+.life-game-shell .life-profile-card h1 {
+  margin-top: 1px;
+  color: var(--lai-ui-ink);
+  font-size: 0.84rem;
+  font-weight: 900;
+}
+
+.life-vip-badge {
+  position: absolute;
+  left: 17px;
+  bottom: 9px;
+  min-width: 48px;
+  border: 2px solid rgba(124, 83, 40, 0.22);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffd866, #f2a32e);
+  color: #5a3516;
+  padding: 2px 9px;
+  text-align: center;
+  font-family: "Nunito", sans-serif;
+  font-size: 0.76rem;
+  font-weight: 900;
+  box-shadow: inset 0 -3px 0 rgba(124, 83, 40, 0.14);
+}
+
+.life-game-shell .life-exp {
+  height: 16px;
+  border: 2px solid rgba(124, 83, 40, 0.18);
+  background: rgba(119, 77, 36, 0.18);
+}
+
+.life-game-shell .life-exp i {
+  background: linear-gradient(90deg, #ffb238, #fff06f);
+}
+
+.life-game-shell .life-currencies {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  align-self: start;
+}
+
+.life-game-shell .life-currencies article {
+  min-height: 44px;
+  grid-template-columns: 32px 1fr auto;
+  gap: 7px;
+  border: 3px solid rgba(255, 246, 215, 0.88);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(98, 76, 48, 0.88), rgba(52, 43, 31, 0.86));
+  color: #fff8da;
+  padding: 5px 5px 5px 8px;
+  box-shadow: 0 10px 18px rgba(38, 50, 32, 0.22), inset 0 -4px 0 rgba(0, 0, 0, 0.12);
+}
+
+.life-game-shell .life-currencies article span {
+  display: none;
+}
+
+.life-game-shell .life-currencies strong {
+  color: #fff8da;
+  font-size: 1.08rem;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.24);
+}
+
+.life-game-shell .life-currencies button,
+.life-game-shell .life-card-head button {
+  width: 28px;
+  height: 28px;
+  border: 2px solid rgba(124, 83, 40, 0.2);
+  background: linear-gradient(180deg, #ffe06d, #f4a72f);
+  box-shadow: inset 0 -4px 0 rgba(124, 83, 40, 0.14);
+}
+
+.life-leaf-icon {
+  display: block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 45% 50%;
+  background:
+    radial-gradient(circle at 66% 34%, #d9ffc4 0 15%, transparent 16%),
+    linear-gradient(135deg, #7fc55a, #4b9a35);
+  box-shadow: inset 0 -4px 0 rgba(41, 86, 32, 0.18);
+  transform: rotate(-18deg);
+}
+
+.life-game-shell .life-menu,
+.life-game-shell .life-actions-card {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+.life-game-shell .life-menu {
+  grid-template-columns: repeat(6, 72px);
+  justify-content: end;
+  min-width: 0;
+  gap: 8px;
+}
+
+.life-game-shell .life-menu a,
+.life-game-shell .life-actions-card a,
+.life-game-shell .life-bottom-nav a,
+.life-game-shell .life-mobile-fab button {
+  border: 3px solid rgba(124, 83, 40, 0.16);
+  border-radius: 19px;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 241, 0.98), rgba(248, 219, 162, 0.96));
+  color: var(--lai-ui-ink);
+  box-shadow: 0 9px 0 rgba(124, 83, 40, 0.16), 0 16px 26px rgba(42, 70, 49, 0.2), inset 0 5px 0 rgba(255, 255, 255, 0.72);
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+
+.life-game-shell .life-menu a {
+  width: 72px;
+  min-height: 72px;
+  font-size: 0.82rem;
+}
+
+.life-game-shell .life-menu a:hover,
+.life-game-shell .life-actions-card a:hover,
+.life-game-shell .life-bottom-nav a:hover,
+.life-game-shell .life-mobile-fab button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 0 rgba(124, 83, 40, 0.14), 0 18px 30px rgba(42, 70, 49, 0.22), inset 0 5px 0 rgba(255, 255, 255, 0.78);
+}
+
+.life-game-shell .life-ui-icon,
+.life-game-shell .life-action-icon,
+.life-game-shell .life-bottom-icon {
+  width: 38px;
+  height: 38px;
+  border: 2px solid rgba(124, 83, 40, 0.12);
+  border-radius: 13px;
+  box-shadow: inset 0 -5px 0 rgba(124, 83, 40, 0.14), 0 3px 0 rgba(255, 255, 255, 0.64);
+}
+
+.life-game-shell .life-menu em,
+.life-game-shell .life-actions-card em,
+.life-game-shell .life-bottom-nav em {
+  top: -8px;
+  right: -5px;
+  min-width: 21px;
+  height: 21px;
+  border: 3px solid #fff7db;
+  background: linear-gradient(180deg, #ff5f4d, #df2f24);
+  box-shadow: 0 4px 8px rgba(90, 30, 24, 0.2);
+}
+
+.life-game-shell .life-left-stack,
+.life-game-shell .life-right-stack {
+  top: 122px;
+}
+
+.life-game-shell .life-left-stack {
+  width: 252px;
+}
+
+.life-game-shell .life-right-stack {
+  width: 266px;
+}
+
+.life-game-shell .life-invite-card,
+.life-game-shell .life-task-card,
+.life-game-shell .life-checkin-card,
+.life-game-shell .life-ranking-card,
+.life-game-shell .life-gift-toast {
+  border: 3px solid rgba(124, 83, 40, 0.18);
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 250, 232, 0.96), rgba(247, 222, 169, 0.94));
+  box-shadow: 0 12px 0 rgba(124, 83, 40, 0.13), 0 18px 32px rgba(42, 70, 49, 0.2), inset 0 5px 0 rgba(255, 255, 255, 0.66);
+}
+
+.life-game-shell .life-task-card {
+  padding: 13px;
+}
+
+.life-game-shell .life-card-head {
+  border-bottom: 2px solid rgba(124, 83, 40, 0.12);
+  padding-bottom: 8px;
+}
+
+.life-game-shell .life-card-head h2,
+.life-game-shell .life-invite-card h2,
+.life-game-shell .life-checkin-card h2,
+.life-game-shell .life-ranking-card h2 {
+  color: var(--lai-ui-ink);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.life-game-shell .life-task-card label {
+  min-height: 34px;
+  border-bottom: 1px solid rgba(124, 83, 40, 0.1);
+  font-size: 0.86rem;
+}
+
+.life-game-shell .life-task-card input {
+  border-radius: 50%;
+}
+
+.life-game-shell .life-task-reward {
+  border: 2px solid rgba(124, 83, 40, 0.12);
+  border-radius: 15px;
+  background: rgba(255, 201, 71, 0.2);
+}
+
+.life-game-shell .life-checkin-card .checked {
+  width: 84px;
+  height: 84px;
+  border: 5px solid rgba(255, 248, 218, 0.86);
+  background: linear-gradient(180deg, #85c75b, #52a33d);
+  box-shadow: inset 0 -8px 0 rgba(41, 86, 32, 0.18), 0 8px 0 rgba(124, 83, 40, 0.13);
+}
+
+.life-game-shell .life-actions-card {
+  grid-template-columns: repeat(3, 76px);
+  justify-content: end;
+  gap: 9px;
+}
+
+.life-game-shell .life-actions-card a {
+  min-height: 76px;
+  font-size: 0.78rem;
+}
+
+.life-game-shell .life-ranking-card li {
+  grid-template-columns: 26px 1fr auto;
+  border: 2px solid rgba(124, 83, 40, 0.1);
+  border-radius: 14px;
+  background: rgba(255, 253, 247, 0.65);
+}
+
+.life-game-shell .life-ranking-card li:nth-child(1) span,
+.life-game-shell .life-ranking-card li:nth-child(2) span,
+.life-game-shell .life-ranking-card li:nth-child(3) span {
+  background: linear-gradient(180deg, #fff4a8, #f2a32e);
+}
+
+.life-game-shell .life-ranking-card li.me {
+  border-color: rgba(255, 196, 71, 0.7);
+  background: rgba(255, 196, 71, 0.34);
+}
+
+.life-game-shell .life-bottom-nav {
+  bottom: 12px;
+  width: min(720px, calc(100vw - 390px));
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 245, 215, 0.72);
+  box-shadow: 0 12px 30px rgba(42, 70, 49, 0.18), inset 0 4px 0 rgba(255, 255, 255, 0.46);
+  backdrop-filter: blur(12px);
+}
+
+.life-game-shell .life-bottom-nav a {
+  min-height: 64px;
+  border-radius: 22px;
+}
+
+.life-game-shell .life-bottom-nav a.active {
+  grid-template-columns: 56px 1fr;
+  min-width: 190px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffe06d, #f5aa32);
+  font-size: 1.18rem;
+}
+
+.life-game-shell .life-order-cta {
+  border: 4px solid rgba(124, 83, 40, 0.15);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffe36f, #f3a52f);
+  box-shadow: 0 12px 0 rgba(124, 83, 40, 0.15), 0 20px 34px rgba(42, 70, 49, 0.24), inset 0 6px 0 rgba(255, 255, 255, 0.48);
+}
+
+.life-game-shell .life-interaction-hint {
+  border: 3px solid rgba(124, 83, 40, 0.18);
+  border-radius: 24px;
+  background: rgba(255, 246, 219, 0.94);
+  box-shadow: 0 12px 0 rgba(124, 83, 40, 0.12), 0 20px 34px rgba(42, 70, 49, 0.22);
+}
+
+.life-game-shell .life-interaction-hint button {
+  background: linear-gradient(180deg, #ffe36f, #f3a52f);
+}
+
+.life-modal-panel {
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 100% 0, rgba(255, 216, 102, 0.28) 0 130px, transparent 131px),
+    linear-gradient(180deg, #fff7db, #fffdf3);
+  box-shadow: 0 18px 0 rgba(124, 83, 40, 0.12), 0 28px 76px rgba(42, 70, 49, 0.34), inset 0 7px 0 rgba(255, 255, 255, 0.62);
+}
+
+@media (max-width: 1180px) {
+  .life-game-shell .life-topbar {
+    grid-template-columns: 230px minmax(360px, 1fr);
+  }
+
+  .life-game-shell .life-menu {
+    position: fixed;
+    top: 78px;
+    right: 10px;
+  }
+}
+
+@media (max-width: 640px) {
+  .life-game-shell .life-profile-card {
+    width: 172px;
+    min-height: 72px;
+    border-radius: 20px;
+    grid-template-columns: 54px 1fr;
+  }
+
+  .life-vip-badge {
+    display: none;
+  }
+
+  .life-game-shell .life-currencies {
+    left: 186px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .life-game-shell .life-currencies article {
+    min-height: 34px;
+    grid-template-columns: 24px 1fr 24px;
+    padding: 3px 4px;
+  }
+
+  .life-game-shell .life-currencies strong {
+    font-size: 0.86rem;
+  }
+
+  .life-game-shell .life-coin-icon,
+  .life-game-shell .life-ticket-icon,
+  .life-game-shell .life-heart-icon,
+  .life-game-shell .life-leaf-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .life-game-shell .life-mobile-fab {
+    top: 92px;
+  }
+
+  .life-game-shell .life-mobile-fab button {
+    width: 58px;
+    height: 58px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+  }
+
+  .life-game-shell .life-order-cta {
+    min-height: 66px;
+    border-radius: 999px;
+  }
+}
+
 .print-config-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
