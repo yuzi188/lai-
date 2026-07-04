@@ -4631,6 +4631,21 @@ section {
 .life-outfit-character.delivery i { background: linear-gradient(180deg, #233b5d, #111b2d); }
 .life-outfit-character.festival i { background: linear-gradient(180deg, #e44d2f, #8c1f1b); }
 
+.life-outfit-character.staff i { background-image: url("assets/outfit/item-uniform-staff.png"); }
+.life-outfit-character.chef i { background-image: url("assets/outfit/item-uniform-chef.png"); }
+.life-outfit-character.summer i { background-image: url("assets/outfit/item-uniform-summer.png"); }
+.life-outfit-character.delivery i { background-image: url("assets/outfit/item-uniform-delivery.png"); }
+.life-outfit-character.festival i { background-image: url("assets/outfit/item-uniform-festival.png"); }
+
+.life-outfit-character.staff i,
+.life-outfit-character.chef i,
+.life-outfit-character.summer i,
+.life-outfit-character.delivery i,
+.life-outfit-character.festival i {
+  background-size: cover;
+  background-position: center;
+}
+
 .life-outfit-equipped {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -4985,6 +5000,141 @@ section {
   .life-outfit-detail > header {
     grid-template-columns: 1fr;
   }
+}
+
+/* Generated outfit art assets. Do not replace these with CSS-only placeholders. */
+.life-mini-avatar.dog,
+.life-avatar.dog span { background-image: url("assets/outfit/avatar-dog.png"); }
+.life-mini-avatar.bear,
+.life-avatar.bear span { background-image: url("assets/outfit/avatar-bear.png"); }
+.life-mini-avatar.rabbit,
+.life-avatar.rabbit span { background-image: url("assets/outfit/avatar-rabbit.png"); }
+.life-mini-avatar.sheep,
+.life-avatar.sheep span { background-image: url("assets/outfit/avatar-sheep.png"); }
+.life-mini-avatar.chef,
+.life-avatar.chef span { background-image: url("assets/outfit/avatar-chef.png"); }
+.life-mini-avatar.fox,
+.life-avatar.fox span { background-image: url("assets/outfit/avatar-fox.png"); }
+
+.life-mini-avatar.dog,
+.life-mini-avatar.bear,
+.life-mini-avatar.rabbit,
+.life-mini-avatar.sheep,
+.life-mini-avatar.chef,
+.life-mini-avatar.fox,
+.life-avatar.dog span,
+.life-avatar.bear span,
+.life-avatar.rabbit span,
+.life-avatar.sheep span,
+.life-avatar.chef span,
+.life-avatar.fox span {
+  background-size: cover;
+  background-position: center;
+  box-shadow: none;
+}
+
+.life-mini-avatar.dog::before,
+.life-mini-avatar.dog::after,
+.life-mini-avatar.bear::before,
+.life-mini-avatar.bear::after,
+.life-mini-avatar.rabbit::before,
+.life-mini-avatar.rabbit::after,
+.life-mini-avatar.sheep::before,
+.life-mini-avatar.sheep::after,
+.life-mini-avatar.chef::before,
+.life-mini-avatar.chef::after,
+.life-mini-avatar.fox::before,
+.life-mini-avatar.fox::after {
+  display: none;
+}
+
+.life-frame-swatch.gold { background-image: url("assets/outfit/frame-gold.png"); }
+.life-frame-swatch.leaf { background-image: url("assets/outfit/frame-leaf.png"); }
+.life-frame-swatch.checkin { background-image: url("assets/outfit/frame-checkin.png"); }
+.life-frame-swatch.crown { background-image: url("assets/outfit/frame-crown.png"); }
+.life-frame-swatch.flower { background-image: url("assets/outfit/frame-flower.png"); }
+.life-frame-swatch.newyear { background-image: url("assets/outfit/frame-newyear.png"); }
+
+.life-frame-swatch.gold,
+.life-frame-swatch.leaf,
+.life-frame-swatch.checkin,
+.life-frame-swatch.crown,
+.life-frame-swatch.flower,
+.life-frame-swatch.newyear {
+  border: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+.life-cosmetic-icon.uniform-staff { background-image: url("assets/outfit/item-uniform-staff.png"); }
+.life-cosmetic-icon.uniform-chef { background-image: url("assets/outfit/item-uniform-chef.png"); }
+.life-cosmetic-icon.uniform-summer { background-image: url("assets/outfit/item-uniform-summer.png"); }
+.life-cosmetic-icon.uniform-delivery { background-image: url("assets/outfit/item-uniform-delivery.png"); }
+.life-cosmetic-icon.uniform-festival { background-image: url("assets/outfit/item-uniform-festival.png"); }
+.life-cosmetic-icon.uniform-locked { background-image: url("assets/outfit/item-uniform-locked.png"); }
+.life-cosmetic-icon.badge-gold { background-image: url("assets/outfit/item-badge-gold.png"); }
+.life-cosmetic-icon.badge-healthy { background-image: url("assets/outfit/item-badge-healthy.png"); }
+.life-cosmetic-icon.badge-spicy { background-image: url("assets/outfit/item-badge-spicy.png"); }
+.life-cosmetic-icon.badge-social { background-image: url("assets/outfit/item-badge-social.png"); }
+.life-cosmetic-icon.badge-checkin { background-image: url("assets/outfit/item-badge-checkin.png"); }
+.life-cosmetic-icon.badge-hidden { background-image: url("assets/outfit/item-badge-hidden.png"); }
+.life-cosmetic-icon.effect-sun { background-image: url("assets/outfit/item-effect-sun.png"); }
+.life-cosmetic-icon.effect-steam { background-image: url("assets/outfit/item-effect-steam.png"); }
+.life-cosmetic-icon.effect-leaf { background-image: url("assets/outfit/item-effect-leaf.png"); }
+.life-cosmetic-icon.effect-heart { background-image: url("assets/outfit/item-effect-heart.png"); }
+.life-cosmetic-icon.effect-spark { background-image: url("assets/outfit/item-effect-spark.png"); }
+.life-cosmetic-icon.effect-festival { background-image: url("assets/outfit/item-effect-festival.png"); }
+.life-cosmetic-icon.background-shop { background-image: url("assets/outfit/background-shop.png"); }
+.life-cosmetic-icon.background-beach { background-image: url("assets/outfit/background-beach.png"); }
+.life-cosmetic-icon.background-sakura { background-image: url("assets/outfit/background-sakura.png"); }
+.life-cosmetic-icon.background-forest { background-image: url("assets/outfit/background-forest.png"); }
+.life-cosmetic-icon.background-night { background-image: url("assets/outfit/background-night.png"); }
+.life-cosmetic-icon.background-secret { background-image: url("assets/outfit/background-secret.png"); }
+
+.life-cosmetic-icon.uniform-staff,
+.life-cosmetic-icon.uniform-chef,
+.life-cosmetic-icon.uniform-summer,
+.life-cosmetic-icon.uniform-delivery,
+.life-cosmetic-icon.uniform-festival,
+.life-cosmetic-icon.uniform-locked,
+.life-cosmetic-icon.badge-gold,
+.life-cosmetic-icon.badge-healthy,
+.life-cosmetic-icon.badge-spicy,
+.life-cosmetic-icon.badge-social,
+.life-cosmetic-icon.badge-checkin,
+.life-cosmetic-icon.badge-hidden,
+.life-cosmetic-icon.effect-sun,
+.life-cosmetic-icon.effect-steam,
+.life-cosmetic-icon.effect-leaf,
+.life-cosmetic-icon.effect-heart,
+.life-cosmetic-icon.effect-spark,
+.life-cosmetic-icon.effect-festival,
+.life-cosmetic-icon.background-shop,
+.life-cosmetic-icon.background-beach,
+.life-cosmetic-icon.background-sakura,
+.life-cosmetic-icon.background-forest,
+.life-cosmetic-icon.background-night,
+.life-cosmetic-icon.background-secret {
+  background-size: cover;
+  background-position: center;
+}
+
+.life-wear-preview.shop { background-image: linear-gradient(rgba(255, 248, 220, 0.1), rgba(255, 248, 220, 0.3)), url("assets/outfit/background-shop.png"); }
+.life-wear-preview.beach { background-image: linear-gradient(rgba(255, 248, 220, 0.08), rgba(255, 248, 220, 0.24)), url("assets/outfit/background-beach.png"); }
+.life-wear-preview.sakura { background-image: linear-gradient(rgba(255, 248, 220, 0.08), rgba(255, 248, 220, 0.24)), url("assets/outfit/background-sakura.png"); }
+.life-wear-preview.forest { background-image: linear-gradient(rgba(255, 248, 220, 0.08), rgba(255, 248, 220, 0.24)), url("assets/outfit/background-forest.png"); }
+.life-wear-preview.night { background-image: linear-gradient(rgba(255, 248, 220, 0.08), rgba(255, 248, 220, 0.24)), url("assets/outfit/background-night.png"); }
+.life-wear-preview.secret { background-image: linear-gradient(rgba(255, 248, 220, 0.08), rgba(255, 248, 220, 0.24)), url("assets/outfit/background-secret.png"); }
+
+.life-wear-preview.shop,
+.life-wear-preview.beach,
+.life-wear-preview.sakura,
+.life-wear-preview.forest,
+.life-wear-preview.night,
+.life-wear-preview.secret {
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
 }
 
 .life-modal-card,

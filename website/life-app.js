@@ -41,8 +41,8 @@
     { value: "leaf", label: "&#20581;&#24247;&#39184;&#26694;", meta: "&#20581;&#24247;&#39184; 7 &#27425;", icon: "leaf" },
     { value: "checkin", label: "&#31805;&#21040;&#28779;&#33457;&#26694;", meta: "&#36899;&#32196; 15 &#22825;", icon: "checkin" },
     { value: "crown", label: "&#20415;&#30070;&#29579;&#20896;&#26694;", meta: "&#25490;&#34892;&#27036;&#21069; 3", icon: "crown", locked: true },
-    { value: "flower", label: "&#33457;&#22290;&#26085;&#26706;", meta: "&#27963;&#21205;", icon: "leaf" },
-    { value: "newyear", label: "&#26032;&#24180;&#36196;&#26694;", meta: "&#38480;&#23450;", icon: "checkin", locked: true }
+    { value: "flower", label: "&#33457;&#22290;&#26085;&#26706;", meta: "&#27963;&#21205;", icon: "flower" },
+    { value: "newyear", label: "&#26032;&#24180;&#36196;&#26694;", meta: "&#38480;&#23450;", icon: "newyear", locked: true }
   ];
 
   const titleOptions = [
