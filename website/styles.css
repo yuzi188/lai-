@@ -5103,6 +5103,110 @@ section {
   display: none;
 }
 
+.life-profile-card {
+  cursor: pointer;
+}
+
+.life-member-editor {
+  display: grid;
+  gap: 16px;
+}
+
+.life-member-editor-hero {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255, 196, 71, 0.22), rgba(255, 248, 218, 0.94));
+}
+
+.life-member-editor-hero .big {
+  width: 86px;
+  height: 86px;
+}
+
+.life-member-editor-hero h3 {
+  margin: 4px 0;
+  color: #3f2a13;
+  font-size: 1.5rem;
+}
+
+.life-profile-form,
+.life-wallet-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.life-profile-form label,
+.life-wallet-grid article {
+  display: grid;
+  gap: 7px;
+  padding: 12px;
+  border: 1px solid rgba(112, 76, 37, 0.14);
+  border-radius: 14px;
+  background: rgba(255, 248, 218, 0.72);
+  color: #4b351f;
+  font-weight: 900;
+}
+
+.life-profile-form input,
+.life-profile-form select {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid rgba(112, 76, 37, 0.2);
+  border-radius: 12px;
+  padding: 0 10px;
+  background: #fffdf3;
+  color: #3f2a13;
+  font: inherit;
+}
+
+.life-wallet-grid article {
+  grid-template-columns: 34px 1fr auto;
+  align-items: center;
+}
+
+.life-wallet-grid article i {
+  width: 34px;
+  height: 34px;
+}
+
+.life-wallet-grid article span {
+  color: #7a5b34;
+}
+
+.life-wallet-grid article strong {
+  color: #3f2a13;
+  font-size: 1.05rem;
+}
+
+.life-member-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.life-member-actions button {
+  min-height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffd65b, #f2a12d);
+  color: #3f2a13;
+  font-weight: 950;
+  box-shadow: 0 8px 16px rgba(112, 76, 37, 0.18);
+}
+
+@media (max-width: 640px) {
+  .life-profile-form,
+  .life-wallet-grid,
+  .life-member-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 1100px) {
   .life-game-body {
     overflow: hidden;

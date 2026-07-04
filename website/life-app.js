@@ -74,6 +74,42 @@
   }
 
   const views = {
+    memberProfile: {
+      title: "????",
+      kicker: "PROFILE",
+      wide: true,
+      render: () => `
+        <section class="life-member-editor">
+          <div class="life-member-editor-hero">
+            <div class="life-avatar big"><span></span></div>
+            <div>
+              <span>VIP3?Lv.27</span>
+              <h3>Yu Zi</h3>
+              <p>??????</p>
+              ${progressBar(51, "1280 / 2500 EXP")}
+            </div>
+          </div>
+          <div class="life-profile-form">
+            <label>????<input value="Yu Zi" maxlength="16"></label>
+            <label>????<select><option>???</option><option>????</option><option>????</option><option>????</option></select></label>
+            <label>????<select><option>LAI ????</option><option>???</option><option>???</option><option>???</option></select></label>
+            <label>???<select><option>VIP ???</option><option>?????</option><option>????</option></select></label>
+          </div>
+          <div class="life-wallet-grid">
+            <article><i class="life-coin-icon"></i><span>??</span><strong>${fmt(data.wallet.coins)}</strong></article>
+            <article><i class="life-ticket-icon"></i><span>?? / ??</span><strong>${fmt(data.wallet.tickets)}</strong></article>
+            <article><i class="life-heart-icon"></i><span>??</span><strong>${data.wallet.hearts}/${data.wallet.maxHearts}</strong></article>
+            <article><i class="life-leaf-icon"></i><span>????</span><strong>320</strong></article>
+          </div>
+          <div class="life-member-actions">
+            <button data-life-action="saveProfile">????</button>
+            <button data-life-open="outfit">????</button>
+            <button data-life-open="coupons">????</button>
+          </div>
+        </section>
+      `
+    },
+
     resources: {
       title: "資源補給",
       kicker: "WALLET",
@@ -571,6 +607,7 @@
     equip: () => toast("已套用裝扮。"),
     joinEvent: () => toast("已加入活動。"),
     trackOrder: () => toast("訂單追蹤已開啟。"),
+    saveProfile: () => toast("????????"),
     readNotice: event => event.target.closest(".life-modal-row")?.remove()
   };
 
