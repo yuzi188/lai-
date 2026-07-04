@@ -4561,7 +4561,9 @@ section {
 }
 
 .life-outfit-tabs span,
+.life-outfit-tabs button,
 .life-outfit-filter span {
+  border: 0;
   border-radius: 999px;
   padding: 7px 12px;
   background: #fffaf0;
@@ -4569,12 +4571,23 @@ section {
   font-size: 0.8rem;
   font-weight: 900;
   box-shadow: inset 0 -2px 0 rgba(112, 76, 37, 0.08);
+  cursor: pointer;
 }
 
 .life-outfit-tabs span:first-child,
+.life-outfit-tabs button.active,
 .life-outfit-filter span:first-child {
   background: linear-gradient(180deg, #ffd85e, #f2a12d);
   color: #3f2a13;
+}
+
+.life-open-section {
+  min-height: 38px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffd85e, #f2a12d);
+  color: #3f2a13;
+  font-weight: 950;
 }
 
 .life-outfit-hero-card,
@@ -4705,6 +4718,12 @@ section {
 .badge-spicy { background: radial-gradient(circle, #fff2b4 0 24%, #e35433 25% 58%, #ffd7c8 59%); }
 .badge-social { background: radial-gradient(circle, #fff2b4 0 24%, #ca6fc7 25% 58%, #ffe0fa 59%); }
 .badge-checkin { background: radial-gradient(circle, #fff2b4 0 24%, #f39b30 25% 58%, #ffe7ba 59%); }
+.life-cosmetic-icon.effect-sun { background: radial-gradient(circle, #fff7b8 0 32%, #f0a32d 33% 62%, #fff7db 63%); }
+.life-cosmetic-icon.effect-steam { background: radial-gradient(ellipse at 52% 36%, #ffffff 0 24%, #b9d6e4 25% 62%, #fff7db 63%); }
+.life-cosmetic-icon.effect-leaf { background: radial-gradient(circle, #e6f5c8 0 28%, #78a65a 29% 62%, #fff7db 63%); }
+.life-cosmetic-icon.effect-heart { background: radial-gradient(circle, #ffd1dc 0 28%, #f16f96 29% 62%, #fff7db 63%); }
+.life-cosmetic-icon.effect-spark { background: radial-gradient(circle, #fff2a8 0 25%, #d99b1f 26% 62%, #fff7db 63%); }
+.life-cosmetic-icon.effect-festival { background: conic-gradient(from 20deg, #ef5942, #ffd85e, #4b9ed8, #ef5942); }
 
 .life-bg-grid {
   display: grid;
@@ -4749,6 +4768,7 @@ section {
 }
 
 .life-wear-preview {
+  position: relative;
   grid-template-columns: 1fr;
   justify-items: center;
   text-align: center;
@@ -4822,6 +4842,93 @@ section {
   text-align: center;
 }
 
+.life-outfit-detail {
+  display: grid;
+  gap: 14px;
+}
+
+.life-outfit-detail > header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: center;
+  border: 2px solid rgba(112, 76, 37, 0.12);
+  border-radius: 18px;
+  background: rgba(255, 252, 238, 0.92);
+  padding: 12px;
+}
+
+.life-outfit-detail > header button {
+  min-height: 40px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 14px;
+  background: #fff8dc;
+  color: #4b351f;
+  font-weight: 950;
+  box-shadow: inset 0 -3px 0 rgba(112, 76, 37, 0.08);
+}
+
+.life-outfit-detail > header strong {
+  display: block;
+  color: #3f2a13;
+  font-size: 1.4rem;
+  font-weight: 950;
+}
+
+.life-outfit-detail > header span {
+  color: #7a5b34;
+  font-weight: 850;
+}
+
+.life-outfit-detail-body {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 12px;
+}
+
+.life-detail-preview {
+  position: sticky;
+  top: 0;
+  align-self: start;
+}
+
+.effect-sun {
+  box-shadow: inset 0 -4px 0 rgba(112, 76, 37, 0.06), 0 0 28px rgba(255, 211, 91, 0.35);
+}
+
+.effect-steam::after,
+.effect-leaf::after,
+.effect-heart::after,
+.effect-spark::after,
+.effect-festival::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.effect-steam::after {
+  background: radial-gradient(ellipse at 45% 25%, rgba(255,255,255,0.76) 0 10%, transparent 11% 100%);
+}
+
+.effect-leaf::after {
+  background: radial-gradient(circle at 24% 28%, rgba(108, 164, 79, 0.7) 0 5%, transparent 6% 100%), radial-gradient(circle at 78% 42%, rgba(108, 164, 79, 0.5) 0 4%, transparent 5% 100%);
+}
+
+.effect-heart::after {
+  background: radial-gradient(circle at 22% 32%, rgba(255, 108, 139, 0.72) 0 5%, transparent 6% 100%), radial-gradient(circle at 78% 28%, rgba(255, 108, 139, 0.55) 0 4%, transparent 5% 100%);
+}
+
+.effect-spark::after {
+  background: radial-gradient(circle at 20% 26%, rgba(255, 223, 92, 0.9) 0 4%, transparent 5% 100%), radial-gradient(circle at 76% 38%, rgba(255, 223, 92, 0.8) 0 5%, transparent 6% 100%);
+}
+
+.effect-festival::after {
+  background: linear-gradient(45deg, transparent 0 45%, rgba(239, 89, 66, 0.5) 46% 48%, transparent 49%), linear-gradient(-35deg, transparent 0 55%, rgba(74, 158, 216, 0.45) 56% 58%, transparent 59%);
+}
+
 @media (max-width: 900px) {
   .life-outfit-system {
     grid-template-columns: 1fr;
@@ -4837,6 +4944,14 @@ section {
 
   .life-outfit-actions strong {
     grid-column: 1 / -1;
+  }
+
+  .life-outfit-detail-body {
+    grid-template-columns: 1fr;
+  }
+
+  .life-detail-preview {
+    position: static;
   }
 }
 
@@ -4865,6 +4980,10 @@ section {
 
   .life-obtain-list button {
     grid-column: 2;
+  }
+
+  .life-outfit-detail > header {
+    grid-template-columns: 1fr;
   }
 }
 

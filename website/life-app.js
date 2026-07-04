@@ -22,6 +22,8 @@
     uniform: "staff",
     badge: "gold",
     background: "shop",
+    effect: "sun",
+    outfitSection: "overview",
     declaration: "\u4eca\u5929\u4e5f\u8981\u4f86\u7532\u4fbf\u7576"
   };
 
@@ -79,6 +81,15 @@
     { value: "secret", label: "&#31070;&#31192;&#22580;&#26223;", meta: "&#26410;&#35299;&#37782;", icon: "secret", locked: true }
   ];
 
+  const effectOptions = [
+    { value: "sun", label: "&#26262;&#38525;&#20809;&#22280;", meta: "&#20351;&#29992;&#20013;", icon: "sun" },
+    { value: "steam", label: "&#20415;&#30070;&#33976;&#27683;", meta: "&#27599;&#26085;&#31805;&#21040;", icon: "steam" },
+    { value: "leaf", label: "&#33853;&#33865;&#39108;&#21205;", meta: "&#20581;&#24247;&#20219;&#21209;", icon: "leaf" },
+    { value: "heart", label: "&#24859;&#24515;&#38275;&#20809;", meta: "&#36865;&#31150;&#29554;&#24471;", icon: "heart" },
+    { value: "spark", label: "&#37329;&#33394;&#26143;&#20809;", meta: "VIP &#38480;&#23450;", icon: "spark", locked: true },
+    { value: "festival", label: "&#31680;&#26085;&#24425;&#32025;", meta: "&#27963;&#21205;&#38480;&#23450;", icon: "festival", locked: true }
+  ];
+
   const obtainMethods = [
     ["&#27963;&#21205;&#29554;&#24471;", "&#21443;&#33287;&#38480;&#26178;&#27963;&#21205;&#38936;&#21462;&#35037;&#25198;&#29518;&#21237;", "events"],
     ["&#20219;&#21209;&#29554;&#24471;", "&#23436;&#25104;&#25351;&#23450;&#20219;&#21209;&#35299;&#37782;&#31281;&#34399;&#33287;&#24494;&#31456;", "tasks"],
@@ -110,6 +121,88 @@
 
   function outfitPanel(number, titleText, content, extraClass = "") {
     return `<section class="life-outfit-panel ${extraClass}"><header><b>${number}</b><strong>${titleText}</strong></header>${content}</section>`;
+  }
+
+  const outfitSections = [
+    ["avatar", "&#38957;&#20687;"],
+    ["frame", "&#38957;&#20687;&#26694;"],
+    ["title", "&#31281;&#34399;"],
+    ["uniform", "&#21046;&#26381;"],
+    ["badge", "&#24494;&#31456;"],
+    ["background", "&#26700;&#24067;&#32972;&#26223;"],
+    ["effect", "&#29305;&#25928;"]
+  ];
+
+  function outfitNav() {
+    return `<div class="life-outfit-tabs">${outfitSections.map(([key, label]) => `<button class="${profile.outfitSection === key ? "active" : ""}" data-life-action="outfitSection" data-outfit-section="${key}">${label}</button>`).join("")}</div>`;
+  }
+
+  function outfitDetail(titleText, introText, content) {
+    return `
+      <section class="life-outfit-detail">
+        <header>
+          <button data-life-action="outfitSection" data-outfit-section="overview">&#8592; &#36820;&#22238;&#32317;&#35261;</button>
+          <div><strong>${titleText}</strong><span>${introText}</span></div>
+        </header>
+        <div class="life-outfit-detail-body">
+          <aside class="life-detail-preview">
+            <div class="life-wear-preview ${esc(profile.background)} effect-${esc(profile.effect)}">
+              <div class="life-outfit-character ${esc(profile.uniform)}">
+                <div class="life-avatar ${esc(profile.avatar)} frame-${esc(profile.frame)}"><span></span></div><i></i>
+              </div>
+              <b>${esc(profile.title)}</b>
+              <button data-life-action="saveProfile">&#20786;&#23384;&#25645;&#37197;</button>
+            </div>
+          </aside>
+          <section>${content}</section>
+        </div>
+      </section>
+    `;
+  }
+
+  function renderOutfitView() {
+    const section = profile.outfitSection || "overview";
+    const filters = `<div class="life-outfit-filter"><span>&#20840;&#37096;</span><span>&#19968;&#33324;</span><span>&#31232;&#26377;</span><span>&#38480;&#23450;</span></div>`;
+    const titleBoard = `<div class="life-title-board"><aside><span>&#20840;&#37096;</span><span>&#19968;&#33324;</span><span>&#31232;&#26377;</span><span>&#21490;&#35433;</span><span>&#27963;&#21205;</span></aside><div class="life-title-rack outfit-title">${titleOptions.map(profileTitleOption).join("")}</div></div>`;
+    if (section === "avatar") return outfitDetail("&#38957;&#20687;&#35373;&#23450;", "&#36984;&#25799;&#35282;&#33394;&#22806;&#35264;&#65292;&#26371;&#21516;&#27493;&#21040;&#26371;&#21729;&#21345;&#33287;&#31359;&#25140;&#38928;&#35261;&#12290;", `${filters}<div class="life-outfit-grid avatar-grid">${avatarOptions.map(option => profileChoice("avatar", option)).join("")}</div>`);
+    if (section === "frame") return outfitDetail("&#38957;&#20687;&#26694;&#35373;&#23450;", "&#36984;&#25799; VIP&#12289;&#27963;&#21205;&#12289;&#25490;&#34892;&#27036;&#30340;&#23637;&#31034;&#37002;&#26694;&#12290;", `${filters}<div class="life-outfit-grid">${frameOptions.map(option => profileChoice("frame", option)).join("")}</div>`);
+    if (section === "title") return outfitDetail("&#31281;&#34399;&#35373;&#23450;", "&#31281;&#34399;&#26371;&#39023;&#31034;&#22312;&#22909;&#21451;&#12289;&#25490;&#34892;&#27036;&#33287;&#26371;&#21729;&#38913;&#38754;&#12290;", titleBoard);
+    if (section === "uniform") return outfitDetail("&#21046;&#26381;&#35373;&#23450;", "&#27599;&#20214;&#26381;&#35037;&#37117;&#26377;&#19981;&#21516;&#20358;&#28304;&#65306;&#20219;&#21209;&#12289;&#21830;&#22478;&#12289;&#27963;&#21205;&#25110;&#38480;&#23450;&#12290;", `${filters}<div class="life-outfit-grid">${uniformOptions.map(option => cosmeticChoice("uniform", option)).join("")}</div>`);
+    if (section === "badge") return outfitDetail("&#24494;&#31456;&#35373;&#23450;", "&#24494;&#31456;&#29992;&#20358;&#23637;&#31034;&#25104;&#23601;&#12289;&#20219;&#21209;&#36914;&#24230;&#33287;&#31038;&#32676;&#36523;&#20221;&#12290;", `${filters}<div class="life-outfit-grid">${badgeOptions.map(option => cosmeticChoice("badge", option)).join("")}</div>`);
+    if (section === "background") return outfitDetail("&#26700;&#24067;&#32972;&#26223;&#35373;&#23450;", "&#26356;&#25563;&#20320;&#30340;&#20491;&#20154;&#39184;&#26700;&#31354;&#38291;&#65292;&#24460;&#38754;&#21487;&#25509;&#29031;&#29255;&#20998;&#20139;&#12290;", `${filters}<div class="life-bg-grid">${backgroundOptions.map(option => cosmeticChoice("background", option)).join("")}</div>`);
+    if (section === "effect") return outfitDetail("&#29305;&#25928;&#35373;&#23450;", "&#29305;&#25928;&#26371;&#20986;&#29694;&#22312;&#31359;&#25140;&#38928;&#35261;&#33287;&#26371;&#21729;&#23637;&#31034;&#21345;&#19978;&#12290;", `${filters}<div class="life-outfit-grid">${effectOptions.map(option => cosmeticChoice("effect", option)).join("")}</div>`);
+    return `
+      <section class="life-outfit-system">
+        ${outfitPanel("01", "&#35037;&#25198;&#31995;&#32113;&#20027;&#38913;", `
+          <div class="life-outfit-home">
+            ${outfitNav()}
+            <div class="life-outfit-hero-card">
+              <div class="life-outfit-character ${esc(profile.uniform)}"><div class="life-avatar ${esc(profile.avatar)} frame-${esc(profile.frame)}"><span></span></div><i></i></div>
+              <div>
+                <h3>${esc(profile.name)}</h3>
+                <p><b>${esc(profile.title)}</b></p>
+                ${progressBar(51, "Lv.27  1280 / 2500")}
+              </div>
+            </div>
+            <div class="life-outfit-equipped">
+              <article><i class="life-frame-swatch ${esc(profile.frame)}"></i><strong>&#38957;&#20687;&#26694;</strong><button data-life-action="outfitSection" data-outfit-section="frame">&#35373;&#23450;</button></article>
+              <article><i class="life-cosmetic-icon badge-${esc(profile.badge)}"></i><strong>${esc(profile.title)} &#31281;&#34399;</strong><button data-life-action="outfitSection" data-outfit-section="title">&#35373;&#23450;</button></article>
+              <article><i class="life-cosmetic-icon uniform-${esc(profile.uniform)}"></i><strong>&#21046;&#26381;</strong><button data-life-action="outfitSection" data-outfit-section="uniform">&#35373;&#23450;</button></article>
+              <article><i class="life-cosmetic-icon effect-${esc(profile.effect)}"></i><strong>&#29305;&#25928;</strong><button data-life-action="outfitSection" data-outfit-section="effect">&#35373;&#23450;</button></article>
+            </div>
+          </div>
+        `, "home")}
+        ${outfitPanel("02", "&#38957;&#20687;", `<div class="life-outfit-grid avatar-grid">${avatarOptions.slice(0, 6).map(option => profileChoice("avatar", option)).join("")}</div><button class="life-open-section" data-life-action="outfitSection" data-outfit-section="avatar">&#36914;&#20837;&#38957;&#20687;&#35373;&#23450;</button>`)}
+        ${outfitPanel("03", "&#38957;&#20687;&#26694;", `<div class="life-outfit-grid">${frameOptions.slice(0, 6).map(option => profileChoice("frame", option)).join("")}</div><button class="life-open-section" data-life-action="outfitSection" data-outfit-section="frame">&#36914;&#20837;&#38957;&#20687;&#26694;&#35373;&#23450;</button>`)}
+        ${outfitPanel("04", "&#31281;&#34399;", titleBoard)}
+        ${outfitPanel("05", "&#21046;&#26381;", `<div class="life-outfit-grid">${uniformOptions.map(option => cosmeticChoice("uniform", option)).join("")}</div><button class="life-open-section" data-life-action="outfitSection" data-outfit-section="uniform">&#36914;&#20837;&#21046;&#26381;&#35373;&#23450;</button>`)}
+        ${outfitPanel("06", "&#24494;&#31456;", `<div class="life-outfit-grid">${badgeOptions.map(option => cosmeticChoice("badge", option)).join("")}</div><button class="life-open-section" data-life-action="outfitSection" data-outfit-section="badge">&#36914;&#20837;&#24494;&#31456;&#35373;&#23450;</button>`)}
+        ${outfitPanel("07", "&#26700;&#24067;&#32972;&#26223;", `<div class="life-bg-grid">${backgroundOptions.map(option => cosmeticChoice("background", option)).join("")}</div><button class="life-open-section" data-life-action="outfitSection" data-outfit-section="background">&#36914;&#20837;&#32972;&#26223;&#35373;&#23450;</button>`)}
+        ${outfitPanel("08", "&#31359;&#25140;&#38928;&#35261;", `<div class="life-wear-preview ${esc(profile.background)} effect-${esc(profile.effect)}"><div class="life-outfit-character ${esc(profile.uniform)}"><div class="life-avatar ${esc(profile.avatar)} frame-${esc(profile.frame)}"><span></span></div><i></i></div><button data-life-action="saveProfile">&#20786;&#23384;&#25645;&#37197;</button></div><dl class="life-current-fit"><div><dt>&#38957;&#20687;</dt><dd>${avatarOptions.find(item => item.value === profile.avatar)?.label || "LAI"}</dd></div><div><dt>&#38957;&#20687;&#26694;</dt><dd>${frameOptions.find(item => item.value === profile.frame)?.label || "VIP"}</dd></div><div><dt>&#31281;&#34399;</dt><dd>${esc(profile.title)}</dd></div><div><dt>&#21046;&#26381;</dt><dd>${uniformOptions.find(item => item.value === profile.uniform)?.label || "LAI"}</dd></div><div><dt>&#24494;&#31456;</dt><dd>${badgeOptions.find(item => item.value === profile.badge)?.label || "VIP"}</dd></div><div><dt>&#29305;&#25928;</dt><dd>${effectOptions.find(item => item.value === profile.effect)?.label || "FX"}</dd></div></dl>`)}
+        ${outfitPanel("09", "&#29554;&#21462;&#26041;&#24335;", `<div class="life-obtain-list">${obtainMethods.map(item => `<article><i></i><div><strong>${item[0]}</strong><p>${item[1]}</p></div><button data-life-open="${item[2]}">&#21069;&#24448;</button></article>`).join("")}</div>`)}
+        <section class="life-outfit-actions"><strong>10 &#24555;&#36895;&#25805;&#20316;</strong><button data-life-action="outfitSection" data-outfit-section="avatar">&#35373;&#23450;&#38957;&#20687;</button><button data-life-action="outfitSection" data-outfit-section="uniform">&#35373;&#23450;&#21046;&#26381;</button><button data-life-action="outfitSection" data-outfit-section="effect">&#35373;&#23450;&#29305;&#25928;</button><button data-life-action="saveProfile">&#20786;&#23384;&#25645;&#37197;</button></section>
+      </section>
+    `;
   }
 
   function infoCard(titleText, bodyText, meta = "") {
@@ -622,38 +715,7 @@
       title: "\u88dd\u626e\u7cfb\u7d71\u7e3d\u89bd",
       kicker: "OUTFIT",
       wide: true,
-      render: () => `
-        <section class="life-outfit-system">
-          ${outfitPanel("01", "&#35037;&#25198;&#31995;&#32113;&#20027;&#38913;", `
-            <div class="life-outfit-home">
-              <div class="life-outfit-tabs"><span>&#38957;&#20687;</span><span>&#38957;&#20687;&#26694;</span><span>&#31281;&#34399;</span><span>&#21046;&#26381;</span><span>&#24494;&#31456;</span><span>&#26700;&#24067;&#32972;&#26223;</span></div>
-              <div class="life-outfit-hero-card">
-                <div class="life-outfit-character ${esc(profile.uniform)}"><div class="life-avatar ${esc(profile.avatar)} frame-${esc(profile.frame)}"><span></span></div><i></i></div>
-                <div>
-                  <h3>${esc(profile.name)}</h3>
-                  <p><b>${esc(profile.title)}</b></p>
-                  ${progressBar(51, "Lv.27  1280 / 2500")}
-                </div>
-              </div>
-              <div class="life-outfit-equipped">
-                <article><i class="life-frame-swatch ${esc(profile.frame)}"></i><strong>&#21109;&#22987;&#26371;&#21729;&#38957;&#20687;&#26694;</strong><button data-life-action="equip">&#22871;&#29992;</button></article>
-                <article><i class="life-cosmetic-icon badge-${esc(profile.badge)}"></i><strong>${esc(profile.title)} &#31281;&#34399;</strong><button data-life-action="equip">&#22871;&#29992;</button></article>
-                <article><i class="life-cosmetic-icon uniform-${esc(profile.uniform)}"></i><strong>LAI &#24215;&#21729;&#24125;</strong><button data-life-action="equip">&#22871;&#29992;</button></article>
-                <article><i class="life-cosmetic-icon badge-healthy"></i><strong>&#20581;&#24247;&#36948;&#20154;&#24494;&#31456;</strong><button class="disabled" type="button">&#26410;&#35299;&#37782;</button></article>
-              </div>
-            </div>
-          `, "home")}
-          ${outfitPanel("02", "&#38957;&#20687;", `<div class="life-outfit-filter"><span>&#20840;&#37096;</span><span>&#22522;&#30990;</span><span>&#27963;&#21205;</span><span>&#38480;&#23450;</span></div><div class="life-outfit-grid avatar-grid">${avatarOptions.map(option => profileChoice("avatar", option)).join("")}</div><div class="life-page-dots">1/3</div>`)}
-          ${outfitPanel("03", "&#38957;&#20687;&#26694;", `<div class="life-outfit-filter"><span>&#20840;&#37096;</span><span>&#19968;&#33324;</span><span>&#31232;&#26377;</span><span>&#38480;&#23450;</span></div><div class="life-outfit-grid">${frameOptions.map(option => profileChoice("frame", option)).join("")}</div><div class="life-page-dots">1/4</div>`)}
-          ${outfitPanel("04", "&#31281;&#34399;", `<div class="life-title-board"><aside><span>&#20840;&#37096;</span><span>&#19968;&#33324;</span><span>&#31232;&#26377;</span><span>&#21490;&#35433;</span><span>&#27963;&#21205;</span></aside><div class="life-title-rack outfit-title">${titleOptions.map(profileTitleOption).join("")}</div></div>`)}
-          ${outfitPanel("05", "&#21046;&#26381;", `<div class="life-outfit-filter"><span>&#20840;&#37096;</span><span>&#19968;&#33324;</span><span>&#31232;&#26377;</span><span>&#38480;&#23450;</span></div><div class="life-outfit-grid">${uniformOptions.map(option => cosmeticChoice("uniform", option)).join("")}</div><div class="life-page-dots">1/3</div>`)}
-          ${outfitPanel("06", "&#24494;&#31456;", `<div class="life-outfit-filter"><span>&#20840;&#37096;</span><span>&#19968;&#33324;</span><span>&#31232;&#26377;</span><span>&#27963;&#21205;</span></div><div class="life-outfit-grid">${badgeOptions.map(option => cosmeticChoice("badge", option)).join("")}</div><div class="life-page-dots">1/3</div>`)}
-          ${outfitPanel("07", "&#26700;&#24067;&#32972;&#26223;", `<div class="life-outfit-filter"><span>&#20840;&#37096;</span><span>&#19968;&#33324;</span><span>&#31232;&#26377;</span><span>&#38480;&#23450;</span></div><div class="life-bg-grid">${backgroundOptions.map(option => cosmeticChoice("background", option)).join("")}</div>`)}
-          ${outfitPanel("08", "&#31359;&#25140;&#38928;&#35261;", `<div class="life-wear-preview ${esc(profile.background)}"><div class="life-outfit-character ${esc(profile.uniform)}"><div class="life-avatar ${esc(profile.avatar)} frame-${esc(profile.frame)}"><span></span></div><i></i></div><button data-life-action="saveProfile">&#20786;&#23384;&#25645;&#37197;</button></div><dl class="life-current-fit"><div><dt>&#38957;&#20687;</dt><dd>${avatarOptions.find(item => item.value === profile.avatar)?.label || "LAI"}</dd></div><div><dt>&#38957;&#20687;&#26694;</dt><dd>${frameOptions.find(item => item.value === profile.frame)?.label || "VIP"}</dd></div><div><dt>&#31281;&#34399;</dt><dd>${esc(profile.title)}</dd></div><div><dt>&#21046;&#26381;</dt><dd>${uniformOptions.find(item => item.value === profile.uniform)?.label || "LAI"}</dd></div><div><dt>&#24494;&#31456;</dt><dd>${badgeOptions.find(item => item.value === profile.badge)?.label || "VIP"}</dd></div></dl>`)}
-          ${outfitPanel("09", "&#29554;&#21462;&#26041;&#24335;", `<div class="life-obtain-list">${obtainMethods.map(item => `<article><i></i><div><strong>${item[0]}</strong><p>${item[1]}</p></div><button data-life-open="${item[2]}">&#21069;&#24448;</button></article>`).join("")}</div>`)}
-          <section class="life-outfit-actions"><strong>10 &#24555;&#36895;&#25805;&#20316;</strong><button data-life-action="equip">&#19968;&#37749;&#22871;&#29992;</button><button data-life-action="saveProfile">&#38568;&#26178;&#20786;&#23384;</button><button data-life-open="shop">&#25512;&#34214;&#26041;&#26696;</button><button data-life-open="friends">&#20998;&#20139;&#25645;&#37197;</button></section>
-        </section>
-      `
+      render: renderOutfitView
     },
     checkin: {
       title: "每日簽到",
@@ -762,6 +824,11 @@
     mapPin: () => toast("已標記地圖點位。"),
     decorate: () => toast("已擺上我的餐桌。"),
     useItem: () => toast("已使用背包道具。"),
+    outfitSection(event) {
+      const target = event.target.closest("[data-outfit-section]");
+      profile.outfitSection = target?.dataset.outfitSection || "overview";
+      openModal("outfit");
+    },
     equip(event) {
       const target = event.target.closest("[data-profile-kind]");
       const cosmeticTarget = event.target.closest("[data-cosmetic-kind]");
