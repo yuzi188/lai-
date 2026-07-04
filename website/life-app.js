@@ -81,9 +81,12 @@
       render: () => `
         <section class="life-member-editor">
           <div class="life-member-editor-hero">
-            <div class="life-avatar big"><span></span></div>
+            <div class="life-profile-avatar-stage">
+              <div class="life-avatar big"><span></span></div>
+              <b>VIP3</b>
+            </div>
             <div>
-              <span>VIP3｜Lv.27</span>
+              <span>VIP3&#65372;Lv.27&#65372;&#20415;&#30070;&#29579;</span>
               <h3>Yu Zi</h3>
               <p>&#31281;&#34399;&#65306;&#20415;&#30070;&#29579;</p>
               ${progressBar(51, "1280 / 2500 EXP")}
@@ -91,15 +94,42 @@
           </div>
           <div class="life-profile-form">
             <label>&#39023;&#31034;&#21517;&#31281;<input value="Yu Zi" maxlength="16"></label>
-            <label>&#30446;&#21069;&#31281;&#34399;<select><option>&#20415;&#30070;&#29579;</option><option>&#20581;&#24247;&#36948;&#20154;</option><option>&#38622;&#33151;&#29378;&#20154;</option><option>&#21109;&#22987;&#26371;&#21729;</option></select></label>
-            <label>&#38957;&#20687;&#39080;&#26684;<select><option>LAI &#23567;&#29399;&#24215;&#21729;</option><option>&#35987;&#24215;&#38263;</option><option>&#33756;&#22290;&#20820;</option><option>&#27963;&#21205;&#32650;</option></select></label>
-            <label>&#38957;&#20687;&#26694;<select><option>VIP &#37329;&#33394;&#26694;</option><option>&#27599;&#26085;&#31805;&#21040;&#26694;</option><option>&#20581;&#24247;&#39184;&#26694;</option></select></label>
+            <label>&#20491;&#20154;&#23459;&#35328;<input value="&#20170;&#22825;&#20063;&#35201;&#20358;&#30002;&#20415;&#30070;" maxlength="24"></label>
           </div>
           <div class="life-wallet-grid">
             <article><i class="life-coin-icon"></i><span>&#37329;&#24163;</span><strong>${fmt(data.wallet.coins)}</strong></article>
             <article><i class="life-ticket-icon"></i><span>&#40670;&#21048; / &#31150;&#21048;</span><strong>${fmt(data.wallet.tickets)}</strong></article>
             <article><i class="life-heart-icon"></i><span>&#39636;&#21147;</span><strong>${data.wallet.hearts}/${data.wallet.maxHearts}</strong></article>
             <article><i class="life-leaf-icon"></i><span>&#39135;&#26448;&#40670;&#25976;</span><strong>320</strong></article>
+          </div>
+          <div class="life-custom-section">
+            <header><strong>&#38957;&#20687;&#39080;&#26684;</strong><span>&#36984;&#25799;&#20320;&#22312;&#20415;&#30070;&#23567;&#37806;&#30340;&#35282;&#33394;</span></header>
+            <div class="life-choice-grid">
+              <button class="life-choice-card selected" data-life-action="equip"><i class="life-mini-avatar dog"></i><strong>LAI &#23567;&#29399;&#24215;&#21729;</strong><small>&#24050;&#22871;&#29992;</small></button>
+              <button class="life-choice-card" data-life-action="equip"><i class="life-mini-avatar bear"></i><strong>&#35987;&#24215;&#38263;</strong><small>&#38936;&#23566;&#21147; +5</small></button>
+              <button class="life-choice-card" data-life-action="equip"><i class="life-mini-avatar rabbit"></i><strong>&#33756;&#22290;&#20820;</strong><small>&#39135;&#26448;&#40670;&#25976; +3</small></button>
+              <button class="life-choice-card locked" data-life-action="equip"><i class="life-mini-avatar sheep"></i><strong>&#27963;&#21205;&#32650;</strong><small>&#27963;&#21205;&#35299;&#37782;</small></button>
+            </div>
+          </div>
+          <div class="life-custom-section">
+            <header><strong>&#38957;&#20687;&#26694;</strong><span>&#23637;&#31034; VIP&#12289;&#31805;&#21040;&#33287;&#20581;&#24247;&#25104;&#23601;</span></header>
+            <div class="life-choice-grid">
+              <button class="life-choice-card selected" data-life-action="equip"><i class="life-frame-swatch gold"></i><strong>VIP &#37329;&#33394;&#26694;</strong><small>&#24050;&#25317;&#26377;</small></button>
+              <button class="life-choice-card" data-life-action="equip"><i class="life-frame-swatch leaf"></i><strong>&#20581;&#24247;&#39184;&#26694;</strong><small>&#20581;&#24247;&#39184; 7 &#27425;</small></button>
+              <button class="life-choice-card" data-life-action="equip"><i class="life-frame-swatch checkin"></i><strong>&#31805;&#21040;&#28779;&#33457;&#26694;</strong><small>&#36899;&#32196; 15 &#22825;</small></button>
+              <button class="life-choice-card locked" data-life-action="equip"><i class="life-frame-swatch crown"></i><strong>&#20415;&#30070;&#29579;&#20896;&#26694;</strong><small>&#25490;&#34892;&#27036;&#21069; 3</small></button>
+            </div>
+          </div>
+          <div class="life-custom-section">
+            <header><strong>&#31281;&#34399;</strong><span>&#21029;&#20154;&#30475;&#24471;&#21040;&#30340;&#20491;&#20154;&#27161;&#31844;</span></header>
+            <div class="life-title-rack">
+              <button class="selected" data-life-action="equip">&#20415;&#30070;&#29579;</button>
+              <button data-life-action="equip">&#38622;&#33151;&#29378;&#20154;</button>
+              <button data-life-action="equip">&#20581;&#24247;&#36948;&#20154;</button>
+              <button data-life-action="equip">&#36899;&#32196;&#31805;&#21040; 15 &#22825;</button>
+              <button data-life-action="equip">&#21109;&#22987;&#26371;&#21729;</button>
+              <button class="locked" data-life-action="equip">&#31070;&#31192;&#39135;&#23458;</button>
+            </div>
           </div>
           <div class="life-member-actions">
             <button data-life-action="saveProfile">&#20786;&#23384;&#36039;&#26009;</button>
