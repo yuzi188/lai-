@@ -4454,33 +4454,6 @@ section {
   box-shadow: inset 0 -4px 0 rgba(112, 76, 37, 0.12);
 }
 
-.life-joystick {
-  position: absolute;
-  left: 18px;
-  bottom: 18px;
-  z-index: 5;
-  display: grid;
-  width: 118px;
-  height: 118px;
-  place-items: center;
-  border: 3px solid rgba(255, 248, 218, 0.8);
-  border-radius: 50%;
-  background: rgba(71, 52, 29, 0.28);
-  box-shadow: inset 0 0 0 12px rgba(255, 248, 218, 0.28), 0 18px 28px rgba(42, 70, 49, 0.22);
-  touch-action: none;
-}
-
-.life-joystick span {
-  display: block;
-  width: 54px;
-  height: 54px;
-  border: 3px solid rgba(112, 76, 37, 0.2);
-  border-radius: 50%;
-  background: linear-gradient(180deg, #ffd866, #ffc84f);
-  box-shadow: inset 0 -6px 0 rgba(112, 76, 37, 0.14), 0 8px 16px rgba(42, 70, 49, 0.22);
-  transition: transform 0.06s linear;
-}
-
 @media (max-width: 1180px) {
   .life-topbar {
     grid-template-columns: 1fr;
@@ -4600,18 +4573,6 @@ section {
     padding: 8px 10px;
     font-size: 0.76rem;
     text-align: right;
-  }
-
-  .life-joystick {
-    width: 104px;
-    height: 104px;
-    left: 12px;
-    bottom: 12px;
-  }
-
-  .life-joystick span {
-    width: 48px;
-    height: 48px;
   }
 
   .life-interaction-hint {
@@ -4823,12 +4784,6 @@ section {
   transform: translateX(-50%);
 }
 
-.life-game-shell .life-joystick {
-  position: fixed;
-  left: 18px;
-  bottom: 18px;
-}
-
 @media (max-width: 1100px) {
   .life-game-body {
     overflow: hidden;
@@ -4898,9 +4853,9 @@ section {
   .life-game-shell .life-bottom-nav {
     left: 50%;
     bottom: 8px;
-    width: min(520px, calc(100vw - 126px));
+    width: min(640px, calc(100vw - 16px));
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    transform: translateX(-40%);
+    transform: translateX(-50%);
   }
 
   .life-game-shell .life-order-cta {
@@ -4989,10 +4944,10 @@ section {
   }
 
   .life-game-shell .life-bottom-nav {
-    left: auto;
+    left: 8px;
     right: 8px;
     bottom: 8px;
-    width: calc(100vw - 132px);
+    width: auto;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     transform: none;
     gap: 5px;
@@ -5009,7 +4964,7 @@ section {
   }
 
   .life-game-shell .life-interaction-hint {
-    left: 126px;
+    left: 8px;
     right: 8px;
     bottom: 104px;
   }

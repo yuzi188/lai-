@@ -348,15 +348,13 @@
     const hintTitle = document.querySelector("#lifeInteractionTitle");
     const hintText = document.querySelector("#lifeInteractionText");
     const hintButton = document.querySelector("#lifeInteractButton");
-    const joystick = document.querySelector("#lifeJoystick");
-    const knob = document.querySelector("#lifeJoystickKnob");
     const world = { w: 1600, h: 1040 };
     const player = { x: 800, y: 690, w: 42, h: 56, speed: 220, moving: false, dir: "down" };
     const camera = { x: 0, y: 0, w: canvas.width, h: canvas.height };
     const sceneImage = new Image();
     sceneImage.src = "assets/lai-life-town-bg.png";
     const keys = new Set();
-    const joy = { active: false, id: null, x: 0, y: 0 };
+    let moveTarget = null;
     const colors = {
       ink: "#47341d",
       wood: "#8b6f3c",
@@ -420,6 +418,25 @@
       const ny = player.y + dy;
       if (canStand(nx, player.y)) player.x = nx;
       if (canStand(player.x, ny)) player.y = ny;
+    }
+
+    function findWalkableTarget(point) {
+      const base = {
+        x: clamp(point.x, 42, world.w - 42),
+        y: clamp(point.y, 70, world.h - 42)
+      };
+      if (canStand(base.x, base.y)) return base;
+      const angles = [0, Math.PI / 4, Math.PI / 2, Math.PI * 0.75, Math.PI, Math.PI * 1.25, Math.PI * 1.5, Math.PI * 1.75];
+      for (let radius = 32; radius <= 180; radius += 24) {
+        for (const angle of angles) {
+          const candidate = {
+            x: clamp(base.x + Math.cos(angle) * radius, 42, world.w - 42),
+            y: clamp(base.y + Math.sin(angle) * radius, 70, world.h - 42)
+          };
+          if (canStand(candidate.x, candidate.y)) return candidate;
+        }
+      }
+      return null;
     }
 
     function zoneDistance(zone) {
@@ -577,6 +594,19 @@
       ctx.fillText("LAI", player.x, player.y - 3 + bob);
     }
 
+    function drawMoveTarget() {
+      if (!moveTarget) return;
+      ctx.strokeStyle = "rgba(255, 200, 79, 0.95)";
+      ctx.fillStyle = "rgba(255, 248, 218, 0.7)";
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.arc(moveTarget.x, moveTarget.y - 8, 18, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(moveTarget.x, moveTarget.y - 8, 5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
     function drawScene(time) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.save();
@@ -645,6 +675,7 @@
       });
 
       npcs.forEach(npc => drawNpc(npc, time));
+      drawMoveTarget();
       drawPlayer(time);
       ctx.restore();
     }
@@ -656,9 +687,20 @@
       if (keys.has("arrowright") || keys.has("d")) vx += 1;
       if (keys.has("arrowup") || keys.has("w")) vy -= 1;
       if (keys.has("arrowdown") || keys.has("s")) vy += 1;
-      vx += joy.x;
-      vy += joy.y;
-      const length = Math.hypot(vx, vy);
+      let length = Math.hypot(vx, vy);
+      if (length > 0.05) moveTarget = null;
+      if (length <= 0.05 && moveTarget) {
+        const dx = moveTarget.x - player.x;
+        const dy = moveTarget.y - player.y;
+        const distance = Math.hypot(dx, dy);
+        if (distance < 8) {
+          moveTarget = null;
+        } else {
+          vx = dx / distance;
+          vy = dy / distance;
+          length = 1;
+        }
+      }
       player.moving = length > 0.05;
       if (player.moving) {
         vx /= length;
@@ -683,9 +725,18 @@
     canvas.addEventListener("click", event => {
       const point = worldPoint(event);
       const npc = npcs.find(item => Math.hypot(point.x - item.x, point.y - item.y) < 48);
-      if (!npc) return;
-      data.currentNpc = npc;
-      openModal("npcDialogue");
+      if (npc) {
+        moveTarget = null;
+        data.currentNpc = npc;
+        openModal("npcDialogue");
+        return;
+      }
+      const destination = findWalkableTarget(point);
+      if (!destination) {
+        toast("這裡不能走，請點廣場或道路。");
+        return;
+      }
+      moveTarget = destination;
     });
 
     window.addEventListener("keydown", event => {
@@ -699,47 +750,6 @@
     window.addEventListener("keyup", event => {
       keys.delete(event.key.toLowerCase());
     });
-
-    function setJoystick(event) {
-      const rect = joystick.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dx = event.clientX - cx;
-      const dy = event.clientY - cy;
-      const distance = Math.min(Math.hypot(dx, dy), rect.width * 0.36);
-      const angle = Math.atan2(dy, dx);
-      const kx = Math.cos(angle) * distance;
-      const ky = Math.sin(angle) * distance;
-      joy.x = kx / (rect.width * 0.36);
-      joy.y = ky / (rect.height * 0.36);
-      knob.style.transform = `translate(${kx}px, ${ky}px)`;
-    }
-
-    function resetJoystick() {
-      joy.active = false;
-      joy.id = null;
-      joy.x = 0;
-      joy.y = 0;
-      knob.style.transform = "translate(0, 0)";
-    }
-
-    if (joystick) {
-      joystick.addEventListener("pointerdown", event => {
-        event.preventDefault();
-        joy.active = true;
-        joy.id = event.pointerId;
-        joystick.setPointerCapture(event.pointerId);
-        setJoystick(event);
-      });
-      joystick.addEventListener("pointermove", event => {
-        if (!joy.active || event.pointerId !== joy.id) return;
-        event.preventDefault();
-        setJoystick(event);
-      });
-      joystick.addEventListener("pointerup", resetJoystick);
-      joystick.addEventListener("pointercancel", resetJoystick);
-      joystick.addEventListener("lostpointercapture", resetJoystick);
-    }
 
     requestAnimationFrame(loop);
   }
