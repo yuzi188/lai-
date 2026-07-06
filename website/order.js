@@ -28,6 +28,7 @@ const priceInput = document.querySelector("#priceInput");
 const orderItemsBody = document.querySelector("#orderItemsBody");
 const orderTotal = document.querySelector("#orderTotal");
 const saveButton = document.querySelector("#saveButton");
+let toastTimer;
 
 function formatMoney(value) {
   return `$${Number(value || 0).toLocaleString("zh-TW")}`;
@@ -97,6 +98,24 @@ function resetOrderForm() {
   renderItems();
 }
 
+function showOrderToast(orderId) {
+  window.clearTimeout(toastTimer);
+  document.querySelector(".order-success-toast")?.remove();
+
+  const toast = document.createElement("div");
+  toast.className = "order-success-toast";
+  toast.setAttribute("role", "status");
+  toast.innerHTML = `
+    <div>
+      <strong>訂單已送到後台</strong>
+      <span>單號 ${orderId}，接單工作台會看到新單。</span>
+    </div>
+  `;
+
+  document.body.appendChild(toast);
+  toastTimer = window.setTimeout(() => toast.remove(), 4800);
+}
+
 async function saveOrder() {
   const info = getCustomerInfo();
   if (!info.customerName || !info.customerPhone || !info.pickupTime || !currentItems.length) {
@@ -121,7 +140,7 @@ async function saveOrder() {
     });
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || "送出失敗");
-    alert(`訂單已送出，後台會看到新單：${data.order.orderId}`);
+    showOrderToast(data.order.orderId);
     resetOrderForm();
   } catch (error) {
     alert(`訂單送出失敗：${error.message}`);

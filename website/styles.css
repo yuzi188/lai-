@@ -256,6 +256,117 @@ a {
   border-top: 1px solid rgba(90, 62, 30, 0.12);
 }
 
+@keyframes laiHeroReveal {
+  from {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes laiCopyRise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes laiCardRise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lai-redesign-hero-image img {
+  animation: laiHeroReveal 1.2s ease both;
+}
+
+.lai-redesign-hero-copy > * {
+  animation: laiCopyRise 0.7s ease both;
+}
+
+.lai-redesign-hero-copy > :nth-child(2) {
+  animation-delay: 0.08s;
+}
+
+.lai-redesign-hero-copy > :nth-child(3) {
+  animation-delay: 0.16s;
+}
+
+.lai-redesign-hero-copy > :nth-child(4) {
+  animation-delay: 0.24s;
+}
+
+.lai-redesign-hero-copy > :nth-child(5) {
+  animation-delay: 0.32s;
+}
+
+.lai-redesign-order,
+.lai-redesign-hero-actions a,
+.lai-redesign-paths a,
+.lai-redesign-dishes a,
+.lai-redesign-paths article,
+.lai-redesign-ops-grid article {
+  transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
+}
+
+.lai-redesign-order:hover,
+.lai-redesign-hero-actions a:hover,
+.lai-redesign-paths a:hover {
+  transform: translateY(-2px);
+  filter: saturate(1.08);
+  box-shadow: 0 14px 30px rgba(179, 111, 22, 0.26);
+}
+
+.lai-redesign-paths article,
+.lai-redesign-ops-grid article,
+.lai-redesign-dishes a {
+  animation: laiCardRise 0.65s ease both;
+}
+
+.lai-redesign-paths article:nth-child(2),
+.lai-redesign-dishes a:nth-child(2),
+.lai-redesign-ops-grid article:nth-child(2) {
+  animation-delay: 0.08s;
+}
+
+.lai-redesign-paths article:nth-child(3),
+.lai-redesign-dishes a:nth-child(3),
+.lai-redesign-ops-grid article:nth-child(3) {
+  animation-delay: 0.16s;
+}
+
+.lai-redesign-dishes a:nth-child(4),
+.lai-redesign-ops-grid article:nth-child(4) {
+  animation-delay: 0.24s;
+}
+
+.lai-redesign-paths article:hover,
+.lai-redesign-ops-grid article:hover,
+.lai-redesign-dishes a:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 42px rgba(90, 62, 30, 0.13);
+}
+
+.lai-redesign-dishes a:hover img {
+  transform: scale(1.035);
+}
+
 @media (max-width: 900px) {
   .lai-redesign-header {
     grid-template-columns: 1fr auto;
@@ -7532,6 +7643,30 @@ section {
   border-radius: 8px;
   background: rgba(255, 253, 247, 0.94);
   box-shadow: 0 14px 28px rgba(90, 62, 30, 0.08);
+  animation: laiCardRise 0.58s ease both;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.dish-display-card:nth-child(2) {
+  animation-delay: 0.06s;
+}
+
+.dish-display-card:nth-child(3) {
+  animation-delay: 0.12s;
+}
+
+.dish-display-card:nth-child(4) {
+  animation-delay: 0.18s;
+}
+
+.dish-display-card:nth-child(5) {
+  animation-delay: 0.24s;
+}
+
+.dish-display-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(184, 137, 34, 0.35);
+  box-shadow: 0 22px 46px rgba(90, 62, 30, 0.15);
 }
 
 .dish-image-button {
@@ -7609,6 +7744,13 @@ section {
   color: #6d4a15;
   font-weight: 900;
   cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.dish-card-body button:hover {
+  transform: translateY(-1px);
+  background: #ffefbd;
+  box-shadow: 0 10px 20px rgba(184, 137, 34, 0.16);
 }
 
 .dish-modal {
@@ -7642,6 +7784,14 @@ section {
   border-radius: 8px;
   background: #fffdf7;
   box-shadow: 0 28px 70px rgba(34, 24, 13, 0.28);
+}
+
+.dish-modal.open .dish-modal-backdrop {
+  animation: laiBackdropFade 0.2s ease both;
+}
+
+.dish-modal.open .dish-modal-panel {
+  animation: laiModalPop 0.24s ease both;
 }
 
 .dish-modal-panel > img {
@@ -7730,6 +7880,99 @@ section {
 
 .modal-open {
   overflow: hidden;
+}
+
+@keyframes laiBackdropFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes laiModalPop {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.order-success-toast {
+  position: fixed;
+  right: clamp(16px, 4vw, 36px);
+  bottom: clamp(16px, 4vw, 36px);
+  z-index: 120;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: center;
+  width: min(420px, calc(100% - 32px));
+  padding: 16px 18px;
+  border: 1px solid rgba(90, 62, 30, 0.14);
+  border-radius: 8px;
+  background: #fffdf7;
+  color: #3f2a13;
+  box-shadow: 0 24px 60px rgba(34, 24, 13, 0.22);
+  animation: laiToastIn 0.28s ease both;
+}
+
+.order-success-toast::before {
+  content: "LAI";
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ffd86b, #f2a12d);
+  color: #5a3e1e;
+  font-family: "Nunito", sans-serif;
+  font-size: 0.86rem;
+  font-weight: 950;
+}
+
+.order-success-toast strong,
+.order-success-toast span {
+  display: block;
+}
+
+.order-success-toast strong {
+  margin-bottom: 3px;
+  font-size: 1.05rem;
+}
+
+.order-success-toast span {
+  color: #755a3b;
+  font-weight: 800;
+}
+
+@keyframes laiToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
 
 /* Brand story page */
