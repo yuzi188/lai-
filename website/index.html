@@ -7,41 +7,53 @@
   <meta name="description" content="LAI 家便當提供健康輕食、經典台味與企業團訂。每日新鮮現做，健康、輕食、用心做。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&family=Nunito:wght@700;800;900&family=Playfair+Display:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="lai-redesign-body">
-  <header class="lai-redesign-header">
-    <a class="lai-redesign-brand" href="index.html" aria-label="LAI 家便當首頁">
-      <img src="assets/lai-brand-logo.svg" alt="LAI 家便當">
+<body class="lai-redesign-body lai-spotlight-body">
+  <header class="lai-spotlight-nav">
+    <a class="lai-spotlight-brand" href="index.html" aria-label="LAI 家便當首頁">
+      <span class="lai-spotlight-mark">LAI</span>
+      <span class="font-playfair">家便當</span>
     </a>
-    <nav class="lai-redesign-nav" aria-label="主要導覽">
-      <a href="menu.html">健康輕食</a>
+    <nav class="lai-spotlight-pill" aria-label="主要導覽">
+      <a class="active" href="menu.html">健康輕食</a>
       <a href="classic.html">經典台味</a>
       <a href="story.html">品牌故事</a>
       <a href="group.html">團訂合作</a>
+      <a href="order.html">線上訂餐</a>
     </nav>
-    <a class="lai-redesign-order" href="order.html">線上訂餐</a>
+    <a class="lai-spotlight-signup" href="order.html">立即訂餐</a>
+    <button class="lai-spotlight-menu" type="button" aria-label="開啟選單">選單</button>
   </header>
 
   <main>
-    <section class="lai-redesign-hero">
-      <picture class="lai-redesign-hero-image">
-        <img src="assets/lai-entry-store-crop.jpg" alt="LAI 家便當溫暖店面">
-      </picture>
-      <div class="lai-redesign-hero-copy">
-        <span class="lai-redesign-kicker">HEALTHY BENTO · FRESH EVERYDAY</span>
-        <h1>來，一起吃頓好飯。</h1>
-        <p>LAI 家便當把健康輕食與熟悉台味做成每天都想吃的一餐。少油少鹽、每日現做，也保留家的溫度。</p>
-        <div class="lai-redesign-hero-actions">
-          <a class="primary" href="order.html">立即訂餐</a>
-          <a class="secondary" href="menu.html">查看菜單</a>
-        </div>
-        <dl class="lai-redesign-proof">
-          <div><dt>2</dt><dd>主力系列</dd></div>
-          <div><dt>9+</dt><dd>便當品項</dd></div>
-          <div><dt>750ml</dt><dd>安心紙盒</dd></div>
-        </dl>
+    <section class="lai-spotlight-hero" aria-label="LAI 家便當品牌首頁">
+      <div class="lai-spotlight-base hero-zoom" style="background-image: url('assets/lai-hero-night-store.jpg');"></div>
+      <div class="lai-spotlight-reveal" data-reveal-image="assets/lai-hero-wok-fire.jpg">
+        <canvas class="lai-spotlight-mask" aria-hidden="true"></canvas>
+        <div class="lai-spotlight-reveal-image" style="background-image: url('assets/lai-hero-wok-fire.jpg');"></div>
+      </div>
+
+      <div class="lai-spotlight-heading">
+        <span class="lai-redesign-kicker hero-anim hero-fade" style="animation-delay: 0.15s;">HEALTHY BENTO · FRESH EVERYDAY</span>
+        <h1>
+          <span class="font-playfair hero-anim hero-reveal" style="animation-delay: 0.25s;">一餐照顧生活</span>
+          <span class="hero-anim hero-reveal" style="animation-delay: 0.42s;">一口吃到用心</span>
+        </h1>
+      </div>
+
+      <div class="lai-spotlight-bottom-left hero-anim hero-fade" style="animation-delay: 0.7s;">
+        <p>每一份便當從食材、火候到出餐節奏，都為日常午餐留下剛剛好的溫度。</p>
+      </div>
+
+      <div class="lai-spotlight-bottom-right hero-anim hero-fade" style="animation-delay: 0.85s;">
+        <p>滑動游標，看見熱炒火光與現做備餐的另一面。LAI 家便當不只是便當，是可以被信任的每日餐桌。</p>
+        <a href="order.html">立即訂餐</a>
+      </div>
+
+      <div class="lai-spotlight-cue" aria-hidden="true">
+        <span>移動游標探索廚房現做</span>
       </div>
     </section>
 
@@ -110,5 +122,6 @@
       </div>
     </section>
   </main>
+  <script src="home.js"></script>
 </body>
 </html>
