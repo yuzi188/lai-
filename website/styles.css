@@ -149,6 +149,12 @@ a {
   backdrop-filter: blur(14px);
 }
 
+.lai-spotlight-nav::before {
+  content: "";
+  width: 112px;
+  pointer-events: none;
+}
+
 .lai-spotlight-hero {
   position: relative;
   width: 100%;
