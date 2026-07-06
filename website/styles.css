@@ -8825,10 +8825,14 @@ section {
 
 .health-belief {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 230px;
-  gap: 28px;
+  grid-template-columns: 1fr;
+  gap: 22px;
   align-items: center;
   padding: clamp(24px, 4vw, 42px);
+}
+
+.health-belief > div {
+  max-width: 760px;
 }
 
 .health-belief img {
