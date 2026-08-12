@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>老王新加坡海南雞飯｜官方訂餐</title>
+  <meta name="description" content="老王新加坡海南雞飯官方訂餐網站，提供白雞、燒雞、雞飯、河粉與小菜線上訂購。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="hainan-body">
+  <header class="hainan-nav">
+    <a class="hainan-brand" href="hainan.html" aria-label="老王新加坡海南雞飯首頁">
+      <span>老王</span>
+      <strong>新加坡海南雞飯</strong>
+    </a>
+    <nav aria-label="海南雞飯網站導覽">
+      <a href="#menu">菜單</a>
+      <a href="#order">線上訂餐</a>
+      <a href="admin.html">接單後台</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hainan-hero">
+      <div class="hainan-hero-copy">
+        <p>Singapore Hainanese Chicken Rice</p>
+        <h1>白雞清香，燒雞油亮。</h1>
+        <span>經典雞飯、河粉、小菜，直接線上點餐，後台即時接單。</span>
+        <div class="hainan-actions">
+          <a href="#order">開始訂餐</a>
+          <a href="#menu">查看菜單</a>
+        </div>
+      </div>
+      <aside class="hainan-menu-reference">
+        <img src="assets/hainan-menu-reference.jpg" alt="老王新加坡海南雞飯原始菜單照片">
+        <div>
+          <strong>原始菜單已數位化</strong>
+          <span>價格可再依店內最新版本校正。</span>
+        </div>
+      </aside>
+    </section>
+
+    <section id="menu" class="hainan-section">
+      <div class="hainan-section-head">
+        <p>MENU</p>
+        <h2>招牌菜單</h2>
+        <span>依照片菜單整理，先建立可接單版本。</span>
+      </div>
+      <div id="hainanMenuGrid" class="hainan-menu-grid"></div>
+    </section>
+
+    <section id="order" class="hainan-section hainan-order-section">
+      <div class="hainan-order-panel">
+        <div>
+          <p class="hainan-kicker">CUSTOMER</p>
+          <h2>訂購資料</h2>
+        </div>
+        <div class="hainan-form-grid">
+          <label>姓名
+            <input id="hainanCustomerName" type="text" placeholder="例如：王小姐">
+          </label>
+          <label>電話
+            <input id="hainanCustomerPhone" type="tel" placeholder="例如：0912-345-678">
+          </label>
+          <label>取餐方式
+            <select id="hainanPickupType">
+              <option value="自取">自取</option>
+              <option value="外送">外送</option>
+              <option value="團體訂購">團體訂購</option>
+            </select>
+          </label>
+          <label>取餐時間
+            <input id="hainanPickupTime" type="datetime-local">
+          </label>
+          <label class="hainan-full">備註
+            <textarea id="hainanOrderNote" rows="3" placeholder="例如：不要辣、飯少、醬另外放"></textarea>
+          </label>
+        </div>
+      </div>
+
+      <aside class="hainan-cart">
+        <div class="hainan-cart-head">
+          <div>
+            <p class="hainan-kicker">CURRENT ORDER</p>
+            <h2>訂單明細</h2>
+          </div>
+          <strong id="hainanTotal">$0</strong>
+        </div>
+        <div id="hainanCartItems" class="hainan-cart-items">
+          <p>尚未加入餐點</p>
+        </div>
+        <div class="hainan-cart-actions">
+          <button id="hainanClearCart" type="button">清空</button>
+          <button id="hainanSubmitOrder" type="button">送出訂單</button>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script src="hainan.js"></script>
+</body>
+</html>
