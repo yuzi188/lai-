@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lai999 BOT｜海南雞飯 AI 功能頁</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="lai999-body">
+  <main class="lai999-shell">
+    <section class="lai999-hero">
+      <div>
+        <p class="hainan-kicker">LAI999 BOT</p>
+        <h1>老王新加坡海南雞飯 AI 功能頁</h1>
+        <p>從 Telegram 直接完成點餐、定位導航、基本客服、訂單查詢；客人送單後同步到前台、後廚和老闆面板。</p>
+        <div class="lai999-actions">
+          <a id="orderLink" href="hainan.html?storeId=hainan-singapore&source=telegram&bot=Lai999_BOT">開始點餐</a>
+          <a id="mapLink" href="#" target="_blank" rel="noreferrer">店址導航</a>
+        </div>
+      </div>
+      <img src="assets/hainan-menu-reference.jpg" alt="海南雞飯菜單照片">
+    </section>
+
+    <section class="lai999-grid">
+      <article class="lai999-panel">
+        <span>ORDER</span>
+        <h2>AI 掃碼點餐</h2>
+        <p>支援中文、高棉文、越南文、英文、泰文，客人可以填桌號、忌口、過敏和備註。</p>
+        <a id="orderLinkCard" href="hainan.html?storeId=hainan-singapore&source=telegram&bot=Lai999_BOT">進入點餐頁</a>
+      </article>
+      <article class="lai999-panel">
+        <span>SERVICE</span>
+        <h2>基本客服</h2>
+        <p id="serviceInfo">讀取店家資料中...</p>
+        <button id="copyServiceText" type="button">複製客服資訊</button>
+      </article>
+      <article class="lai999-panel">
+        <span>LOCATION</span>
+        <h2>定位導航</h2>
+        <p id="locationInfo">讀取店址中...</p>
+        <a id="mapLinkCard" href="#" target="_blank" rel="noreferrer">開啟 Google Maps</a>
+      </article>
+    </section>
+
+    <section class="lai999-workspace">
+      <form id="orderLookupForm" class="lai999-tool">
+        <div>
+          <p class="hainan-kicker">ORDER STATUS</p>
+          <h2>查訂單紀錄</h2>
+          <p>輸入下單電話，會讀取同一個後台訂單資料源。</p>
+        </div>
+        <label>
+          電話
+          <input id="lookupPhone" type="tel" placeholder="例如：0912-345-678">
+        </label>
+        <button type="submit">查詢</button>
+        <div id="lookupResult" class="lai999-result">尚未查詢。</div>
+      </form>
+
+      <form id="feedbackFormBot" class="lai999-tool">
+        <div>
+          <p class="hainan-kicker">CUSTOMER CARE</p>
+          <h2>客服回饋</h2>
+          <p>客訴、稱讚、問題都會進老闆面板的 AI 評價摘要。</p>
+        </div>
+        <label>
+          類型
+          <select id="feedbackTypeBot">
+            <option value="complaint">客訴</option>
+            <option value="question">問題</option>
+            <option value="praise">稱讚</option>
+          </select>
+        </label>
+        <label>
+          內容
+          <textarea id="feedbackTextBot" rows="4" placeholder="請輸入想告訴店家的內容"></textarea>
+        </label>
+        <button type="submit">送出回饋</button>
+        <div id="feedbackResultBot" class="lai999-result">等待客人輸入。</div>
+      </form>
+    </section>
+
+    <section class="lai999-staff">
+      <a id="kitchenLink" href="ai-kitchen.html?storeId=hainan-singapore&source=telegram&bot=Lai999_BOT&role=kitchen">後廚看板</a>
+      <a id="managerLink" href="ai-manager.html?storeId=hainan-singapore&source=telegram&bot=Lai999_BOT&role=manager">老闆面板</a>
+    </section>
+  </main>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="lai999-bot.js"></script>
+</body>
+</html>

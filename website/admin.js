@@ -101,6 +101,7 @@ function actionButtons(order) {
       <button type="button" data-action="accept" data-minutes="15">接單 15分</button>
       <button type="button" data-action="accept" data-minutes="20">20分</button>
       <button type="button" data-action="accept" data-minutes="30">30分</button>
+      <button type="button" data-action="edit">改單</button>
       <button type="button" data-action="reject" class="danger-action">拒單</button>
       <button type="button" data-action="print">列印</button>
     `;
@@ -108,6 +109,7 @@ function actionButtons(order) {
   if (status === "preparing") {
     return `
       <button type="button" data-action="ready">完成製作</button>
+      <button type="button" data-action="edit">改單</button>
       <button type="button" data-action="print">補印</button>
     `;
   }
@@ -129,6 +131,7 @@ function orderCard(order) {
     </li>
   `).join("");
   const note = order.orderNote ? `<p class="order-note">備註：${escapeHtml(order.orderNote)}</p>` : "";
+  const changeLine = order.changeCount ? `<p class="order-note">已改單 ${Number(order.changeCount)} 次：${escapeHtml(order.lastChangeNote || "內容更新")}</p>` : "";
   const printLine = order.printResult ? `<p class="admin-print-result">已列印 ${order.printCount || 1} 次</p>` : "";
   const eta = status === "preparing" ? `<b class="eta-line">${readyEta(order)}</b>` : "";
 
@@ -154,6 +157,7 @@ function orderCard(order) {
       ${eta}
       <ul class="order-item-list">${items}</ul>
       ${note}
+      ${changeLine}
       ${printLine}
       <div class="admin-actions">${actionButtons(order)}</div>
     </article>
@@ -285,6 +289,26 @@ async function setStatus(orderId, status, payload = {}) {
   });
 }
 
+async function editOrder(orderId) {
+  const order = allOrders.find(item => item.orderId === orderId);
+  if (!order) throw new Error("找不到訂單");
+  const orderNote = prompt("更新備註", order.orderNote || "");
+  if (orderNote === null) return;
+  const tableCode = prompt("更新桌號 / 取餐代號", order.tableCode || "");
+  if (tableCode === null) return;
+  const pickupTime = prompt("更新取餐時間，格式 YYYY-MM-DDTHH:mm", order.pickupTime || "");
+  if (pickupTime === null) return;
+  await api(`/api/orders/${encodeURIComponent(orderId)}`, {
+    method: "PATCH",
+    body: JSON.stringify({
+      orderNote,
+      tableCode,
+      pickupTime,
+      changeNote: "後台更改備註、桌號或取餐時間"
+    })
+  });
+}
+
 async function handleAction(event) {
   const button = event.target.closest("[data-action]");
   if (!button) return;
@@ -299,6 +323,7 @@ async function handleAction(event) {
     if (action === "ready") await setStatus(orderId, "ready", { note: "餐點已完成" });
     if (action === "complete") await setStatus(orderId, "completed", { note: "客人已取餐" });
     if (action === "print") await api(`/api/orders/${encodeURIComponent(orderId)}/print`, { method: "POST", body: "{}" });
+    if (action === "edit") await editOrder(orderId);
     await loadOrders();
   } catch (error) {
     alert(error.message);

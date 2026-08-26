@@ -6,7 +6,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "check": "node --check server.js && node --check website/order.js && node --check website/admin.js && node --check website/admin-pages.js && node --check website/catalog.js"
+    "bot:lai999": "node scripts/lai999-telegram-poller.js",
+    "bot:lai999:setup": "node scripts/setup-lai999-bot.js",
+    "check": "node --check server.js && node --check scripts/lai999-telegram-poller.js && node --check scripts/setup-lai999-bot.js && node --check website/order.js && node --check website/hainan.js && node --check website/lai999-bot.js && node --check website/admin.js && node --check website/admin-pages.js && node --check website/catalog.js && node --check website/ai-order.js && node --check website/ai-kitchen.js && node --check website/ai-manager.js"
   },
   "engines": {
     "node": ">=20"

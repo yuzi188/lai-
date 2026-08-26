@@ -4,6 +4,11 @@ node_modules/
 Thumbs.db
 npm-debug.log*
 data/orders.json
+data/member-ledger.json
+data/*.log
 data/print-jobs/*.txt
 *.zip
 .tools/
+.serena/
+duckboss-assets/
+duckboss-official-site/

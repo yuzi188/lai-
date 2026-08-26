@@ -1,0 +1,305 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-26T17:25:00.000+08:00",
+  "menu": [
+    {
+      "id": "hainan-steamed-leg-rice",
+      "sku": "HAINAN_STEAMED_LEG_RICE",
+      "name": {
+        "zh-TW": "白雞腿飯",
+        "en": "Steamed Chicken Leg Rice",
+        "km": "បាយមាន់ស្ងោរ ភ្លៅ",
+        "vi": "Cơm gà luộc đùi",
+        "th": "ข้าวมันไก่ต้ม น่อง"
+      },
+      "description": {
+        "zh-TW": "白切雞腿、雞油飯、小黃瓜與三色醬，適合第一次來的客人。",
+        "en": "Steamed chicken leg with chicken rice, cucumber, and three sauces.",
+        "km": "មាន់ស្ងោរ ភ្លៅ ជាមួយបាយមាន់ ត្រសក់ និងទឹកជ្រលក់។",
+        "vi": "Đùi gà luộc với cơm gà, dưa leo và ba loại sốt.",
+        "th": "ไก่ต้มส่วนน่อง เสิร์ฟกับข้าวมัน แตงกวา และน้ำจิ้มสามแบบ"
+      },
+      "category": "招牌雞飯",
+      "price": 5.5,
+      "cost": 2.15,
+      "inventorySku": "STEAMED_CHICKEN_LEG",
+      "tags": ["signature", "chicken", "classic", "high-protein"],
+      "allergens": ["soy", "sesame"],
+      "dietaryFlags": { "beef": false, "pork": false, "seafood": false, "vegetarian": false, "spicy": false }
+    },
+    {
+      "id": "hainan-roast-leg-rice",
+      "sku": "HAINAN_ROAST_LEG_RICE",
+      "name": {
+        "zh-TW": "燒雞腿飯",
+        "en": "Roast Chicken Leg Rice",
+        "km": "បាយមាន់អាំង ភ្លៅ",
+        "vi": "Cơm gà quay đùi",
+        "th": "ข้าวมันไก่ย่าง น่อง"
+      },
+      "description": {
+        "zh-TW": "燒雞腿皮香油亮，搭配雞油飯與特製醬汁。",
+        "en": "Roast chicken leg with chicken rice and house sauces.",
+        "km": "មាន់អាំង ភ្លៅ ជាមួយបាយមាន់ និងទឹកជ្រលក់ពិសេស។",
+        "vi": "Đùi gà quay với cơm gà và sốt đặc biệt.",
+        "th": "ไก่ย่างส่วนน่อง หนังหอม เสิร์ฟกับข้าวมันและน้ำจิ้ม"
+      },
+      "category": "招牌雞飯",
+      "price": 5.5,
+      "cost": 2.25,
+      "inventorySku": "ROAST_CHICKEN_LEG",
+      "tags": ["signature", "chicken", "roast", "savory"],
+      "allergens": ["soy", "sesame", "gluten"],
+      "dietaryFlags": { "beef": false, "pork": false, "seafood": false, "vegetarian": false, "spicy": false }
+    },
+    {
+      "id": "hainan-steamed-breast-rice",
+      "sku": "HAINAN_STEAMED_BREAST_RICE",
+      "name": {
+        "zh-TW": "白雞胸飯",
+        "en": "Steamed Chicken Breast Rice",
+        "km": "បាយមាន់ស្ងោរ ទ្រូង",
+        "vi": "Cơm gà luộc ức",
+        "th": "ข้าวมันไก่ต้ม อก"
+      },
+      "description": {
+        "zh-TW": "白雞胸清爽少油，適合想吃輕一點的客人。",
+        "en": "Lean steamed chicken breast with chicken rice.",
+        "km": "ទ្រូងមាន់ស្ងោរ ស្រាលខ្លាញ់ ត្រជាក់ស្រួលញ៉ាំ។",
+        "vi": "Ức gà luộc thanh nhẹ, ít dầu hơn.",
+        "th": "อกไก่ต้ม รสเบา ไขมันน้อยกว่า"
+      },
+      "category": "招牌雞飯",
+      "price": 4.5,
+      "cost": 1.8,
+      "inventorySku": "STEAMED_CHICKEN_BREAST",
+      "tags": ["chicken", "lighter", "high-protein"],
+      "allergens": ["soy", "sesame"],
+      "dietaryFlags": { "beef": false, "pork": false, "seafood": false, "vegetarian": false, "spicy": false }
+    },
+    {
+      "id": "hainan-roast-breast-rice",
+      "sku": "HAINAN_ROAST_BREAST_RICE",
+      "name": {
+        "zh-TW": "燒雞胸飯",
+        "en": "Roast Chicken Breast Rice",
+        "km": "បាយមាន់អាំង ទ្រូង",
+        "vi": "Cơm gà quay ức",
+        "th": "ข้าวมันไก่ย่าง อก"
+      },
+      "description": {
+        "zh-TW": "燒雞胸香氣重、份量剛好，適合午餐快速點。",
+        "en": "Roast chicken breast with chicken rice, good for a quick lunch.",
+        "km": "ទ្រូងមាន់អាំង ជាមួយបាយមាន់ សមស្របសម្រាប់អាហារថ្ងៃត្រង់។",
+        "vi": "Ức gà quay với cơm gà, phù hợp bữa trưa nhanh.",
+        "th": "อกไก่ย่างกับข้าวมัน เหมาะกับมื้อกลางวันเร็วๆ"
+      },
+      "category": "招牌雞飯",
+      "price": 4.5,
+      "cost": 1.9,
+      "inventorySku": "ROAST_CHICKEN_BREAST",
+      "tags": ["chicken", "roast", "savory"],
+      "allergens": ["soy", "sesame", "gluten"],
+      "dietaryFlags": { "beef": false, "pork": false, "seafood": false, "vegetarian": false, "spicy": false }
+    },
+    {
+      "id": "hainan-chicken-pho-soup",
+      "sku": "HAINAN_CHICKEN_PHO_SOUP",
+      "name": {
+        "zh-TW": "雞河粉（湯）",
+        "en": "Chicken Pho Soup",
+        "km": "គុយទាវមាន់ ទឹក",
+        "vi": "Phở gà nước",
+        "th": "ก๋วยเตี๋ยวไก่น้ำ"
+      },
+      "description": {
+        "zh-TW": "雞湯河粉搭配雞肉片，適合想吃湯麵的客人。",
+        "en": "Rice noodles in chicken broth with sliced chicken.",
+        "km": "គុយទាវក្នុងទឹកស៊ុបមាន់ ជាមួយសាច់មាន់។",
+        "vi": "Bánh phở nước dùng gà với thịt gà.",
+        "th": "เส้นก๋วยเตี๋ยวในน้ำซุปไก่พร้อมเนื้อไก่"
+      },
+      "category": "河粉",
+      "price": 5,
+      "cost": 1.95,
+      "inventorySku": "CHICKEN_PHO",
+      "tags": ["chicken", "soup", "comfort"],
+      "allergens": ["soy"],
+      "dietaryFlags": { "beef": false, "pork": false, "seafood": false, "vegetarian": false, "spicy": false }
+    },
+    {
+      "id": "hainan-chicken-pho-dry",
+      "sku": "HAINAN_CHICKEN_PHO_DRY",
+      "name": {
+        "zh-TW": "雞河粉（乾）",
+        "en": "Dry Chicken Pho",
+        "km": "គុយទាវមាន់ គោក",
+        "vi": "Phở gà khô",
+        "th": "ก๋วยเตี๋ยวไก่แห้ง"
+      },
+      "description": {
+        "zh-TW": "乾拌河粉、雞肉片與醬汁，出餐快、適合外帶。",
+        "en": "Dry rice noodles with sliced chicken and sauce.",
+        "km": "គុយទាវគោកជាមួយសាច់មាន់ និងទឹកជ្រលក់។",
+        "vi": "Phở khô với thịt gà và sốt.",
+        "th": "เส้นก๋วยเตี๋ยวแห้งกับเนื้อไก่และซอส"
+      },
+      "category": "河粉",
+      "price": 5,
+      "cost": 1.85,
+      "inventorySku": "CHICKEN_PHO",
+      "tags": ["chicken", "dry-noodle", "takeout"],
+      "allergens": ["soy", "gluten"],
+      "dietaryFlags": { "beef": false, "pork": false, "seafood": false, "vegetarian": false, "spicy": false }
+    },
+    {
+      "id": "hainan-half-steamed-chicken",
+      "sku": "HAINAN_HALF_STEAMED_CHICKEN",
+      "name": {
+        "zh-TW": "白雞半隻",
+        "en": "Half Steamed Chicken",
+        "km": "មាន់ស្ងោរ កន្លះក្បាល",
+        "vi": "Nửa con gà luộc",
+        "th": "ไก่ต้มครึ่งตัว"
+      },
+      "description": {
+        "zh-TW": "半隻白切雞，適合 2 到 3 人分享。",
+        "en": "Half steamed chicken for sharing.",
+        "km": "មាន់ស្ងោរ កន្លះក្បាល សម្រាប់ចែកគ្នាញ៉ាំ។",
+        "vi": "Nửa con gà luộc, phù hợp chia sẻ.",
+        "th": "ไก่ต้มครึ่งตัว เหมาะสำหรับแบ่งกันทาน"
+      },
+      "category": "單點雞肉",
+      "price": 17.5,
+      "cost": 7.2,
+      "inventorySku": "HALF_STEAMED_CHICKEN",
+      "tags": ["sharing", "chicken", "signature"],
+      "allergens": ["soy", "sesame"],
+      "dietaryFlags": { "beef": false, "pork": false, "seafood": false, "vegetarian": false, "spicy": false }
+    },
+    {
+      "id": "hainan-half-roast-chicken",
+      "sku": "HAINAN_HALF_ROAST_CHICKEN",
+      "name": {
+        "zh-TW": "燒雞半隻",
+        "en": "Half Roast Chicken",
+        "km": "មាន់អាំង កន្លះក្បាល",
+        "vi": "Nửa con gà quay",
+        "th": "ไก่ย่างครึ่งตัว"
+      },
+      "description": {
+        "zh-TW": "半隻燒雞，皮香肉嫩，適合多人加點。",
+        "en": "Half roast chicken with crisp skin and tender meat.",
+        "km": "មាន់អាំង កន្លះក្បាល សាច់ទន់ក្លិនឈ្ងុយ។",
+        "vi": "Nửa con gà quay, da thơm thịt mềm.",
+        "th": "ไก่ย่างครึ่งตัว หนังหอม เนื้อนุ่ม"
+      },
+      "category": "單點雞肉",
+      "price": 17.5,
+      "cost": 7.6,
+      "inventorySku": "HALF_ROAST_CHICKEN",
+      "tags": ["sharing", "chicken", "roast"],
+      "allergens": ["soy", "sesame", "gluten"],
+      "dietaryFlags": { "beef": false, "pork": false, "seafood": false, "vegetarian": false, "spicy": false }
+    },
+    {
+      "id": "hainan-century-egg-tofu",
+      "sku": "HAINAN_CENTURY_EGG_TOFU",
+      "name": {
+        "zh-TW": "皮蛋豆腐",
+        "en": "Century Egg Tofu",
+        "km": "តៅហ៊ូពងខ្មៅ",
+        "vi": "Đậu hũ trứng bắc thảo",
+        "th": "เต้าหู้ไข่เยี่ยวม้า"
+      },
+      "description": {
+        "zh-TW": "冰涼小菜，適合搭配雞飯與河粉。",
+        "en": "Chilled tofu side dish with century egg.",
+        "km": "ម្ហូបចំហៀងតៅហ៊ូត្រជាក់ ជាមួយពងខ្មៅ។",
+        "vi": "Món đậu hũ lạnh với trứng bắc thảo.",
+        "th": "เต้าหู้เย็นกับไข่เยี่ยวม้า"
+      },
+      "category": "小菜",
+      "price": 5,
+      "cost": 1.55,
+      "inventorySku": "CENTURY_EGG_TOFU",
+      "tags": ["side", "cold", "vegetarian"],
+      "allergens": ["soy"],
+      "dietaryFlags": { "beef": false, "pork": false, "seafood": false, "vegetarian": true, "spicy": false }
+    }
+  ],
+  "addOns": [
+    {
+      "id": "hainan-rice",
+      "sku": "ADDON_HAINAN_RICE",
+      "name": { "zh-TW": "加點油飯", "en": "Extra Chicken Rice", "km": "បាយមាន់បន្ថែម", "vi": "Thêm cơm gà", "th": "เพิ่มข้าวมัน" },
+      "price": 1,
+      "cost": 0.32,
+      "inventorySku": "HAINAN_RICE",
+      "pairTags": ["chicken", "soup", "sharing", "classic"],
+      "allergens": []
+    },
+    {
+      "id": "hainan-egg",
+      "sku": "ADDON_BRAISED_EGG",
+      "name": { "zh-TW": "滷蛋", "en": "Braised Egg", "km": "ពងទាពុះ", "vi": "Trứng kho", "th": "ไข่พะโล้" },
+      "price": 1,
+      "cost": 0.32,
+      "inventorySku": "BRAISED_EGG",
+      "pairTags": ["classic", "chicken", "takeout"],
+      "allergens": ["egg", "soy"]
+    },
+    {
+      "id": "hainan-bean-sprouts",
+      "sku": "ADDON_BEAN_SPROUTS",
+      "name": { "zh-TW": "芽菜", "en": "Bean Sprouts", "km": "សណ្តែកបណ្តុះ", "vi": "Giá trụng", "th": "ถั่วงอกลวก" },
+      "price": 4,
+      "cost": 1.1,
+      "inventorySku": "BEAN_SPROUTS",
+      "pairTags": ["chicken", "lighter", "vegetarian"],
+      "allergens": []
+    },
+    {
+      "id": "hainan-chili-sauce",
+      "sku": "ADDON_CHILI_SAUCE",
+      "name": { "zh-TW": "加辣椒醬", "en": "Extra Chili Sauce", "km": "ទឹកម្ទេសបន្ថែម", "vi": "Thêm sốt ớt", "th": "เพิ่มน้ำจิ้มพริก" },
+      "price": 0,
+      "cost": 0.08,
+      "inventorySku": "CHILI_SAUCE",
+      "pairTags": ["chicken", "roast", "dry-noodle"],
+      "allergens": [],
+      "dietaryFlags": { "spicy": true }
+    },
+    {
+      "id": "hainan-iced-tea",
+      "sku": "ADDON_ICED_TEA",
+      "name": { "zh-TW": "冰茶", "en": "Iced Tea", "km": "តែទឹកកក", "vi": "Trà đá", "th": "ชาเย็น" },
+      "price": 1.5,
+      "cost": 0.38,
+      "inventorySku": "ICED_TEA",
+      "pairTags": ["savory", "roast", "takeout", "classic"],
+      "allergens": []
+    }
+  ],
+  "inventory": {
+    "STEAMED_CHICKEN_LEG": { "name": "白雞腿", "unit": "份", "onHand": 36, "lowStockAt": 10, "reorderTo": 60, "costPerUnit": 1.18, "leadTimeDays": 1 },
+    "ROAST_CHICKEN_LEG": { "name": "燒雞腿", "unit": "份", "onHand": 30, "lowStockAt": 10, "reorderTo": 55, "costPerUnit": 1.28, "leadTimeDays": 1 },
+    "STEAMED_CHICKEN_BREAST": { "name": "白雞胸", "unit": "份", "onHand": 28, "lowStockAt": 8, "reorderTo": 48, "costPerUnit": 0.95, "leadTimeDays": 1 },
+    "ROAST_CHICKEN_BREAST": { "name": "燒雞胸", "unit": "份", "onHand": 24, "lowStockAt": 8, "reorderTo": 45, "costPerUnit": 1.05, "leadTimeDays": 1 },
+    "CHICKEN_PHO": { "name": "雞河粉備料", "unit": "份", "onHand": 32, "lowStockAt": 10, "reorderTo": 55, "costPerUnit": 1.1, "leadTimeDays": 1 },
+    "HALF_STEAMED_CHICKEN": { "name": "白雞半隻", "unit": "份", "onHand": 10, "lowStockAt": 4, "reorderTo": 18, "costPerUnit": 6.2, "leadTimeDays": 1 },
+    "HALF_ROAST_CHICKEN": { "name": "燒雞半隻", "unit": "份", "onHand": 8, "lowStockAt": 4, "reorderTo": 16, "costPerUnit": 6.6, "leadTimeDays": 1 },
+    "CENTURY_EGG_TOFU": { "name": "皮蛋豆腐", "unit": "份", "onHand": 18, "lowStockAt": 6, "reorderTo": 32, "costPerUnit": 1.25, "leadTimeDays": 1 },
+    "HAINAN_RICE": { "name": "雞油飯", "unit": "碗", "onHand": 80, "lowStockAt": 25, "reorderTo": 130, "costPerUnit": 0.32, "leadTimeDays": 1 },
+    "BRAISED_EGG": { "name": "滷蛋", "unit": "顆", "onHand": 55, "lowStockAt": 18, "reorderTo": 100, "costPerUnit": 0.32, "leadTimeDays": 1 },
+    "BEAN_SPROUTS": { "name": "芽菜", "unit": "份", "onHand": 20, "lowStockAt": 8, "reorderTo": 40, "costPerUnit": 1.1, "leadTimeDays": 1 },
+    "CHILI_SAUCE": { "name": "辣椒醬", "unit": "份", "onHand": 90, "lowStockAt": 30, "reorderTo": 160, "costPerUnit": 0.08, "leadTimeDays": 1 },
+    "ICED_TEA": { "name": "冰茶", "unit": "杯", "onHand": 44, "lowStockAt": 15, "reorderTo": 80, "costPerUnit": 0.38, "leadTimeDays": 1 }
+  },
+  "feedback": [
+    { "id": "fb-hainan-001", "date": "2026-08-25", "type": "review", "rating": 5, "channel": "google", "itemId": "hainan-steamed-leg-rice", "text": "白雞腿飯很嫩，雞油飯香，辣椒醬好吃。" },
+    { "id": "fb-hainan-002", "date": "2026-08-25", "type": "complaint", "rating": 2, "channel": "phone", "itemId": "hainan-roast-leg-rice", "text": "中午尖峰等太久，燒雞飯到桌上時有點冷。" },
+    { "id": "fb-hainan-003", "date": "2026-08-26", "type": "review", "rating": 4, "channel": "line", "itemId": "hainan-chicken-pho-soup", "text": "雞河粉湯頭清爽，份量剛好。" }
+  ],
+  "movements": []
+}

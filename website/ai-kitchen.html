@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 後廚看板｜LAI家便當</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin-app-body ai-os-body">
+  <header class="ops-topbar">
+    <div class="ops-brand">
+      <img src="assets/lai-brand-logo.svg" alt="LAI家便當">
+      <div><strong>AI 後廚看板</strong><span>桌號・忌口・過敏・出餐狀態</span></div>
+    </div>
+    <nav class="ops-nav" aria-label="AI 餐廳後台">
+      <a href="admin.html">前台接單</a>
+      <a class="active" href="ai-kitchen.html">AI 後廚</a>
+      <a href="ai-manager.html">AI 老闆</a>
+      <a href="admin-orders.html">查單</a>
+    </nav>
+    <div class="ops-top-actions">
+      <time id="kitchenClock">--:--</time>
+      <button class="admin-refresh" type="button" id="refreshButton">重新整理</button>
+    </div>
+  </header>
+
+  <main class="ops-console ai-os-kitchen">
+    <section class="ops-stats">
+      <article class="urgent-stat"><span>待接單</span><strong id="pendingCount">0</strong></article>
+      <article><span>製作中</span><strong id="preparingCount">0</strong></article>
+      <article><span>可出餐</span><strong id="readyCount">0</strong></article>
+      <article><span>過敏備註</span><strong id="allergyCount">0</strong></article>
+      <article><span>今日完成</span><strong id="completedCount">0</strong></article>
+    </section>
+
+    <section class="delivery-board">
+      <section class="delivery-column new-column">
+        <div class="column-head"><h2>待接單</h2><span id="pendingBadge">0</span></div>
+        <div id="pendingOrders" class="admin-list"></div>
+      </section>
+      <section class="delivery-column">
+        <div class="column-head"><h2>製作中</h2><span id="preparingBadge">0</span></div>
+        <div id="preparingOrders" class="admin-list"></div>
+      </section>
+      <section class="delivery-column">
+        <div class="column-head"><h2>可出餐</h2><span id="readyBadge">0</span></div>
+        <div id="readyOrders" class="admin-list"></div>
+      </section>
+    </section>
+  </main>
+
+  <script src="ai-kitchen.js"></script>
+</body>
+</html>

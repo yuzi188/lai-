@@ -19,6 +19,8 @@
     <nav aria-label="海南雞飯網站導覽">
       <a href="#menu">菜單</a>
       <a href="#order">線上訂餐</a>
+      <a href="ai-kitchen.html">AI 後廚</a>
+      <a href="ai-manager.html">AI 老闆</a>
       <a href="admin.html">接單後台</a>
     </nav>
   </header>
@@ -31,6 +33,7 @@
         <span>經典雞飯、河粉、小菜，直接線上點餐，後台即時接單。</span>
         <div class="hainan-actions">
           <a href="#order">開始訂餐</a>
+          <a href="ai-order.html">AI 掃碼版</a>
           <a href="#menu">查看菜單</a>
         </div>
       </div>
@@ -55,9 +58,41 @@
     <section id="order" class="hainan-section hainan-order-section">
       <div class="hainan-order-panel">
         <div>
-          <p class="hainan-kicker">CUSTOMER</p>
-          <h2>訂購資料</h2>
+          <p class="hainan-kicker">AI ORDER</p>
+          <h2>AI 推薦與訂購資料</h2>
         </div>
+        <div class="hainan-ai-grid">
+          <label>語言
+            <select id="hainanLanguage">
+              <option value="zh-TW">中文</option>
+              <option value="km">高棉文</option>
+              <option value="vi">越南文</option>
+              <option value="en">English</option>
+              <option value="th">泰文</option>
+            </select>
+          </label>
+          <label>預算
+            <input id="hainanBudget" type="number" min="0" step="0.5" value="6">
+          </label>
+          <label>桌號
+            <input id="hainanTableCode" type="text" value="A03">
+          </label>
+        </div>
+        <div class="hainan-preference-row">
+          <label><input type="checkbox" name="hainanAvoid" value="beef">不吃牛</label>
+          <label><input type="checkbox" name="hainanAvoid" value="pork">不吃豬</label>
+          <label><input type="checkbox" name="hainanAvoid" value="seafood">不吃海鮮</label>
+          <label><input type="checkbox" name="hainanAvoid" value="spicy">不要辣</label>
+          <label><input type="checkbox" name="hainanAllergy" value="egg">蛋過敏</label>
+          <label><input type="checkbox" name="hainanAllergy" value="soy">大豆過敏</label>
+          <label><input type="checkbox" name="hainanAllergy" value="sesame">芝麻過敏</label>
+        </div>
+        <div id="hainanAiNotice" class="hainan-ai-notice">AI 菜單載入中...</div>
+        <div class="hainan-cart-actions hainan-ai-actions">
+          <button id="hainanRecommend" type="button">AI 推薦</button>
+          <button id="hainanReloadMenu" type="button">更新菜單</button>
+        </div>
+        <div id="hainanRecommendations" class="hainan-recommendations"></div>
         <div class="hainan-form-grid">
           <label>姓名
             <input id="hainanCustomerName" type="text" placeholder="例如：王小姐">
@@ -92,6 +127,7 @@
         <div id="hainanCartItems" class="hainan-cart-items">
           <p>尚未加入餐點</p>
         </div>
+        <div id="hainanUpsells" class="hainan-upsells"></div>
         <div class="hainan-cart-actions">
           <button id="hainanClearCart" type="button">清空</button>
           <button id="hainanSubmitOrder" type="button">送出訂單</button>
@@ -100,6 +136,7 @@
     </section>
   </main>
 
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script src="hainan.js"></script>
 </body>
 </html>

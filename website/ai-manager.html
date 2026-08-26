@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 老闆決策面板｜LAI家便當</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin-app-body ai-os-body">
+  <header class="ops-topbar">
+    <div class="ops-brand">
+      <img src="assets/lai-brand-logo.svg" alt="LAI家便當">
+      <div><strong>AI 老闆決策面板</strong><span>營收・毛利・庫存・客訴・明日建議</span></div>
+    </div>
+    <nav class="ops-nav" aria-label="AI 餐廳後台">
+      <a href="admin.html">前台接單</a>
+      <a href="ai-kitchen.html">AI 後廚</a>
+      <a class="active" href="ai-manager.html">AI 老闆</a>
+      <a href="admin-stats.html">營業統計</a>
+    </nav>
+    <div class="ops-top-actions">
+      <input id="reportDate" type="date">
+      <button class="admin-refresh" type="button" id="refreshReportButton">重新整理</button>
+    </div>
+  </header>
+
+  <main class="ops-console ai-os-manager">
+    <section class="ops-stats">
+      <article class="primary-stat"><span>今日營收</span><strong id="revenue">$0</strong></article>
+      <article><span>訂單數</span><strong id="orderCount">0</strong></article>
+      <article><span>客單價</span><strong id="aov">$0</strong></article>
+      <article><span>毛利</span><strong id="grossProfit">$0</strong></article>
+      <article><span>毛利率</span><strong id="marginRate">0%</strong></article>
+    </section>
+
+    <section class="ai-os-brief" id="aiBrief"></section>
+
+    <section class="ops-bottom-grid">
+      <article class="ops-panel">
+        <div class="column-head"><h2>熱賣餐點</h2><span>TOP 5</span></div>
+        <div id="topItems" class="item-stats"></div>
+      </article>
+      <article class="ops-panel">
+        <div class="column-head"><h2>低庫存與補貨</h2><span id="lowStockCount">0</span></div>
+        <div id="inventoryList" class="item-stats"></div>
+      </article>
+    </section>
+
+    <section class="ops-bottom-grid">
+      <article class="ops-panel">
+        <div class="column-head"><h2>評價 / 客訴摘要</h2><span id="feedbackCount">0</span></div>
+        <div id="feedbackSummary" class="ai-os-feedback"></div>
+      </article>
+      <article class="ops-panel">
+        <div class="column-head"><h2>新增回饋</h2><span>人工輸入</span></div>
+        <form id="feedbackForm" class="ai-os-feedback-form">
+          <select id="feedbackType">
+            <option value="review">好評</option>
+            <option value="complaint">客訴</option>
+          </select>
+          <input id="feedbackRating" type="number" min="1" max="5" value="5">
+          <textarea id="feedbackText" rows="4" placeholder="貼上客人評價或客訴內容"></textarea>
+          <button class="primary-print" type="submit">加入摘要</button>
+        </form>
+      </article>
+    </section>
+  </main>
+
+  <script src="ai-manager.js"></script>
+</body>
+</html>
