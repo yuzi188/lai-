@@ -7,6 +7,7 @@ data/orders.json
 data/member-ledger.json
 data/*.log
 data/print-jobs/*.txt
+tmp/
 *.zip
 .tools/
 .serena/
