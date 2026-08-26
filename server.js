@@ -149,10 +149,14 @@ function nowIso() {
   return new Date().toISOString();
 }
 
-function createOrderId() {
+function createOrderId(payload = {}) {
   const now = new Date();
   const stamp = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`;
-  return `LAI-${stamp}-${String(now.getTime()).slice(-5)}`;
+  const isHainan = payload.source === "hainan-official"
+    || payload.storeId === "hainan-singapore"
+    || String(payload.companyName || "").includes("海南雞")
+    || (payload.items || []).some(item => item.series === "hainan" || String(item.seriesName || "").includes("海南雞"));
+  return `${isHainan ? "HAINAN" : "LAI"}-${stamp}-${String(now.getTime()).slice(-5)}`;
 }
 
 function sendJson(res, status, data) {
@@ -1694,7 +1698,7 @@ async function sendMemberGift(fromPhone, payload) {
 
 function buildKitchenTicket(order) {
   const lines = [];
-  lines.push("LAI家便當");
+  lines.push(order.companyName || (order.storeId === "hainan-singapore" ? "老王新加坡海南雞飯" : "LAI家便當"));
   lines.push("廚房接單小票");
   lines.push("------------------------------");
   lines.push(`訂單：${order.orderId}`);
@@ -2153,7 +2157,7 @@ async function handleApi(req, res, pathname) {
 
     const total = payload.items.reduce((sum, item) => sum + Number(item.quantity) * Number(item.price || 0), 0);
     const order = {
-      orderId: createOrderId(),
+      orderId: createOrderId(payload),
       status: "pending",
       createdAt: nowIso(),
       ...payload,

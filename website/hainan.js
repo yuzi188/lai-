@@ -205,7 +205,7 @@ function showHainanToast(orderId) {
   toast.innerHTML = `
     <div>
       <strong>訂單已送出</strong>
-      <span>單號 ${orderId}，後台與 AI 後廚會看到新單。</span>
+      <span>單號 ${orderId}，海南雞接單後台會看到新單。</span>
     </div>
   `;
   document.body.appendChild(toast);
