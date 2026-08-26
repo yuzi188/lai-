@@ -2,6 +2,7 @@ let allOrders = [];
 let knownPendingIds = new Set();
 let soundEnabled = false;
 let hasLoadedOnce = false;
+const adminBrand = document.body.dataset.adminBrand || "lai";
 
 async function api(path, options = {}) {
   const response = await fetch(path, {
@@ -50,6 +51,22 @@ function isToday(order) {
 
 function itemCount(order) {
   return (order.items || []).reduce((sum, item) => sum + Number(item.quantity || 0), 0);
+}
+
+function isHainanOrder(order) {
+  if (order.source === "hainan-official" || order.storeId === "hainan-singapore") return true;
+  if (String(order.companyName || "").includes("海南雞")) return true;
+  return (order.items || []).some(item => item.series === "hainan" || String(item.seriesName || "").includes("海南雞"));
+}
+
+function brandFilteredOrders(orders) {
+  if (adminBrand === "hainan") return orders.filter(isHainanOrder);
+  return orders;
+}
+
+function orderSourceBadge(order) {
+  if (isHainanOrder(order)) return `<small class="order-source hainan-source">老王海南雞飯</small>`;
+  return `<small class="order-source lai-source">LAI家便當</small>`;
 }
 
 function pickupTimeText(order) {
@@ -141,6 +158,7 @@ function orderCard(order) {
         <div>
           <strong>${escapeHtml(order.orderId)}</strong>
           <small>${pickupTimeText(order)}</small>
+          ${orderSourceBadge(order)}
         </div>
         <span>${statusLabel(status)}</span>
       </header>
@@ -276,7 +294,7 @@ function detectNewPendingOrders(orders) {
 
 async function loadOrders() {
   const { orders } = await api("/api/orders");
-  allOrders = orders || [];
+  allOrders = brandFilteredOrders(orders || []);
   detectNewPendingOrders(allOrders);
   renderStats();
   renderOrders();

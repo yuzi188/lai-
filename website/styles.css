@@ -3246,6 +3246,107 @@ section {
   color: #3f2a13;
 }
 
+.hainan-admin-body {
+  background:
+    radial-gradient(circle at 18% 0%, rgba(142, 26, 46, 0.18), transparent 32%),
+    linear-gradient(180deg, #fff6e0 0%, #fffaf2 34%, #f8efe1 100%);
+}
+
+.hainan-ops-topbar {
+  background: rgba(80, 20, 32, 0.96);
+  border-bottom-color: #d7a850;
+}
+
+.hainan-ops-mark {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #fff8e6, #f2d08c);
+  color: #7a1629;
+  font-family: "Noto Serif TC", serif;
+  font-size: 1.55rem;
+  font-weight: 900;
+  box-shadow: inset 0 0 0 3px rgba(122, 22, 41, 0.14);
+}
+
+.hainan-admin-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 12px;
+  padding: clamp(18px, 3vw, 28px);
+  border: 1px solid rgba(122, 22, 41, 0.18);
+  border-radius: 12px;
+  background:
+    linear-gradient(135deg, rgba(255, 248, 230, 0.96), rgba(255, 255, 250, 0.88)),
+    url("assets/hainan-ai/hero-hainan-ai.png") right center / auto 150% no-repeat;
+  box-shadow: 0 18px 34px rgba(122, 22, 41, 0.08);
+}
+
+.hainan-admin-hero p {
+  margin: 0 0 8px;
+  color: #b8872f;
+  font-family: "Nunito", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hainan-admin-hero h1 {
+  margin: 0;
+  color: #4b1720;
+  font-family: "Noto Serif TC", serif;
+  font-size: clamp(1.6rem, 3.2vw, 2.7rem);
+}
+
+.hainan-admin-hero span {
+  display: block;
+  max-width: 620px;
+  margin-top: 8px;
+  color: rgba(75, 23, 32, 0.72);
+  font-weight: 700;
+  line-height: 1.7;
+}
+
+.hainan-admin-hero a {
+  display: inline-flex;
+  min-width: max-content;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  border-radius: 999px;
+  background: #7a1629;
+  color: #fff8e6;
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow: 0 12px 22px rgba(122, 22, 41, 0.18);
+}
+
+.order-source {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 6px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.hainan-source {
+  background: rgba(122, 22, 41, 0.1);
+  color: #7a1629;
+}
+
+.lai-source {
+  background: rgba(255, 184, 28, 0.18);
+  color: #6d4a15;
+}
+
 .ops-console {
   width: min(1680px, calc(100% - 28px));
   margin: 18px auto 44px;
