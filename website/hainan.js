@@ -71,7 +71,7 @@ function dishCard(item, recommended = false) {
   const disabled = item.inventory && !item.inventory.available ? "disabled" : "";
   const image = item.image ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.name)}">` : "";
   return `
-    <article class="hainan-dish-card ${recommended ? "hainan-recommended" : ""}">
+    <article class="hainan-dish-card ${recommended ? "hainan-recommended" : ""}" data-hainan-id="${escapeHtml(item.id)}" tabindex="0" role="button" aria-label="加入 ${escapeHtml(item.name)}">
       ${image}
       <div class="hainan-dish-info">
         <span>${escapeHtml(item.category || "AI MENU")}</span>
@@ -89,8 +89,9 @@ function dishCard(item, recommended = false) {
 }
 
 function renderMenu() {
-  menuGrid.innerHTML = hainanMenu.length
-    ? hainanMenu.map(item => dishCard(item)).join("")
+  const allItems = [...hainanMenu, ...hainanAddOns];
+  menuGrid.innerHTML = allItems.length
+    ? allItems.map(item => dishCard(item)).join("")
     : `<p>目前沒有菜單資料</p>`;
 }
 
@@ -126,6 +127,7 @@ function renderCart() {
 }
 
 function addToCart(item) {
+  if (item.inventory && !item.inventory.available) return;
   const existing = cart.find(entry => entry.id === item.id);
   if (existing) existing.quantity += 1;
   else cart.push({
@@ -266,25 +268,29 @@ async function submitHainanOrder() {
   }
 }
 
-menuGrid.addEventListener("click", event => {
-  const button = event.target.closest("[data-hainan-id]");
-  if (!button) return;
-  const item = findItem(button.dataset.hainanId);
+function activateDishCard(target) {
+  const card = target.closest("[data-hainan-id]");
+  if (!card) return;
+  const item = findItem(card.dataset.hainanId);
   if (item) addToCart(item);
+}
+
+menuGrid.addEventListener("click", event => {
+  activateDishCard(event.target);
+});
+
+menuGrid.addEventListener("keydown", event => {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  event.preventDefault();
+  activateDishCard(event.target);
 });
 
 document.querySelector("#hainanRecommendations").addEventListener("click", event => {
-  const button = event.target.closest("[data-hainan-id]");
-  if (!button) return;
-  const item = findItem(button.dataset.hainanId);
-  if (item) addToCart(item);
+  activateDishCard(event.target);
 });
 
 document.querySelector("#hainanUpsells").addEventListener("click", event => {
-  const button = event.target.closest("[data-hainan-id]");
-  if (!button) return;
-  const item = findItem(button.dataset.hainanId);
-  if (item) addToCart(item);
+  activateDishCard(event.target);
 });
 
 cartItems.addEventListener("click", event => {

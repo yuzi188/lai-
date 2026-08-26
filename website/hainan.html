@@ -26,9 +26,9 @@
     </nav>
   </header>
 
-  <main>
-    <section class="hainan-hero">
-      <div class="hainan-hero-copy">
+  <main class="hainan-launch">
+    <section id="order" class="hainan-command-screen">
+      <div class="hainan-hero-copy hainan-command-copy">
         <p>Singapore Hainanese Chicken Rice</p>
         <h1>老王新加坡海南雞飯</h1>
         <span>用手機完成多語點餐、忌口過敏備註與訂單追蹤。店家後台、廚房看板與老闆報表同步更新。</span>
@@ -37,103 +37,108 @@
           <a href="ai-order.html">AI 掃碼版</a>
           <a href="#menu">查看菜單</a>
         </div>
-      </div>
-      <aside class="hainan-menu-reference">
-        <img src="assets/hainan-ai/hero-hainan-ai.png" alt="老王新加坡海南雞飯招牌餐點">
-        <div>
-          <strong>AI 點餐已上線</strong>
-          <span>掃碼、選餐、備註、送單，一條流程完成。</span>
-        </div>
-      </aside>
-    </section>
-
-    <section id="menu" class="hainan-section">
-      <div class="hainan-section-head">
-        <p>MENU</p>
-        <h2>招牌菜單</h2>
-        <span>依照片菜單整理，先建立可接單版本。</span>
-      </div>
-      <div id="hainanMenuGrid" class="hainan-menu-grid"></div>
-    </section>
-
-    <section id="order" class="hainan-section hainan-order-section">
-      <div class="hainan-order-panel">
-        <div>
-          <p class="hainan-kicker">AI ORDER</p>
-          <h2>AI 推薦與訂購資料</h2>
-        </div>
-        <div class="hainan-ai-grid">
-          <label>語言
-            <select id="hainanLanguage">
-              <option value="zh-TW">中文</option>
-              <option value="km">高棉文</option>
-              <option value="vi">越南文</option>
-              <option value="en">English</option>
-              <option value="th">泰文</option>
-            </select>
-          </label>
-          <label>預算
-            <input id="hainanBudget" type="number" min="0" step="0.5" value="6">
-          </label>
-          <label>桌號
-            <input id="hainanTableCode" type="text" value="A03">
-          </label>
-        </div>
-        <div class="hainan-preference-row">
-          <label><input type="checkbox" name="hainanAvoid" value="beef">不吃牛</label>
-          <label><input type="checkbox" name="hainanAvoid" value="pork">不吃豬</label>
-          <label><input type="checkbox" name="hainanAvoid" value="seafood">不吃海鮮</label>
-          <label><input type="checkbox" name="hainanAvoid" value="spicy">不要辣</label>
-          <label><input type="checkbox" name="hainanAllergy" value="egg">蛋過敏</label>
-          <label><input type="checkbox" name="hainanAllergy" value="soy">大豆過敏</label>
-          <label><input type="checkbox" name="hainanAllergy" value="sesame">芝麻過敏</label>
-        </div>
-        <div id="hainanAiNotice" class="hainan-ai-notice">AI 菜單載入中...</div>
-        <div class="hainan-cart-actions hainan-ai-actions">
-          <button id="hainanRecommend" type="button">AI 推薦</button>
-          <button id="hainanReloadMenu" type="button">更新菜單</button>
-        </div>
-        <div id="hainanRecommendations" class="hainan-recommendations"></div>
-        <div class="hainan-form-grid">
-          <label>姓名
-            <input id="hainanCustomerName" type="text" placeholder="例如：王小姐">
-          </label>
-          <label>電話
-            <input id="hainanCustomerPhone" type="tel" placeholder="例如：0912-345-678">
-          </label>
-          <label>取餐方式
-            <select id="hainanPickupType">
-              <option value="自取">自取</option>
-              <option value="外送">外送</option>
-              <option value="團體訂購">團體訂購</option>
-            </select>
-          </label>
-          <label>取餐時間
-            <input id="hainanPickupTime" type="datetime-local">
-          </label>
-          <label class="hainan-full">備註
-            <textarea id="hainanOrderNote" rows="3" placeholder="例如：不要辣、飯少、醬另外放"></textarea>
-          </label>
+        <div class="hainan-live-strip" aria-label="服務狀態">
+          <strong>10:30-20:30</strong>
+          <span>內用 / 自取 / 外送</span>
+          <span>多語 AI 點餐</span>
         </div>
       </div>
 
-      <aside class="hainan-cart">
-        <div class="hainan-cart-head">
+      <section id="menu" class="hainan-command-stage" aria-label="招牌菜單">
+        <aside class="hainan-menu-reference">
+          <img src="assets/hainan-ai/hero-hainan-ai.png" alt="老王新加坡海南雞飯招牌餐點">
           <div>
-            <p class="hainan-kicker">CURRENT ORDER</p>
-            <h2>訂單明細</h2>
+            <strong>一張圖點出招牌</strong>
+            <span>白雞、燒雞、雞飯與醬料是第一眼記憶點。</span>
           </div>
-          <strong id="hainanTotal">$0</strong>
+        </aside>
+        <div class="hainan-section-head hainan-menu-head">
+          <p>MENU</p>
+          <h2>招牌菜單</h2>
+          <span>全部菜色照片同屏顯示，點照片或加入直接進右側訂單。</span>
         </div>
-        <div id="hainanCartItems" class="hainan-cart-items">
-          <p>尚未加入餐點</p>
+        <div id="hainanMenuGrid" class="hainan-menu-grid"></div>
+      </section>
+
+      <section class="hainan-command-order" aria-label="AI 點餐與訂單">
+        <div class="hainan-order-panel">
+          <div>
+            <p class="hainan-kicker">AI ORDER</p>
+            <h2>偏好與訂購資料</h2>
+          </div>
+          <div class="hainan-ai-grid">
+            <label>語言
+              <select id="hainanLanguage">
+                <option value="zh-TW">中文</option>
+                <option value="km">高棉文</option>
+                <option value="vi">越南文</option>
+                <option value="en">English</option>
+                <option value="th">泰文</option>
+              </select>
+            </label>
+            <label>預算
+              <input id="hainanBudget" type="number" min="0" step="0.5" value="6">
+            </label>
+            <label>桌號
+              <input id="hainanTableCode" type="text" value="A03">
+            </label>
+          </div>
+          <div class="hainan-preference-row">
+            <label><input type="checkbox" name="hainanAvoid" value="beef">不吃牛</label>
+            <label><input type="checkbox" name="hainanAvoid" value="pork">不吃豬</label>
+            <label><input type="checkbox" name="hainanAvoid" value="seafood">不吃海鮮</label>
+            <label><input type="checkbox" name="hainanAvoid" value="spicy">不要辣</label>
+            <label><input type="checkbox" name="hainanAllergy" value="egg">蛋過敏</label>
+            <label><input type="checkbox" name="hainanAllergy" value="soy">大豆過敏</label>
+            <label><input type="checkbox" name="hainanAllergy" value="sesame">芝麻過敏</label>
+          </div>
+          <div id="hainanAiNotice" class="hainan-ai-notice">AI 菜單載入中...</div>
+          <div class="hainan-cart-actions hainan-ai-actions">
+            <button id="hainanRecommend" type="button">AI 推薦</button>
+            <button id="hainanReloadMenu" type="button">更新菜單</button>
+          </div>
+          <div id="hainanRecommendations" class="hainan-recommendations"></div>
+          <div class="hainan-form-grid">
+            <label>姓名
+              <input id="hainanCustomerName" type="text" placeholder="例如：王小姐">
+            </label>
+            <label>電話
+              <input id="hainanCustomerPhone" type="tel" placeholder="例如：0912-345-678">
+            </label>
+            <label>取餐方式
+              <select id="hainanPickupType">
+                <option value="自取">自取</option>
+                <option value="外送">外送</option>
+                <option value="團體訂購">團體訂購</option>
+              </select>
+            </label>
+            <label>取餐時間
+              <input id="hainanPickupTime" type="datetime-local">
+            </label>
+            <label class="hainan-full">備註
+              <textarea id="hainanOrderNote" rows="3" placeholder="例如：不要辣、飯少、醬另外放"></textarea>
+            </label>
+          </div>
         </div>
-        <div id="hainanUpsells" class="hainan-upsells"></div>
-        <div class="hainan-cart-actions">
-          <button id="hainanClearCart" type="button">清空</button>
-          <button id="hainanSubmitOrder" type="button">送出訂單</button>
-        </div>
-      </aside>
+
+        <aside class="hainan-cart">
+          <div class="hainan-cart-head">
+            <div>
+              <p class="hainan-kicker">CURRENT ORDER</p>
+              <h2>訂單明細</h2>
+            </div>
+            <strong id="hainanTotal">$0</strong>
+          </div>
+          <div id="hainanCartItems" class="hainan-cart-items">
+            <p>尚未加入餐點</p>
+          </div>
+          <div id="hainanUpsells" class="hainan-upsells"></div>
+          <div class="hainan-cart-actions">
+            <button id="hainanClearCart" type="button">清空</button>
+            <button id="hainanSubmitOrder" type="button">送出訂單</button>
+          </div>
+        </aside>
+      </section>
     </section>
   </main>
 
