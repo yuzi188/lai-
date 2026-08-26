@@ -69,13 +69,17 @@ function dishCard(item, recommended = false) {
   const conflicts = item.conflicts?.length ? `<b class="hainan-risk">需確認：${escapeHtml(item.conflicts.join("、"))}</b>` : "";
   const reasons = item.reasons?.length ? `<small>${escapeHtml(item.reasons.join("、"))}</small>` : "";
   const disabled = item.inventory && !item.inventory.available ? "disabled" : "";
+  const image = item.image ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.name)}">` : "";
   return `
     <article class="hainan-dish-card ${recommended ? "hainan-recommended" : ""}">
-      <span>${escapeHtml(item.category || "AI MENU")}</span>
-      <h3>${escapeHtml(item.name)}</h3>
-      <p>${escapeHtml(item.description || "")}</p>
-      ${reasons}
-      ${conflicts}
+      ${image}
+      <div class="hainan-dish-info">
+        <span>${escapeHtml(item.category || "AI MENU")}</span>
+        <h3>${escapeHtml(item.name)}</h3>
+        <p>${escapeHtml(item.description || "")}</p>
+        ${reasons}
+        ${conflicts}
+      </div>
       <div>
         <strong>${hainanMoney(item.price)}</strong>
         <button type="button" data-hainan-id="${escapeHtml(item.id)}" ${disabled}>加入</button>

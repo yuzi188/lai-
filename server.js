@@ -59,6 +59,23 @@ const RESTAURANT_INSTANCES = {
   }
 };
 
+const HAINAN_AI_IMAGES = {
+  "hainan-steamed-leg-rice": "assets/hainan-ai/steamed-chicken-rice.png",
+  "hainan-roast-leg-rice": "assets/hainan-ai/roast-chicken-rice.png",
+  "hainan-steamed-breast-rice": "assets/hainan-ai/steamed-chicken-rice.png",
+  "hainan-roast-breast-rice": "assets/hainan-ai/roast-chicken-rice.png",
+  "hainan-chicken-pho-soup": "assets/hainan-ai/chicken-pho-soup.png",
+  "hainan-chicken-pho-dry": "assets/hainan-ai/chicken-pho-dry.png",
+  "hainan-half-steamed-chicken": "assets/hainan-ai/half-steamed-chicken.png",
+  "hainan-half-roast-chicken": "assets/hainan-ai/half-roast-chicken.png",
+  "hainan-century-egg-tofu": "assets/hainan-ai/century-egg-tofu.png",
+  "hainan-rice": "assets/hainan-ai/hainan-addons.png",
+  "hainan-egg": "assets/hainan-ai/hainan-addons.png",
+  "hainan-bean-sprouts": "assets/hainan-ai/hainan-addons.png",
+  "hainan-chili-sauce": "assets/hainan-ai/hainan-addons.png",
+  "hainan-iced-tea": "assets/hainan-ai/hainan-addons.png"
+};
+
 const MIME = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css; charset=utf-8",
@@ -535,11 +552,13 @@ function defaultRestaurantAiData() {
 function normalizeRestaurantAiData(data) {
   const fallback = defaultRestaurantAiData();
   const source = data && typeof data === "object" ? data : {};
+  const withImages = item => ({ ...item, image: item.image || HAINAN_AI_IMAGES[item.id] || "" });
   return {
     ...fallback,
     ...source,
-    menu: Array.isArray(source.menu) ? source.menu : fallback.menu,
-    addOns: Array.isArray(source.addOns) ? source.addOns : fallback.addOns,
+    heroImage: source.heroImage || "assets/hainan-ai/hero-hainan-ai.png",
+    menu: (Array.isArray(source.menu) ? source.menu : fallback.menu).map(withImages),
+    addOns: (Array.isArray(source.addOns) ? source.addOns : fallback.addOns).map(withImages),
     inventory: source.inventory && typeof source.inventory === "object" ? source.inventory : fallback.inventory,
     feedback: Array.isArray(source.feedback) ? source.feedback : fallback.feedback,
     movements: Array.isArray(source.movements) ? source.movements : []
@@ -705,6 +724,7 @@ function publicCatalogItem(item, lang, data) {
     name: localizeText(item.name, lang),
     description: localizeText(item.description, lang),
     category: item.category || "",
+    image: item.image || "",
     price: Number(item.price || 0),
     tags: item.tags || item.pairTags || [],
     allergens: item.allergens || [],

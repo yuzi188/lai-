@@ -80,9 +80,11 @@ function menuCard(item, recommended = false) {
   const conflicts = item.conflicts?.length ? `<b class="ai-os-risk">需確認：${escapeHtml(item.conflicts.join("、"))}</b>` : "";
   const reasons = item.reasons?.length ? `<small>${escapeHtml(item.reasons.join("、"))}</small>` : "";
   const disabled = item.inventory && !item.inventory.available ? "disabled" : "";
+  const image = item.image ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.name)}">` : "";
   return `
     <article class="ai-os-food ${recommended ? "is-recommended" : ""}">
-      <div>
+      ${image}
+      <div class="ai-os-food-info">
         <strong>${escapeHtml(item.name)}</strong>
         <span>${escapeHtml(item.description || "")}</span>
         ${reasons}
