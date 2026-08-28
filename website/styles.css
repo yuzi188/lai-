@@ -9213,6 +9213,8 @@ section {
   border-radius: 0;
   background: #fff;
   box-shadow: none;
+  content-visibility: auto;
+  contain-intrinsic-size: 132px;
 }
 
 .hainan-shop-body .hainan-dish-card > img {
@@ -9316,6 +9318,16 @@ section {
   font-size: 2rem;
   line-height: 1;
   box-shadow: 0 8px 16px rgba(255, 101, 63, 0.24);
+  transition: transform 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+}
+
+.hainan-shop-body .hainan-dish-card button:active {
+  transform: scale(0.9);
+}
+
+.hainan-shop-body .hainan-dish-card button.added {
+  background: #2ca95f;
+  box-shadow: 0 8px 16px rgba(44, 169, 95, 0.24);
 }
 
 .hainan-shop-body .hainan-cart {
@@ -9355,8 +9367,9 @@ section {
   justify-content: space-between;
   gap: 12px;
   padding: 10px 14px max(10px, env(safe-area-inset-bottom));
-  background: rgba(255, 252, 234, 0.97);
+  background: rgba(255, 252, 234, 0.98);
   box-shadow: 0 -8px 22px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(14px);
 }
 
 .hainan-floating-cart strong,
@@ -9383,10 +9396,19 @@ section {
   align-items: center;
   justify-content: center;
   border-radius: 999px;
-  background: #ff653f;
+  background: #9b9b9b;
   color: #fff;
   font-weight: 900;
   text-decoration: none;
+  transition: transform 0.16s ease, background 0.16s ease;
+}
+
+.hainan-floating-cart a:active {
+  transform: scale(0.97);
+}
+
+.hainan-floating-cart.has-items a {
+  background: #ff653f;
 }
 
 .hainan-shop-info {
@@ -9567,9 +9589,32 @@ section {
     grid-column: 1 / -1;
     position: static;
     margin: 0;
+    padding: 18px 16px 110px;
     border-width: 0;
     border-radius: 0;
     box-shadow: none;
+    scroll-margin-top: 74px;
+  }
+
+  .hainan-shop-body .hainan-cart-head {
+    position: sticky;
+    top: 58px;
+    z-index: 3;
+    margin: -18px -16px 16px;
+    padding: 16px;
+    background: rgba(255, 253, 248, 0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(125, 31, 54, 0.1);
+  }
+
+  .hainan-shop-body .hainan-cart-row {
+    grid-template-columns: 1fr auto;
+    padding: 13px 0;
+  }
+
+  .hainan-shop-body .hainan-remove {
+    grid-column: 1 / -1;
+    width: fit-content;
   }
 
   .hainan-floating-cart {

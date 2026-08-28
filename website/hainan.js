@@ -72,7 +72,7 @@ function dishCard(item, recommended = false) {
   const conflicts = item.conflicts?.length ? `<b class="hainan-risk">需確認：${escapeHtml(item.conflicts.join("、"))}</b>` : "";
   const reasons = item.reasons?.length ? `<small>${escapeHtml(item.reasons.join("、"))}</small>` : "";
   const disabled = item.inventory && !item.inventory.available ? "disabled" : "";
-  const image = item.image ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.name)}">` : "";
+  const image = item.image ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.name)}" loading="lazy" decoding="async">` : "";
   const oldPrice = Number(item.price || 0) > 1 ? hainanMoney(Number(item.price || 0) + 1.32) : "";
   const sold = item.category === "單點雞肉" ? "已售 100+" : item.category === "小菜" ? "已售 200+" : "已售 300+";
   const likes = item.category === "河粉" ? "讚 23" : item.category === "小菜" ? "讚 18" : "讚 25";
@@ -129,6 +129,7 @@ function renderCart() {
     cartItems.innerHTML = "<p>尚未加入餐點</p>";
     totalEl.textContent = "$0";
     if (cartCountEl) cartCountEl.textContent = "0 份";
+    document.querySelector(".hainan-floating-cart")?.classList.remove("has-items");
     return;
   }
 
@@ -148,9 +149,21 @@ function renderCart() {
   `).join("");
   totalEl.textContent = hainanMoney(cartTotal());
   if (cartCountEl) cartCountEl.textContent = `${cart.reduce((sum, item) => sum + Number(item.quantity || 0), 0)} 份 · ${hainanMoney(cartTotal())}`;
+  document.querySelector(".hainan-floating-cart")?.classList.add("has-items");
 }
 
-function addToCart(item) {
+function flashAddButton(target) {
+  const button = target.closest(".hainan-dish-card")?.querySelector(".hainan-dish-action button");
+  if (!button) return;
+  button.classList.add("added");
+  button.textContent = "✓";
+  window.setTimeout(() => {
+    button.classList.remove("added");
+    button.textContent = "+";
+  }, 650);
+}
+
+function addToCart(item, target = null) {
   if (item.inventory && !item.inventory.available) return;
   const existing = cart.find(entry => entry.id === item.id);
   if (existing) existing.quantity += 1;
@@ -166,6 +179,7 @@ function addToCart(item) {
     dietaryFlags: item.dietaryFlags || {}
   });
   renderCart();
+  if (target) flashAddButton(target);
   loadUpsells().catch(error => setAiNotice(error.message, "warn"));
 }
 
@@ -237,6 +251,7 @@ function showHainanToast(orderId) {
 }
 
 async function submitHainanOrder() {
+  if (submitButton.disabled) return;
   const customer = readCustomer();
   if (!customer.customerName || !customer.customerPhone || !customer.pickupTime || !cart.length) {
     alert("請填寫姓名、電話、取餐時間，並至少加入一個餐點。");
@@ -293,10 +308,10 @@ async function submitHainanOrder() {
 }
 
 function activateDishCard(target) {
-  const card = target.closest("[data-hainan-id]");
-  if (!card) return;
-  const item = findItem(card.dataset.hainanId);
-  if (item) addToCart(item);
+  const button = target.closest(".hainan-dish-action button");
+  if (!button) return;
+  const item = findItem(button.dataset.hainanId);
+  if (item) addToCart(item, button);
 }
 
 menuGrid.addEventListener("click", event => {
@@ -308,6 +323,7 @@ categoryList?.addEventListener("click", event => {
   if (!button) return;
   activeCategory = button.dataset.hainanCategory;
   renderMenu();
+  document.querySelector(".hainan-products")?.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 menuGrid.addEventListener("keydown", event => {
