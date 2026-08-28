@@ -51,7 +51,6 @@ function selectedValues(name) {
 function hainanContext() {
   return {
     language: document.querySelector("#hainanLanguage")?.value || "zh-TW",
-    budget: Number(document.querySelector("#hainanBudget")?.value || 0),
     avoid: selectedValues("hainanAvoid"),
     allergies: selectedValues("hainanAllergy"),
     note: document.querySelector("#hainanOrderNote").value.trim()
@@ -131,6 +130,7 @@ function renderCart() {
     totalEl.textContent = "$0";
     if (cartCountEl) cartCountEl.textContent = "0 份";
     document.querySelector(".hainan-floating-cart")?.classList.remove("has-items");
+    document.body.classList.remove("hainan-cart-focus");
     return;
   }
 
@@ -329,6 +329,11 @@ categoryList?.addEventListener("click", event => {
 });
 
 cartJumpButton?.addEventListener("click", () => {
+  if (!cart.length) {
+    setAiNotice("請先選擇餐點，再確認訂單明細。", "warn");
+    document.querySelector(".hainan-products")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
   document.body.classList.add("hainan-cart-focus");
   document.querySelector("#hainanCartPanel")?.scrollIntoView({ behavior: "smooth", block: "start" });
 });

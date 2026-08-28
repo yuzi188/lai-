@@ -9086,6 +9086,50 @@ section {
   font-weight: 900;
 }
 
+.hainan-shop-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.hainan-shop-tools label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 0 10px;
+  border: 1px solid #eeeeee;
+  border-radius: 999px;
+  background: #f8f8f8;
+  color: #555;
+  font-size: 0.86rem;
+  font-weight: 900;
+}
+
+.hainan-shop-tools select {
+  border: 0;
+  background: transparent;
+  color: #222;
+  font: inherit;
+  font-size: 0.88rem;
+  outline: none;
+}
+
+.hainan-shop-tools button {
+  min-height: 38px;
+  border: 0;
+  border-radius: 999px;
+  background: #fff0e9;
+  color: #ff653f;
+  padding: 0 13px;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
 .hainan-shop-tabs {
   position: sticky;
   top: 0;
@@ -9499,6 +9543,17 @@ section {
     flex: 0 0 auto;
   }
 
+  .hainan-shop-tools {
+    gap: 7px;
+  }
+
+  .hainan-shop-tools label,
+  .hainan-shop-tools button {
+    min-height: 36px;
+    padding-inline: 10px;
+    font-size: 0.8rem;
+  }
+
   .hainan-shop-tabs {
     top: 0;
     padding: 14px 20px 0;
@@ -9572,6 +9627,7 @@ section {
   .hainan-shop-body .hainan-cart {
     grid-column: 2 / -1;
     position: static;
+    display: none;
     margin: 0;
     padding: 18px 16px 110px;
     border-width: 0;
@@ -9592,6 +9648,7 @@ section {
   .hainan-cart-focus .hainan-shop-body .hainan-cart,
   .hainan-shop-body.hainan-cart-focus .hainan-cart {
     grid-column: 1 / -1;
+    display: block;
   }
 
   .hainan-shop-body .hainan-cart-head {

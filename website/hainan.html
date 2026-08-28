@@ -31,6 +31,19 @@
             <span>滿 $25，3.5 公里內免配送費</span>
             <span>首單立減 $0.1</span>
           </div>
+          <div class="hainan-shop-tools" aria-label="點餐設定">
+            <label>語言
+              <select id="hainanLanguage">
+                <option value="zh-TW">中文</option>
+                <option value="km">高棉文</option>
+                <option value="vi">越南文</option>
+                <option value="en">English</option>
+                <option value="th">泰文</option>
+              </select>
+            </label>
+            <button id="hainanRecommend" type="button">推薦餐點</button>
+            <button id="hainanReloadMenu" type="button">更新菜單</button>
+          </div>
         </div>
         <img src="assets/hainan-menu-reference.jpg" alt="老王海南雞飯菜單">
       </div>
@@ -50,6 +63,8 @@
           <small>Promotion 2.68$</small>
           <strong>今日推薦</strong>
         </div>
+        <div id="hainanAiNotice" class="hainan-ai-notice">菜單載入中...</div>
+        <div id="hainanRecommendations" class="hainan-recommendations"></div>
         <div id="hainanMenuGrid" class="hainan-menu-grid"></div>
       </section>
 
@@ -70,38 +85,6 @@
             <p class="hainan-kicker">CUSTOMER</p>
             <h2>取餐資料</h2>
           </div>
-          <div class="hainan-ai-grid">
-            <label>語言
-              <select id="hainanLanguage">
-                <option value="zh-TW">中文</option>
-                <option value="km">高棉文</option>
-                <option value="vi">越南文</option>
-                <option value="en">English</option>
-                <option value="th">泰文</option>
-              </select>
-            </label>
-            <label>預算
-              <input id="hainanBudget" type="number" min="0" step="0.5" value="6">
-            </label>
-            <label>桌號
-              <input id="hainanTableCode" type="text" value="A03">
-            </label>
-          </div>
-          <div class="hainan-preference-row" aria-label="忌口與過敏">
-            <label><input type="checkbox" name="hainanAvoid" value="beef">不吃牛</label>
-            <label><input type="checkbox" name="hainanAvoid" value="pork">不吃豬</label>
-            <label><input type="checkbox" name="hainanAvoid" value="seafood">不吃海鮮</label>
-            <label><input type="checkbox" name="hainanAvoid" value="spicy">不要辣</label>
-            <label><input type="checkbox" name="hainanAllergy" value="egg">蛋過敏</label>
-            <label><input type="checkbox" name="hainanAllergy" value="soy">大豆過敏</label>
-            <label><input type="checkbox" name="hainanAllergy" value="sesame">芝麻過敏</label>
-          </div>
-          <div id="hainanAiNotice" class="hainan-ai-notice">菜單載入中...</div>
-          <div class="hainan-cart-actions hainan-ai-actions">
-            <button id="hainanRecommend" type="button">推薦餐點</button>
-            <button id="hainanReloadMenu" type="button">更新菜單</button>
-          </div>
-          <div id="hainanRecommendations" class="hainan-recommendations"></div>
           <div class="hainan-form-grid">
             <label>姓名
               <input id="hainanCustomerName" type="text" placeholder="例如：王小姐">
@@ -119,9 +102,21 @@
             <label>取餐時間
               <input id="hainanPickupTime" type="datetime-local">
             </label>
+            <label>桌號 / 取餐代號
+              <input id="hainanTableCode" type="text" value="A03">
+            </label>
             <label class="hainan-full">備註
               <textarea id="hainanOrderNote" rows="3" placeholder="例如：不要辣、飯少、醬另外放"></textarea>
             </label>
+          </div>
+          <div class="hainan-preference-row" aria-label="忌口與過敏">
+            <label><input type="checkbox" name="hainanAvoid" value="beef">不吃牛</label>
+            <label><input type="checkbox" name="hainanAvoid" value="pork">不吃豬</label>
+            <label><input type="checkbox" name="hainanAvoid" value="seafood">不吃海鮮</label>
+            <label><input type="checkbox" name="hainanAvoid" value="spicy">不要辣</label>
+            <label><input type="checkbox" name="hainanAllergy" value="egg">蛋過敏</label>
+            <label><input type="checkbox" name="hainanAllergy" value="soy">大豆過敏</label>
+            <label><input type="checkbox" name="hainanAllergy" value="sesame">芝麻過敏</label>
           </div>
           <div class="hainan-cart-actions">
             <button id="hainanClearCart" type="button">清空</button>
