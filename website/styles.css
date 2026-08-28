@@ -9389,25 +9389,27 @@ section {
   font-weight: 700;
 }
 
-.hainan-floating-cart a {
+.hainan-floating-cart button {
   display: inline-flex;
   min-width: 122px;
   min-height: 48px;
   align-items: center;
   justify-content: center;
+  border: 0;
   border-radius: 999px;
   background: #9b9b9b;
   color: #fff;
+  font: inherit;
   font-weight: 900;
-  text-decoration: none;
+  cursor: pointer;
   transition: transform 0.16s ease, background 0.16s ease;
 }
 
-.hainan-floating-cart a:active {
+.hainan-floating-cart button:active {
   transform: scale(0.97);
 }
 
-.hainan-floating-cart.has-items a {
+.hainan-floating-cart.has-items button {
   background: #ff653f;
 }
 
@@ -9586,7 +9588,7 @@ section {
   }
 
   .hainan-shop-body .hainan-cart {
-    grid-column: 1 / -1;
+    grid-column: 2 / -1;
     position: static;
     margin: 0;
     padding: 18px 16px 110px;
@@ -9594,6 +9596,20 @@ section {
     border-radius: 0;
     box-shadow: none;
     scroll-margin-top: 74px;
+  }
+
+  .hainan-cart-focus .hainan-shop-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .hainan-cart-focus .hainan-category-rail,
+  .hainan-cart-focus .hainan-products {
+    display: none;
+  }
+
+  .hainan-cart-focus .hainan-shop-body .hainan-cart,
+  .hainan-shop-body.hainan-cart-focus .hainan-cart {
+    grid-column: 1 / -1;
   }
 
   .hainan-shop-body .hainan-cart-head {

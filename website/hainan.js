@@ -7,6 +7,7 @@ const totalEl = document.querySelector("#hainanTotal");
 const submitButton = document.querySelector("#hainanSubmitOrder");
 const categoryList = document.querySelector("#hainanCategoryList");
 const cartCountEl = document.querySelector("#hainanCartCount");
+const cartJumpButton = document.querySelector("#hainanCartJump");
 const params = new URLSearchParams(window.location.search);
 const restaurantContext = {
   storeId: params.get("storeId") || "hainan-singapore",
@@ -321,9 +322,19 @@ menuGrid.addEventListener("click", event => {
 categoryList?.addEventListener("click", event => {
   const button = event.target.closest("[data-hainan-category]");
   if (!button) return;
+  document.body.classList.remove("hainan-cart-focus");
   activeCategory = button.dataset.hainanCategory;
   renderMenu();
   document.querySelector(".hainan-products")?.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+cartJumpButton?.addEventListener("click", () => {
+  document.body.classList.add("hainan-cart-focus");
+  document.querySelector("#hainanCartPanel")?.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+document.querySelector(".hainan-shop-tabs a[href='#menu']")?.addEventListener("click", () => {
+  document.body.classList.remove("hainan-cart-focus");
 });
 
 menuGrid.addEventListener("keydown", event => {
