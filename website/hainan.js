@@ -5,6 +5,8 @@ const menuGrid = document.querySelector("#hainanMenuGrid");
 const cartItems = document.querySelector("#hainanCartItems");
 const totalEl = document.querySelector("#hainanTotal");
 const submitButton = document.querySelector("#hainanSubmitOrder");
+const categoryList = document.querySelector("#hainanCategoryList");
+const cartCountEl = document.querySelector("#hainanCartCount");
 const params = new URLSearchParams(window.location.search);
 const restaurantContext = {
   storeId: params.get("storeId") || "hainan-singapore",
@@ -15,6 +17,7 @@ const telegramUser = window.Telegram?.WebApp?.initDataUnsafe?.user || null;
 
 window.Telegram?.WebApp?.ready?.();
 let hainanToastTimer;
+let activeCategory = "全部";
 
 function hainanMoney(value) {
   return `$${Number(value || 0).toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
@@ -70,28 +73,47 @@ function dishCard(item, recommended = false) {
   const reasons = item.reasons?.length ? `<small>${escapeHtml(item.reasons.join("、"))}</small>` : "";
   const disabled = item.inventory && !item.inventory.available ? "disabled" : "";
   const image = item.image ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.name)}">` : "";
+  const oldPrice = Number(item.price || 0) > 1 ? hainanMoney(Number(item.price || 0) + 1.32) : "";
+  const sold = item.category === "單點雞肉" ? "已售 100+" : item.category === "小菜" ? "已售 200+" : "已售 300+";
+  const likes = item.category === "河粉" ? "讚 23" : item.category === "小菜" ? "讚 18" : "讚 25";
   return `
     <article class="hainan-dish-card ${recommended ? "hainan-recommended" : ""}" data-hainan-id="${escapeHtml(item.id)}" tabindex="0" role="button" aria-label="加入 ${escapeHtml(item.name)}">
       ${image}
       <div class="hainan-dish-info">
-        <span>${escapeHtml(item.category || "AI MENU")}</span>
+        <span>${escapeHtml(item.category || "MENU")}</span>
         <h3>${escapeHtml(item.name)}</h3>
         <p>${escapeHtml(item.description || "")}</p>
+        <em>${sold}　${likes}</em>
+        <mark>6.7折｜每日限 1 份特價</mark>
         ${reasons}
         ${conflicts}
       </div>
-      <div>
-        <strong>${hainanMoney(item.price)}</strong>
-        <button type="button" data-hainan-id="${escapeHtml(item.id)}" ${disabled}>加入</button>
+      <div class="hainan-dish-action">
+        <strong>${hainanMoney(item.price)} ${oldPrice ? `<del>${oldPrice}</del>` : ""}</strong>
+        <button type="button" data-hainan-id="${escapeHtml(item.id)}" ${disabled} aria-label="加入 ${escapeHtml(item.name)}">+</button>
       </div>
     </article>
   `;
 }
 
+function renderCategories(items) {
+  if (!categoryList) return;
+  const categories = ["全部", ...new Set(items.map(item => item.category || "其他"))];
+  categoryList.innerHTML = categories.map(category => `
+    <button class="${category === activeCategory ? "active" : ""}" type="button" data-hainan-category="${escapeHtml(category)}">
+      ${escapeHtml(category)}
+    </button>
+  `).join("");
+}
+
 function renderMenu() {
   const allItems = [...hainanMenu, ...hainanAddOns];
-  menuGrid.innerHTML = allItems.length
-    ? allItems.map(item => dishCard(item)).join("")
+  renderCategories(allItems);
+  const visibleItems = activeCategory === "全部"
+    ? allItems
+    : allItems.filter(item => (item.category || "其他") === activeCategory);
+  menuGrid.innerHTML = visibleItems.length
+    ? visibleItems.map(item => dishCard(item)).join("")
     : `<p>目前沒有菜單資料</p>`;
 }
 
@@ -99,13 +121,14 @@ function renderRecommendations(items = []) {
   const target = document.querySelector("#hainanRecommendations");
   target.innerHTML = items.length
     ? items.map(item => dishCard(item, true)).join("")
-    : `<p>填寫偏好後按 AI 推薦。</p>`;
+    : `<p>填寫偏好後按推薦餐點。</p>`;
 }
 
 function renderCart() {
   if (!cart.length) {
     cartItems.innerHTML = "<p>尚未加入餐點</p>";
     totalEl.textContent = "$0";
+    if (cartCountEl) cartCountEl.textContent = "0 份";
     return;
   }
 
@@ -124,6 +147,7 @@ function renderCart() {
     </article>
   `).join("");
   totalEl.textContent = hainanMoney(cartTotal());
+  if (cartCountEl) cartCountEl.textContent = `${cart.reduce((sum, item) => sum + Number(item.quantity || 0), 0)} 份 · ${hainanMoney(cartTotal())}`;
 }
 
 function addToCart(item) {
@@ -167,7 +191,7 @@ async function loadRecommendations() {
     body: JSON.stringify(hainanContext())
   });
   renderRecommendations(data.recommendations || []);
-  setAiNotice(data.dietaryNote?.kitchenNote || "AI 已依偏好推薦。");
+  setAiNotice(data.dietaryNote?.kitchenNote || "已依偏好推薦餐點。");
 }
 
 async function loadUpsells() {
@@ -181,7 +205,7 @@ async function loadUpsells() {
     body: JSON.stringify({ ...hainanContext(), items: cart })
   });
   target.innerHTML = (data.upsells || []).length
-    ? `<h3>AI 加購推薦</h3>${data.upsells.map(item => dishCard(item, true)).join("")}`
+    ? `<h3>加購推薦</h3>${data.upsells.map(item => dishCard(item, true)).join("")}`
     : "";
 }
 
@@ -277,6 +301,13 @@ function activateDishCard(target) {
 
 menuGrid.addEventListener("click", event => {
   activateDishCard(event.target);
+});
+
+categoryList?.addEventListener("click", event => {
+  const button = event.target.closest("[data-hainan-category]");
+  if (!button) return;
+  activeCategory = button.dataset.hainanCategory;
+  renderMenu();
 });
 
 menuGrid.addEventListener("keydown", event => {

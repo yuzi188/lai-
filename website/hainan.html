@@ -11,58 +11,67 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="os-design.css">
 </head>
-<body class="hainan-body">
-  <header class="hainan-nav">
-    <a class="hainan-brand" href="hainan.html" aria-label="老王新加坡海南雞飯首頁">
-      <span>老王</span>
-      <strong>新加坡海南雞飯</strong>
-    </a>
-    <nav aria-label="海南雞飯網站導覽">
-      <a href="#menu">菜單</a>
-      <a href="#order">線上訂餐</a>
-      <a href="hainan-admin.html">接單後台</a>
-    </nav>
-  </header>
-
-  <main class="hainan-launch">
-    <section id="order" class="hainan-command-screen">
-      <div class="hainan-hero-copy hainan-command-copy">
-        <p>Singapore Hainanese Chicken Rice</p>
-        <h1>老王新加坡海南雞飯</h1>
-        <span>用手機完成點餐、忌口過敏備註與訂單追蹤。海南雞飯接單後台會同步看到新單。</span>
-        <div class="hainan-actions">
-          <a href="#order">開始訂餐</a>
-          <a href="#order">填寫資料</a>
-          <a href="#menu">查看菜單</a>
-        </div>
-        <div class="hainan-live-strip" aria-label="服務狀態">
-          <strong>10:30-20:30</strong>
-          <span>內用 / 自取 / 外送</span>
-          <span>多語 AI 點餐</span>
+<body class="hainan-body hainan-shop-body">
+  <main id="order" class="hainan-shop-app">
+    <section class="hainan-shop-hero" aria-label="店家資訊">
+      <div class="hainan-shop-cover">
+        <img src="assets/hainan-ai/hero-hainan-ai.png" alt="老王新加坡海南雞飯餐點拼盤">
+        <div class="hainan-shop-controls" aria-label="頁面操作">
+          <a href="hainan.html" aria-label="返回">‹</a>
+          <a href="#menu" aria-label="搜尋">⌕</a>
+          <a href="hainan-admin.html" aria-label="接單後台">後台</a>
         </div>
       </div>
-
-      <section id="menu" class="hainan-command-stage" aria-label="招牌菜單">
-        <aside class="hainan-menu-reference">
-          <img src="assets/hainan-ai/hero-hainan-ai.png" alt="老王新加坡海南雞飯招牌餐點">
-          <div>
-            <strong>一張圖點出招牌</strong>
-            <span>白雞、燒雞、雞飯與醬料是第一眼記憶點。</span>
+      <div class="hainan-shop-profile">
+        <div>
+          <h1>老王新加坡海南雞飯</h1>
+          <p><strong>4.8 分</strong><span>25-35 分鐘</span><span>1.2km</span></p>
+          <small>公告：白雞、燒雞、雞飯、河粉現點現做。</small>
+          <div class="hainan-promo-row">
+            <span>滿 $25，3.5 公里內免配送費</span>
+            <span>首單立減 $0.1</span>
           </div>
-        </aside>
-        <div class="hainan-section-head hainan-menu-head">
-          <p>MENU</p>
-          <h2>招牌菜單</h2>
-          <span>全部菜色照片同屏顯示，點照片或加入直接進右側訂單。</span>
+        </div>
+        <img src="assets/hainan-menu-reference.jpg" alt="老王海南雞飯菜單">
+      </div>
+    </section>
+
+    <nav class="hainan-shop-tabs" aria-label="店家分頁">
+      <a class="active" href="#menu">商品</a>
+      <a href="#reviews">評價 649</a>
+      <a href="#merchant">商家</a>
+      <button type="button">好友拼單</button>
+    </nav>
+
+    <section id="menu" class="hainan-shop-layout" aria-label="線上點餐">
+      <aside id="hainanCategoryList" class="hainan-category-rail" aria-label="商品分類">
+        <button class="active" type="button">全部</button>
+      </aside>
+
+      <section class="hainan-products">
+        <div class="hainan-shop-section-title">
+          <small>Promotion 2.68$</small>
+          <strong>今日推薦</strong>
         </div>
         <div id="hainanMenuGrid" class="hainan-menu-grid"></div>
       </section>
 
-      <section class="hainan-command-order" aria-label="AI 點餐與訂單">
+      <aside class="hainan-cart">
+        <div class="hainan-cart-head">
+          <div>
+            <p class="hainan-kicker">CURRENT ORDER</p>
+            <h2>訂單明細</h2>
+          </div>
+          <strong id="hainanTotal">$0</strong>
+        </div>
+        <div id="hainanCartItems" class="hainan-cart-items">
+          <p>尚未加入餐點</p>
+        </div>
+        <div id="hainanUpsells" class="hainan-upsells"></div>
         <div class="hainan-order-panel">
           <div>
-            <p class="hainan-kicker">ORDER</p>
-            <h2>偏好與訂購資料</h2>
+            <p class="hainan-kicker">CUSTOMER</p>
+            <h2>取餐資料</h2>
           </div>
           <div class="hainan-ai-grid">
             <label>語言
@@ -81,7 +90,7 @@
               <input id="hainanTableCode" type="text" value="A03">
             </label>
           </div>
-          <div class="hainan-preference-row">
+          <div class="hainan-preference-row" aria-label="忌口與過敏">
             <label><input type="checkbox" name="hainanAvoid" value="beef">不吃牛</label>
             <label><input type="checkbox" name="hainanAvoid" value="pork">不吃豬</label>
             <label><input type="checkbox" name="hainanAvoid" value="seafood">不吃海鮮</label>
@@ -90,9 +99,9 @@
             <label><input type="checkbox" name="hainanAllergy" value="soy">大豆過敏</label>
             <label><input type="checkbox" name="hainanAllergy" value="sesame">芝麻過敏</label>
           </div>
-          <div id="hainanAiNotice" class="hainan-ai-notice">AI 菜單載入中...</div>
+          <div id="hainanAiNotice" class="hainan-ai-notice">菜單載入中...</div>
           <div class="hainan-cart-actions hainan-ai-actions">
-            <button id="hainanRecommend" type="button">AI 推薦</button>
+            <button id="hainanRecommend" type="button">推薦餐點</button>
             <button id="hainanReloadMenu" type="button">更新菜單</button>
           </div>
           <div id="hainanRecommendations" class="hainan-recommendations"></div>
@@ -117,28 +126,31 @@
               <textarea id="hainanOrderNote" rows="3" placeholder="例如：不要辣、飯少、醬另外放"></textarea>
             </label>
           </div>
-        </div>
-
-        <aside class="hainan-cart">
-          <div class="hainan-cart-head">
-            <div>
-              <p class="hainan-kicker">CURRENT ORDER</p>
-              <h2>訂單明細</h2>
-            </div>
-            <strong id="hainanTotal">$0</strong>
-          </div>
-          <div id="hainanCartItems" class="hainan-cart-items">
-            <p>尚未加入餐點</p>
-          </div>
-          <div id="hainanUpsells" class="hainan-upsells"></div>
           <div class="hainan-cart-actions">
             <button id="hainanClearCart" type="button">清空</button>
             <button id="hainanSubmitOrder" type="button">送出訂單</button>
           </div>
-        </aside>
-      </section>
+        </div>
+      </aside>
+    </section>
+
+    <section id="reviews" class="hainan-shop-info">
+      <h2>評價</h2>
+      <p>白雞腿飯很嫩、雞油飯香，辣椒醬和薑蓉適合分開附。</p>
+    </section>
+    <section id="merchant" class="hainan-shop-info">
+      <h2>商家資訊</h2>
+      <p>營業時間 10:30-20:30，支援內用、自取、外送與團體訂購。</p>
     </section>
   </main>
+
+  <div class="hainan-floating-cart" aria-label="固定結帳列">
+    <div>
+      <strong id="hainanCartCount">0 份</strong>
+      <span id="hainanCartFee">預估配送費 $1.00</span>
+    </div>
+    <a href="#order">查看訂單</a>
+  </div>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script src="hainan.js"></script>

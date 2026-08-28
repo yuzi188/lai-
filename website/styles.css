@@ -8948,6 +8948,464 @@ section {
   opacity: 0.65;
 }
 
+.hainan-shop-body {
+  background: #f5f5f5;
+  color: #202020;
+  font-family: "Noto Sans TC", system-ui, sans-serif;
+}
+
+.hainan-shop-app {
+  min-height: 100vh;
+  padding-bottom: 92px;
+  background: #f6f6f6;
+}
+
+.hainan-shop-hero {
+  overflow: hidden;
+  background: #fff;
+  border-radius: 0 0 18px 18px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+}
+
+.hainan-shop-cover {
+  position: relative;
+  height: clamp(190px, 38vw, 330px);
+  overflow: hidden;
+  background: #ddd;
+}
+
+.hainan-shop-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+  transform: scale(1.04);
+}
+
+.hainan-shop-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2), transparent 44%, rgba(0, 0, 0, 0.16));
+  pointer-events: none;
+}
+
+.hainan-shop-controls {
+  position: absolute;
+  inset: 14px 14px auto;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hainan-shop-controls a {
+  display: inline-grid;
+  min-width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.84);
+  color: #2b2b2b;
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+}
+
+.hainan-shop-controls a:first-child {
+  margin-right: auto;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.hainan-shop-controls a:last-child {
+  width: auto;
+  padding: 0 12px;
+  border-radius: 999px;
+  color: #7d1f36;
+  font-size: 0.85rem;
+}
+
+.hainan-shop-profile {
+  position: relative;
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+  padding: 14px 18px 16px;
+  background: #fff;
+}
+
+.hainan-shop-profile h1 {
+  margin: 0 0 6px;
+  color: #1d1d1d;
+  font-family: "Noto Sans TC", system-ui, sans-serif;
+  font-size: clamp(1.45rem, 4vw, 2.1rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+.hainan-shop-profile p,
+.hainan-shop-profile small {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 4px;
+  color: #858585;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.hainan-shop-profile p strong {
+  color: #ff673e;
+}
+
+.hainan-shop-profile > img {
+  width: 74px;
+  height: 74px;
+  margin-top: -42px;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.16);
+}
+
+.hainan-promo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.hainan-promo-row span {
+  border: 1px solid rgba(255, 87, 87, 0.48);
+  border-radius: 3px;
+  padding: 2px 5px;
+  color: #e04a58;
+  font-size: 0.86rem;
+  font-weight: 900;
+}
+
+.hainan-shop-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(4, max-content);
+  gap: clamp(24px, 7vw, 64px);
+  align-items: center;
+  overflow-x: auto;
+  padding: 16px 20px 0;
+  background: #fff;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.hainan-shop-tabs a,
+.hainan-shop-tabs button {
+  position: relative;
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: #333;
+  font: inherit;
+  font-size: 1.2rem;
+  font-weight: 900;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.hainan-shop-tabs .active::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 0;
+  height: 4px;
+  border-radius: 999px;
+  background: #ff653f;
+}
+
+.hainan-shop-tabs button {
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 101, 63, 0.45);
+  border-radius: 999px;
+  color: #ff653f;
+  font-size: 0.98rem;
+}
+
+.hainan-shop-layout {
+  display: grid;
+  grid-template-columns: 116px minmax(0, 1fr) minmax(310px, 0.38fr);
+  align-items: start;
+  max-width: 1320px;
+  margin: 0 auto;
+  background: #fff;
+}
+
+.hainan-category-rail {
+  position: sticky;
+  top: 61px;
+  display: grid;
+  align-content: start;
+  min-height: calc(100vh - 61px);
+  background: #f0f0f0;
+}
+
+.hainan-category-rail button {
+  min-height: 72px;
+  padding: 10px 8px;
+  border: 0;
+  border-left: 4px solid transparent;
+  background: transparent;
+  color: #777;
+  font: inherit;
+  font-size: 0.98rem;
+  font-weight: 800;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+}
+
+.hainan-category-rail button.active {
+  border-left-color: #ff653f;
+  background: #fff;
+  color: #252525;
+}
+
+.hainan-products {
+  min-width: 0;
+  padding: 18px 18px 24px;
+}
+
+.hainan-shop-section-title {
+  display: grid;
+  gap: 3px;
+  margin-bottom: 14px;
+}
+
+.hainan-shop-section-title small {
+  color: #a0a0a0;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.hainan-shop-section-title strong {
+  color: #343434;
+  font-size: 1.18rem;
+  font-weight: 900;
+}
+
+.hainan-shop-body .hainan-menu-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.hainan-shop-body .hainan-dish-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+  padding: 13px 0 15px;
+  border: 0;
+  border-bottom: 1px solid #eeeeee;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: none;
+}
+
+.hainan-shop-body .hainan-dish-card > img {
+  width: 132px;
+  height: 112px;
+  border-radius: 10px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hainan-shop-body .hainan-dish-info {
+  display: block;
+  min-width: 0;
+}
+
+.hainan-shop-body .hainan-dish-info > span {
+  display: none;
+}
+
+.hainan-shop-body .hainan-dish-card h3 {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0 0 3px;
+  color: #151515;
+  font-size: clamp(1.05rem, 2.6vw, 1.28rem);
+  font-weight: 900;
+  line-height: 1.24;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.hainan-shop-body .hainan-dish-card p {
+  display: -webkit-box;
+  overflow: hidden;
+  min-height: 0;
+  margin: 0 0 3px;
+  color: #999;
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.35;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.hainan-shop-body .hainan-dish-card em {
+  display: block;
+  margin: 0 0 4px;
+  color: #999;
+  font-size: 0.86rem;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.hainan-shop-body .hainan-dish-card mark {
+  display: inline-block;
+  border: 1px solid rgba(224, 74, 88, 0.46);
+  border-radius: 3px;
+  background: transparent;
+  color: #e04a58;
+  font-size: 0.86rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.hainan-shop-body .hainan-dish-card small {
+  color: #7d1f36;
+}
+
+.hainan-dish-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  align-self: end;
+  gap: 10px;
+}
+
+.hainan-shop-body .hainan-dish-action strong {
+  color: #ff653f;
+  font-family: "Noto Sans TC", system-ui, sans-serif;
+  font-size: 1.24rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.hainan-shop-body .hainan-dish-action del {
+  margin-left: 4px;
+  color: #a8a8a8;
+  font-size: 0.9rem;
+}
+
+.hainan-shop-body .hainan-dish-card button {
+  display: grid;
+  width: 38px;
+  min-width: 38px;
+  height: 38px;
+  place-items: center;
+  padding: 0;
+  border-radius: 50%;
+  background: #ff653f;
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+  box-shadow: 0 8px 16px rgba(255, 101, 63, 0.24);
+}
+
+.hainan-shop-body .hainan-cart {
+  top: 74px;
+  margin: 18px 18px 24px 0;
+  border-radius: 14px;
+  background: #fffdf8;
+}
+
+.hainan-shop-body .hainan-order-panel {
+  margin-top: 14px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.hainan-shop-body .hainan-order-panel h2 {
+  color: #222;
+  font-family: "Noto Sans TC", system-ui, sans-serif;
+  font-size: 1.12rem;
+}
+
+.hainan-shop-body .hainan-ai-grid,
+.hainan-shop-body .hainan-form-grid {
+  grid-template-columns: 1fr;
+}
+
+.hainan-floating-cart {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px max(10px, env(safe-area-inset-bottom));
+  background: rgba(255, 252, 234, 0.97);
+  box-shadow: 0 -8px 22px rgba(0, 0, 0, 0.08);
+}
+
+.hainan-floating-cart strong,
+.hainan-floating-cart span {
+  display: block;
+}
+
+.hainan-floating-cart strong {
+  color: #202020;
+  font-size: 1.18rem;
+  font-weight: 900;
+}
+
+.hainan-floating-cart span {
+  color: #888;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.hainan-floating-cart a {
+  display: inline-flex;
+  min-width: 122px;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #ff653f;
+  color: #fff;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.hainan-shop-info {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 22px 18px;
+  background: #fff;
+}
+
+.hainan-shop-info h2 {
+  margin: 0 0 6px;
+}
+
+.hainan-shop-info p {
+  margin: 0;
+  color: #777;
+  font-weight: 700;
+}
+
 @media (max-width: 980px) {
   .hainan-hero,
   .hainan-order-section {
@@ -9000,6 +9458,122 @@ section {
 
   .hainan-qty {
     justify-content: flex-start;
+  }
+}
+
+@media (max-width: 720px) {
+  .hainan-shop-app {
+    padding-bottom: 86px;
+  }
+
+  .hainan-shop-cover {
+    height: 206px;
+  }
+
+  .hainan-shop-profile {
+    padding: 13px 14px 14px;
+  }
+
+  .hainan-shop-profile h1 {
+    max-width: 78vw;
+    font-size: 1.65rem;
+  }
+
+  .hainan-shop-profile p,
+  .hainan-shop-profile small {
+    font-size: 0.92rem;
+  }
+
+  .hainan-shop-profile > img {
+    width: 68px;
+    height: 68px;
+    flex: 0 0 auto;
+  }
+
+  .hainan-shop-tabs {
+    top: 0;
+    grid-template-columns: max-content max-content max-content max-content;
+    gap: 28px;
+    padding: 14px 20px 0;
+  }
+
+  .hainan-shop-tabs a,
+  .hainan-shop-tabs button {
+    font-size: 1.18rem;
+  }
+
+  .hainan-shop-layout {
+    grid-template-columns: 96px minmax(0, 1fr);
+    max-width: none;
+    margin: 0;
+  }
+
+  .hainan-category-rail {
+    top: 59px;
+    min-height: calc(100vh - 145px);
+  }
+
+  .hainan-category-rail button {
+    min-height: 74px;
+    padding: 10px 8px;
+    font-size: 0.94rem;
+  }
+
+  .hainan-products {
+    padding: 14px 12px 20px;
+  }
+
+  .hainan-shop-body .hainan-menu-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hainan-shop-body .hainan-dish-card {
+    grid-template-columns: 112px minmax(0, 1fr) 36px;
+    gap: 10px;
+    padding: 12px 0;
+  }
+
+  .hainan-shop-body .hainan-dish-card > img {
+    width: 112px;
+    height: 104px;
+  }
+
+  .hainan-shop-body .hainan-dish-card h3 {
+    font-size: 1.04rem;
+  }
+
+  .hainan-shop-body .hainan-dish-card p,
+  .hainan-shop-body .hainan-dish-card em,
+  .hainan-shop-body .hainan-dish-card mark {
+    font-size: 0.82rem;
+  }
+
+  .hainan-shop-body .hainan-dish-action strong {
+    font-size: 1.08rem;
+  }
+
+  .hainan-shop-body .hainan-dish-action del {
+    display: none;
+  }
+
+  .hainan-shop-body .hainan-dish-card button {
+    width: 34px;
+    min-width: 34px;
+    height: 34px;
+    font-size: 1.7rem;
+  }
+
+  .hainan-shop-body .hainan-cart {
+    grid-column: 1 / -1;
+    position: static;
+    margin: 0;
+    border-width: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .hainan-floating-cart {
+    display: flex;
   }
 }
 
