@@ -2,11 +2,13 @@ let allOrders = [];
 let knownPendingIds = new Set();
 let soundEnabled = false;
 let hasLoadedOnce = false;
+let adminAuthenticated = false;
 const adminBrand = document.body.dataset.adminBrand || "lai";
 
 async function api(path, options = {}) {
   const response = await fetch(path, {
     headers: { "Content-Type": "application/json" },
+    credentials: "same-origin",
     ...options
   });
   const data = await response.json();
@@ -184,6 +186,7 @@ function orderCard(order) {
 
 function matchesFilters(order) {
   const keyword = document.querySelector("#orderSearch").value.trim().toLowerCase();
+  const keywordDigits = keyword.replace(/\D/g, "");
   const status = document.querySelector("#statusFilter").value;
   const date = document.querySelector("#dateFilter").value;
   const haystack = [
@@ -192,11 +195,13 @@ function matchesFilters(order) {
     order.customerPhone,
     order.companyName,
     order.pickupType,
+    order.tableCode,
     order.orderNote,
     ...(order.items || []).map(item => `${item.seriesName || ""} ${item.name}`)
   ].join(" ").toLowerCase();
+  const digitHaystack = [order.orderId, order.customerPhone, order.tableCode].join(" ").replace(/\D/g, "");
 
-  if (keyword && !haystack.includes(keyword)) return false;
+  if (keyword && !haystack.includes(keyword) && !(keywordDigits && digitHaystack.includes(keywordDigits))) return false;
   if (status !== "all" && normalizedStatus(order) !== status) return false;
   if (date && orderDate(order) !== date) return false;
   return true;
@@ -330,6 +335,7 @@ async function editOrder(orderId) {
 async function handleAction(event) {
   const button = event.target.closest("[data-action]");
   if (!button) return;
+  event.stopPropagation();
   const card = button.closest("[data-order-id]");
   const orderId = card.dataset.orderId;
   const action = button.dataset.action;
@@ -347,6 +353,168 @@ async function handleAction(event) {
     alert(error.message);
     button.disabled = false;
   }
+}
+
+function ensureAdminLoginOverlay() {
+  if (document.querySelector("#adminLoginOverlay")) return;
+  const overlay = document.createElement("div");
+  overlay.id = "adminLoginOverlay";
+  overlay.className = "admin-login-overlay";
+  overlay.innerHTML = `
+    <form id="adminLoginForm" class="admin-login-card">
+      <p>ADMIN LOGIN</p>
+      <h2>${adminBrand === "hainan" ? "海南雞接單後台" : "接單後台"}</h2>
+      <span id="adminLoginMessage">請輸入後台密碼。</span>
+      <label>後台密碼
+        <input id="adminPassword" type="password" autocomplete="current-password" required>
+      </label>
+      <button type="submit">登入後台</button>
+    </form>
+  `;
+  document.body.appendChild(overlay);
+  document.querySelector("#adminLoginForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    const password = document.querySelector("#adminPassword").value;
+    const message = document.querySelector("#adminLoginMessage");
+    try {
+      const response = await fetch("/api/admin/session", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || data.error || "登入失敗");
+      overlay.remove();
+      adminAuthenticated = true;
+      await loadOrders();
+    } catch (error) {
+      message.textContent = error.message;
+      message.dataset.tone = "error";
+    }
+  });
+}
+
+async function ensureAdminSession() {
+  const response = await fetch("/api/admin/session", { credentials: "same-origin" });
+  const data = await response.json();
+  if (!data.configured || !data.authenticated) {
+    ensureAdminLoginOverlay();
+    const message = document.querySelector("#adminLoginMessage");
+    if (!data.configured) {
+      message.textContent = "尚未設定 ADMIN_PASSWORD，後台資料目前已鎖定。";
+      message.dataset.tone = "error";
+    }
+    return false;
+  }
+  return true;
+}
+
+function orderDetailHtml(order) {
+  const timeline = (order.timeline || []).slice().reverse().map(item => `
+    <li>
+      <span>${escapeHtml(String(item.at || "").replace("T", " ").slice(0, 19))}</span>
+      <strong>${escapeHtml(statusLabel(item.status) || item.status)}</strong>
+      <em>${escapeHtml(item.note || "")}</em>
+    </li>
+  `).join("");
+  const items = (order.items || []).map(item => `
+    <tr>
+      <td>${escapeHtml(item.name)}</td>
+      <td>${Number(item.quantity || 0)}</td>
+      <td>${money(item.price)}</td>
+      <td>${money(Number(item.quantity || 0) * Number(item.price || 0))}</td>
+    </tr>
+  `).join("");
+  return `
+    <div class="detail-grid">
+      <article>
+        <h3>客戶資料</h3>
+        <dl class="detail-list">
+          <div><dt>姓名</dt><dd>${escapeHtml(order.customerName || "-")}</dd></div>
+          <div><dt>電話</dt><dd>${escapeHtml(order.customerPhone || "-")}</dd></div>
+          <div><dt>桌號/代號</dt><dd>${escapeHtml(order.tableCode || "-")}</dd></div>
+          <div><dt>取餐方式</dt><dd>${escapeHtml(order.pickupType || "-")}</dd></div>
+          <div><dt>取餐時間</dt><dd>${escapeHtml(pickupTimeText(order))}</dd></div>
+        </dl>
+      </article>
+      <article>
+        <h3>訂單狀態</h3>
+        <dl class="detail-list">
+          <div><dt>單號</dt><dd>${escapeHtml(order.orderId)}</dd></div>
+          <div><dt>狀態</dt><dd>${escapeHtml(statusLabel(normalizedStatus(order)))}</dd></div>
+          <div><dt>建立</dt><dd>${escapeHtml(String(order.createdAt || "").replace("T", " ").slice(0, 19))}</dd></div>
+          <div><dt>總金額</dt><dd>${money(order.total)}</dd></div>
+          <div><dt>列印</dt><dd>${escapeHtml(order.printResult || "尚未列印")}</dd></div>
+        </dl>
+      </article>
+    </div>
+    <section>
+      <h3>餐點明細</h3>
+      <div class="detail-table-wrap">
+        <table class="admin-data-table detail-items-table">
+          <thead><tr><th>品項</th><th>數量</th><th>單價</th><th>小計</th></tr></thead>
+          <tbody>${items}</tbody>
+        </table>
+      </div>
+      <p class="detail-total">合計 ${money(order.total)}</p>
+    </section>
+    <section>
+      <h3>備註</h3>
+      <p>${escapeHtml(order.orderNote || "無")}</p>
+    </section>
+    <section>
+      <h3>處理紀錄</h3>
+      <ul class="detail-timeline">${timeline || "<li>尚無紀錄</li>"}</ul>
+    </section>
+  `;
+}
+
+function ensureOrderDetailModal() {
+  if (document.querySelector("#adminOrderDetailModal")) return;
+  const modal = document.createElement("div");
+  modal.id = "adminOrderDetailModal";
+  modal.className = "admin-detail-modal";
+  modal.setAttribute("aria-hidden", "true");
+  modal.innerHTML = `
+    <div class="admin-detail-backdrop" data-close-admin-detail></div>
+    <article class="admin-detail-panel" role="dialog" aria-modal="true" aria-labelledby="adminDetailTitle">
+      <button class="dish-modal-close" type="button" data-close-admin-detail aria-label="關閉">×</button>
+      <header>
+        <div>
+          <p class="hainan-kicker">ORDER DETAIL</p>
+          <h2 id="adminDetailTitle">訂單明細</h2>
+        </div>
+        <span id="adminDetailStatus" class="table-status">--</span>
+      </header>
+      <div id="adminDetailBody" class="admin-detail-body"></div>
+    </article>
+  `;
+  document.body.appendChild(modal);
+  modal.addEventListener("click", event => {
+    if (!event.target.closest("[data-close-admin-detail]")) return;
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+  });
+}
+
+function openOrderDetail(orderId) {
+  const order = allOrders.find(item => item.orderId === orderId);
+  if (!order) return;
+  ensureOrderDetailModal();
+  document.querySelector("#adminDetailTitle").textContent = order.orderId;
+  document.querySelector("#adminDetailStatus").textContent = statusLabel(normalizedStatus(order));
+  document.querySelector("#adminDetailBody").innerHTML = orderDetailHtml(order);
+  const modal = document.querySelector("#adminOrderDetailModal");
+  modal.classList.add("open");
+  modal.setAttribute("aria-hidden", "false");
+}
+
+function handleOrderCardOpen(event) {
+  if (event.target.closest("button, a, input, select, textarea")) return;
+  const card = event.target.closest("[data-order-id]");
+  if (!card) return;
+  openOrderDetail(card.dataset.orderId);
 }
 
 function applyQuickFilter(event) {
@@ -379,6 +547,7 @@ function toggleSound() {
 
 document.querySelector(".admin-refresh").addEventListener("click", loadOrders);
 document.querySelector(".delivery-board").addEventListener("click", handleAction);
+document.querySelector(".delivery-board").addEventListener("click", handleOrderCardOpen);
 document.querySelector(".quick-filters").addEventListener("click", applyQuickFilter);
 document.querySelector("#soundToggle").addEventListener("click", toggleSound);
 document.querySelector("#orderSearch").addEventListener("input", renderOrders);
@@ -387,5 +556,10 @@ document.querySelector("#dateFilter").addEventListener("change", renderOrders);
 
 updateClock();
 setInterval(updateClock, 1000);
-loadOrders().catch(error => alert(error.message));
-setInterval(() => loadOrders().catch(console.error), 5000);
+ensureAdminSession().then(authenticated => {
+  adminAuthenticated = authenticated;
+  if (adminAuthenticated) loadOrders().catch(error => alert(error.message));
+});
+setInterval(() => {
+  if (adminAuthenticated) loadOrders().catch(console.error);
+}, 5000);

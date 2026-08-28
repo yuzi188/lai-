@@ -19,6 +19,17 @@ const telegramUser = window.Telegram?.WebApp?.initDataUnsafe?.user || null;
 window.Telegram?.WebApp?.ready?.();
 let hainanToastTimer;
 let activeCategory = "全部";
+let checkoutKey = sessionStorage.getItem("hainanCheckoutKey") || createCheckoutKey();
+
+function createCheckoutKey() {
+  const key = `hainan-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  sessionStorage.setItem("hainanCheckoutKey", key);
+  return key;
+}
+
+function resetCheckoutKey() {
+  checkoutKey = createCheckoutKey();
+}
 
 function hainanMoney(value) {
   return `$${Number(value || 0).toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
@@ -258,6 +269,10 @@ async function submitHainanOrder() {
     alert("請填寫姓名、電話、取餐時間，並至少加入一個餐點。");
     return;
   }
+  if (customer.customerPhone.replace(/\D/g, "").length < 8) {
+    alert("請確認電話號碼，至少需要 8 位數字。");
+    return;
+  }
 
   submitButton.disabled = true;
   submitButton.textContent = "送出中...";
@@ -276,6 +291,7 @@ async function submitHainanOrder() {
         telegramUserId: telegramUser?.id ? String(telegramUser.id) : undefined,
         telegramChatId: telegramUser?.id ? String(telegramUser.id) : undefined,
         telegramUsername: telegramUser?.username || undefined,
+        idempotencyKey: checkoutKey,
         tableCode: document.querySelector("#hainanTableCode").value.trim(),
         language: hainanContext().language,
         orderNote: dietaryNote.kitchenNote,
@@ -299,6 +315,7 @@ async function submitHainanOrder() {
     document.querySelector("#hainanCustomerName").value = "";
     document.querySelector("#hainanCustomerPhone").value = "";
     document.querySelector("#hainanOrderNote").value = "";
+    resetCheckoutKey();
     showHainanToast(response.order.orderId);
   } catch (error) {
     alert(`訂單送出失敗：${error.message}`);
@@ -367,6 +384,7 @@ cartItems.addEventListener("click", event => {
 document.querySelector("#hainanClearCart").addEventListener("click", () => {
   cart.splice(0, cart.length);
   renderCart();
+  resetCheckoutKey();
   loadUpsells().catch(console.error);
 });
 document.querySelector("#hainanSubmitOrder").addEventListener("click", submitHainanOrder);

@@ -2,6 +2,7 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const net = require("net");
+const crypto = require("crypto");
 
 const ROOT = __dirname;
 const WEB_ROOT = path.join(ROOT, "website");
@@ -37,6 +38,9 @@ const POS_TIMEOUT_MS = Number(process.env.POS_TIMEOUT_MS || 8000);
 const PUBLIC_BASE_URL = process.env.PUBLIC_BASE_URL || "";
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "";
 const LAI999_BOT_USERNAME = "Lai999_BOT";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "";
+const ADMIN_SESSION_SECRET = process.env.ADMIN_SESSION_SECRET || ADMIN_PASSWORD;
+const ADMIN_SESSION_MAX_AGE_MS = Number(process.env.ADMIN_SESSION_MAX_AGE_MS || 12 * 60 * 60 * 1000);
 
 const RESTAURANT_INSTANCES = {
   "hainan-singapore": {
@@ -162,6 +166,61 @@ function createOrderId(payload = {}) {
 function sendJson(res, status, data) {
   res.writeHead(status, { "Content-Type": "application/json; charset=utf-8" });
   res.end(JSON.stringify(data));
+}
+
+function parseCookies(req) {
+  return String(req.headers.cookie || "").split(";").reduce((cookies, part) => {
+    const index = part.indexOf("=");
+    if (index < 0) return cookies;
+    cookies[part.slice(0, index).trim()] = decodeURIComponent(part.slice(index + 1).trim());
+    return cookies;
+  }, {});
+}
+
+function signAdminSession(expiresAt) {
+  return crypto
+    .createHmac("sha256", ADMIN_SESSION_SECRET)
+    .update(String(expiresAt))
+    .digest("hex");
+}
+
+function adminSessionCookie(expiresAt) {
+  const token = `${expiresAt}.${signAdminSession(expiresAt)}`;
+  const maxAgeSeconds = Math.floor(ADMIN_SESSION_MAX_AGE_MS / 1000);
+  return `admin_session=${encodeURIComponent(token)}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${maxAgeSeconds}`;
+}
+
+function isValidAdminSession(req) {
+  if (!ADMIN_PASSWORD || !ADMIN_SESSION_SECRET) return false;
+  const token = parseCookies(req).admin_session || "";
+  const [expiresAt, signature] = token.split(".");
+  if (!expiresAt || !signature || Number(expiresAt) < Date.now()) return false;
+  const expected = signAdminSession(expiresAt);
+  const a = Buffer.from(signature);
+  const b = Buffer.from(expected);
+  return a.length === b.length && crypto.timingSafeEqual(a, b);
+}
+
+function sendAdminAuthRequired(res) {
+  const status = ADMIN_PASSWORD ? 401 : 503;
+  sendJson(res, status, {
+    error: ADMIN_PASSWORD ? "ADMIN_AUTH_REQUIRED" : "ADMIN_PASSWORD_NOT_CONFIGURED",
+    message: ADMIN_PASSWORD ? "請先登入後台。" : "尚未設定 ADMIN_PASSWORD，後台 API 已鎖定。"
+  });
+}
+
+function isAdminApiRequest(req, pathname) {
+  if (pathname === "/api/admin/session") return false;
+  if (req.method === "GET" && pathname === "/api/orders") return true;
+  if (pathname === "/api/members" || pathname.startsWith("/api/members/")) return true;
+  if (pathname.startsWith("/api/customers/")) return true;
+  if (/^\/api\/orders\/[^/]+($|\/)/.test(pathname)) return true;
+  if (pathname === "/api/restaurant-ai/reports/daily") return true;
+  if (pathname === "/api/restaurant-ai/inventory/advice") return true;
+  if (pathname === "/api/restaurant-ai/inventory/deduct") return true;
+  if (pathname === "/api/restaurant-ai/costing") return true;
+  if (pathname === "/api/restaurant-ai/feedback/summary") return true;
+  return false;
 }
 
 function readBody(req) {
@@ -1343,6 +1402,21 @@ async function findOrder(orderId) {
   return orders.find(order => order.orderId === orderId);
 }
 
+async function findOrderByIdempotencyKey(key) {
+  const normalized = String(key || "").trim();
+  if (!normalized) return null;
+  if (!DATABASE_URL) {
+    return readLocalOrders().find(order => order.idempotencyKey === normalized) || null;
+  }
+
+  await initDatabase();
+  const result = await pool.query(
+    "select payload from orders where payload->>'idempotencyKey' = $1 order by created_at desc limit 1",
+    [normalized]
+  );
+  return result.rows[0]?.payload || null;
+}
+
 async function findCustomerOrders(phone) {
   const normalized = normalizePhone(phone);
   if (!normalized) return { customer: null, orders: [] };
@@ -1960,10 +2034,52 @@ async function handleLai999Webhook(req, res) {
 async function handleApi(req, res, pathname) {
   const currentUrl = new URL(req.url, `http://${req.headers.host}`);
 
+  if (pathname === "/api/admin/session") {
+    if (req.method === "GET") {
+      sendJson(res, 200, {
+        configured: Boolean(ADMIN_PASSWORD),
+        authenticated: isValidAdminSession(req)
+      });
+      return;
+    }
+    if (req.method === "POST") {
+      if (!ADMIN_PASSWORD) {
+        sendAdminAuthRequired(res);
+        return;
+      }
+      const payload = await parseJsonBody(req);
+      if (String(payload.password || "") !== ADMIN_PASSWORD) {
+        sendJson(res, 401, { error: "INVALID_ADMIN_PASSWORD", message: "後台密碼錯誤。" });
+        return;
+      }
+      const expiresAt = Date.now() + ADMIN_SESSION_MAX_AGE_MS;
+      res.writeHead(200, {
+        "Content-Type": "application/json; charset=utf-8",
+        "Set-Cookie": adminSessionCookie(expiresAt)
+      });
+      res.end(JSON.stringify({ ok: true, expiresAt }));
+      return;
+    }
+    if (req.method === "DELETE") {
+      res.writeHead(200, {
+        "Content-Type": "application/json; charset=utf-8",
+        "Set-Cookie": "admin_session=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0"
+      });
+      res.end(JSON.stringify({ ok: true }));
+      return;
+    }
+  }
+
+  if (isAdminApiRequest(req, pathname) && !isValidAdminSession(req)) {
+    sendAdminAuthRequired(res);
+    return;
+  }
+
   if (req.method === "GET" && pathname === "/api/health") {
     sendJson(res, 200, {
       ok: true,
       storage: DATABASE_URL ? "postgres" : "local-json",
+      adminAuth: ADMIN_PASSWORD ? "configured" : "missing-admin-password",
       pos: POS_WEBHOOK_URL ? "webhook-enabled" : "not-configured"
     });
     return;
@@ -2152,6 +2268,11 @@ async function handleApi(req, res, pathname) {
     const error = validateOrder(payload);
     if (error) {
       sendJson(res, 400, { error });
+      return;
+    }
+    const duplicateOrder = await findOrderByIdempotencyKey(payload.idempotencyKey);
+    if (duplicateOrder) {
+      sendJson(res, 200, { order: duplicateOrder, duplicate: true });
       return;
     }
 
