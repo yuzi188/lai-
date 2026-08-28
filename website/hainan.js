@@ -333,10 +333,6 @@ cartJumpButton?.addEventListener("click", () => {
   document.querySelector("#hainanCartPanel")?.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
-document.querySelector(".hainan-shop-tabs a[href='#menu']")?.addEventListener("click", () => {
-  document.body.classList.remove("hainan-cart-focus");
-});
-
 menuGrid.addEventListener("keydown", event => {
   if (event.key !== "Enter" && event.key !== " ") return;
   event.preventDefault();

@@ -9090,24 +9090,17 @@ section {
   position: sticky;
   top: 0;
   z-index: 20;
-  display: grid;
-  grid-template-columns: repeat(4, max-content);
-  gap: clamp(24px, 7vw, 64px);
+  display: flex;
   align-items: center;
-  overflow-x: auto;
   padding: 16px 20px 0;
   background: #fff;
   border-bottom: 1px solid #eeeeee;
 }
 
-.hainan-shop-tabs a,
-.hainan-shop-tabs button {
+.hainan-shop-tabs a {
   position: relative;
   min-height: 44px;
-  border: 0;
-  background: transparent;
   color: #333;
-  font: inherit;
   font-size: 1.2rem;
   font-weight: 900;
   text-decoration: none;
@@ -9123,14 +9116,6 @@ section {
   height: 4px;
   border-radius: 999px;
   background: #ff653f;
-}
-
-.hainan-shop-tabs button {
-  padding: 6px 12px;
-  border: 1px solid rgba(255, 101, 63, 0.45);
-  border-radius: 999px;
-  color: #ff653f;
-  font-size: 0.98rem;
 }
 
 .hainan-shop-layout {
@@ -9516,13 +9501,10 @@ section {
 
   .hainan-shop-tabs {
     top: 0;
-    grid-template-columns: max-content max-content max-content max-content;
-    gap: 28px;
     padding: 14px 20px 0;
   }
 
-  .hainan-shop-tabs a,
-  .hainan-shop-tabs button {
+  .hainan-shop-tabs a {
     font-size: 1.18rem;
   }
 
